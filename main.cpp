@@ -33,7 +33,7 @@ int main() {
         std::cin >> v[i];
     }
     std::cout << "\n\n";
-    std::cout << "Am citit de la tastatură " << nr << " elemente:\n";
+    std::cout << "Ana are " << nr << " elemente:\n";
     for(int i = 0; i < nr; ++i) {
         std::cout << "- " << v[i] << "\n";
     }
