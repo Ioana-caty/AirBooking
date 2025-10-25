@@ -54,6 +54,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Pasager.cpp
         Bilet.h
         Bilet.cpp
+        Zbor.h
+        Zbor.cpp
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

@@ -1,6 +1,8 @@
+#include <iomanip>
 #include <iostream>
 #include "Pasager.h"
 #include "Bilet.h"
+#include "Zbor.h"
 
 int main() {
 
@@ -79,6 +81,8 @@ int main() {
     std::cout << "Pretul lui b1 schimbat: " << b1.getPretFinal() ;
     */
 
+
+    /*
     //PASAGER + BILET
     Bilet b1("25C", "Economic", 120.50);
     b1.aplicaDiscount(10);
@@ -98,7 +102,32 @@ int main() {
     std::cout << "\nInformatii pasager3:\n  " << p3 << std::endl;
     p3 = p1;
     std::cout << "Noile informatii ale pasagerului3:\n  " << p3 << std::endl;
+    */
 
+    Bilet b1("10A", "Buisness", 300.0);
+    Bilet b2("22B", "Economic", 80.0);
+    b2.aplicaDiscount(50);
+    Bilet b3("22C", "Economic", 80.0);
+
+    Pasager p1("Tudor Deaconu", "t.deaconu@gmail.com", b1);
+    Pasager p2("Iustina Caramida", "i.caramida@gmail.com", b2);
+    Pasager p3("Costi Sin", "sin.costin@gmail.com", b3);
+
+    Zbor zborRO256("RO256", "Paris", "A12");
+    zborRO256.adaugaPasager(p2);
+    zborRO256.adaugaPasager(p1);
+    zborRO256.adaugaPasager(p3);
+    std::cout<< zborRO256 << std::endl;
+    std::cout << std::fixed << std::setprecision(2) << zborRO256.calculeazaIncasariTotale() << " EUR" << std::endl;
+
+    Pasager* pGasit = zborRO256.cautaPasagerDupaNume("Iustina Caramida");
+    if (pGasit != nullptr) {
+        std::cout << "Gasit: " << *pGasit << std::endl;
+    }
+
+    std::cout << "Poarta initiala: " << zborRO256.getPoarta() << std::endl;
+    zborRO256.setPoarta("C5");
+    std::cout << "Poarta finala: " << zborRO256.getPoarta() << std::endl;
 
     return 0;
 }

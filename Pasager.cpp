@@ -44,7 +44,7 @@ Pasager& Pasager::operator=(const Pasager &another) {
         return *this;
     }
 
-    // curatam resursel vechi ale obiectului curent
+    // curatam resursele vechi ale obiectului curent
     delete[] this->nume;
 
     // alocam resurse noi si copiem
@@ -53,6 +53,7 @@ Pasager& Pasager::operator=(const Pasager &another) {
     this->email = another.email;
     this->bilet = another.bilet;
 
+    //returnam obiectul curent
     return *this;
 }
 
