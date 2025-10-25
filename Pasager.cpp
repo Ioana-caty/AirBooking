@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cstring>
 
-int Pasager::counterID = 1000;
+int Pasager::counterID = 0;
 
 //Constructor de Initializare
 Pasager::Pasager(const char* nume, std::string email) {
@@ -10,22 +10,21 @@ Pasager::Pasager(const char* nume, std::string email) {
     strcpy(this->nume, nume);                   // copiem continutul
     this->email = email;
     this->pasagerID = counterID++;
-    std::cout << "DEBUG: Constructor cu parametrii pelat pentru: " << this->nume << "\n";
 }
 
-//Constructor de copiere
+//Constructor default
 Pasager::Pasager() {
     this->nume = new char[strlen("not_specifying") + 1];
     strcpy(this->nume, "not_specifying");
     this->email = "none@gmail.com";
     this->pasagerID = counterID++;
-    std::cout <<"DEBUG: Constructor Default Pasager() apelat \n";
 }
 
 // Destrcutor
 Pasager::~Pasager() {
-    std::cout << "DEBUG: Destructor apelat pentru: " << this->nume << "\n";
+    std::cout << "Destructor" << std::endl;
     delete[] this->nume;
+    this->nume = nullptr;
 }
 
 // Construcor de copiere
@@ -34,16 +33,20 @@ Pasager::Pasager(const Pasager& another) {
     strcpy(this->nume, another.nume);
     this->email = another.email;
     this->pasagerID = counterID++;
-    std::cout << "DEBUG: Copy Constructor apelat (a creat: " << this->nume << "\n";
 }
 
-Pasager &Pasager::operator=(const Pasager &another) {
-    std::cout << "Debug Operator= apelat (" << this->nume << "devine" << another.nume << ")\n";
+// Operator Atribuire
+Pasager& Pasager::operator=(const Pasager &another) {
 
+    // verificam auto-atribuirea, daca nu delete[] this->nume are sterge datele inainte sa le copiem
     if (this == &another) {
         return *this;
     }
+
+    // curatam resursel vechi ale obiectului curent
     delete[] this->nume;
+
+    // alocam resurse noi si copiem
     this->nume = new char[strlen(another.nume) + 1];
     strcpy(this->nume, another.nume);
     this->email = another.email;
@@ -60,6 +63,8 @@ const char* Pasager::getNume() const{
 }
 
 std::ostream& operator<<(std::ostream& COUT, const Pasager& p) {
-    COUT << "Pasager (ID " << p.pasagerID << "): " << p.nume << " [" << p.email << "]";
+    COUT    << "Pasager [ID: " << p.pasagerID
+            << ",Nume: " << p.nume
+            << ",Email: " << p.email << "]";
     return COUT;
 }

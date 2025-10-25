@@ -1,52 +1,40 @@
-
-#include "Pasager.h"
 #include <iostream>
+#include "Pasager.h"
 
 int main() {
-    std::cout << "TEST CLASA PASAGER: \n";
 
-    //Test 1
-    std::cout << "Test1: Constructor cu paramteri";
-    Pasager p1("Popescu Ion", "popescu.ion@gmail.com");
-    std::cout << " ✓ Obiect p1 creat cu succes!\n";
+    // 1. Testare constructor cu parametri si operator<<
+    std::cout << "\n1. Creare p1 (constructor cu parametri):" << std::endl;
+    Pasager p1("Mihai Eminescu", "m.eminescu@poet.ro");
+    std::cout << "   " << p1 << std::endl;
 
-    //Test2
-    std::cout << "Test2: Afisare obiect p1 \n";
-    std::cout << "Detalii: " << p1 << "\n";
+    // 2. Testare constructor default
+    std::cout << "\n2. Creare p2 (constructor default):" << std::endl;
+    Pasager p2;
+    std::cout << "   " << p2 << std::endl;
 
-    //Test3
-    std::cout << "Test3: Constructor de Copiere \n";
-    Pasager  p2 = p1;
-    std::cout << "Original (p1): " << p1 << "\n";
-    std:: cout << "Copia   (p2): " << p2 << "\n";
-    std::cout << " ✓ Constructorul de copiere functioneaza corect!\n";
+    // 3. Testare Constructor de Copiere
+    std::cout << "\n3. Creare p3 (constructor de copiere, p3 = p1):" << std::endl;
+    Pasager p3 = p1; // Pasager p3(p1);
+    std::cout << "   " << p3 << std::endl;
 
-    //Test4
-    std::cout << "Test4: Operator de atribuire:\n";
-    Pasager p3 ("Negoita Vasile", "v.negoita@gmail.com");
-    std::cout << "Inainte de atribuire:\n";
-    std::cout << "p3: " << p3 << "\n";
-    std::cout << "p1: " << p1 << "\n";
-    p3 = p1;
-    std::cout << "Dupa atribuire:\n";
-    std::cout << "p3: " << p3 << "\n";
-    std::cout << " ✓ Atribuirea functioneaza corect!\n";
+    // 4. Testare Operator= (de atribuire)
+    std::cout << "\n4. Testare operator= (atribuire, p2 = p1):" << std::endl;
+    p2 = p1;
+    std::cout << "   " << p2 << std::endl;
 
-    //Test5
-    std::cout << "Test5:\n";
-    std::cout << "p1 (original):    " << p1 << "\n";
-    std::cout << "p2 (copie):       " << p2 << "\n";
-    std::cout << "p3 (stribuit):    " << p3 << "\n";
-    std::cout << " ✓ Toate Obiectele sunt independente!\n";
 
-    //Test6
-    std::cout << " Test6: Auto-Atribuire:!\n";
-    std::cout << "p1 inainte: " << p1 << "\n";
+    // 5. Testare auto-atribuire
+    std::cout << "\n5. Testare auto-atribuire (p1 = p1):" << std::endl;
     p1 = p1;
-    std::cout << "p1 dupa: " << p1 << "\n";
-    std::cout << " ✓ Auto-atribuirea este tratata corect!\n";
+    std::cout << "   " << p1 << std::endl;
 
-    //Test7
-    std::cout << "Test7:Destructori\n";
+    // 6. Testare Getters
+    std::cout << "\n6. Testare Getters (pentru p3):" << std::endl;
+    std::cout << "   Nume: " << p3.getNume() << std::endl;
+    std::cout << "   Email: " << p3.getEmail() << std::endl;
+
+    //7. Testare destructori
+
     return 0;
 }
