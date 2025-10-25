@@ -32,7 +32,7 @@ bool Zbor::estePoartaValida(const std::string& poarta) const {
     }
 
     //verificam ca toate celelalte caractere sunt cifre
-    for (int i = 1; i < poarta.length(); i++) {
+    for (size_t i = 1; i < poarta.length(); i++) {
         if (!isdigit(poarta[i])) {
             return false;
         }
@@ -59,14 +59,14 @@ void Zbor::adaugaPasager(const Pasager& p) {
 
 double Zbor::calculeazaIncasariTotale()const {
     double total = 0.0;
-    for (int i = 0; i < this->listaPasageri.size(); i++) {
+    for (size_t i = 0; i < this->listaPasageri.size(); i++) {
         total += this->listaPasageri[i].getBilet().getPretFinal();
     }
     return total;
 }
 
 Pasager* Zbor::cautaPasagerDupaNume(const char* nume) {
-    for (int i = 0; i < this->listaPasageri.size(); i++) {
+   for (size_t i = 0; i < this->listaPasageri.size(); i++) {
         if (std::strcmp(this->listaPasageri[i].getNume(), nume) == 0) {
             return &this->listaPasageri[i];
         }
@@ -83,7 +83,7 @@ std::ostream& operator<<(std::ostream& COUT, const Zbor& z) {
     if (z.listaPasageri.empty()) {
         COUT << "Niciun pasager inregistrat\n";
     } else {
-        for (int i = 9; i < z.listaPasageri.size(); i++) {
+        for (size_t i = 0; i < z.listaPasageri.size(); i++) {
             COUT << z.listaPasageri[i] << "\n";
         }
     }
