@@ -1,9 +1,10 @@
 #include <iostream>
-#include "Pasager.h"
+//#include "Pasager.h"
+#include"Bilet.h"
 
 int main() {
 
-    // 1. Testare constructor cu parametri si operator<<
+    /*// 1. Testare constructor cu parametri si operator<<
     std::cout << "\n1. Creare p1 (constructor cu parametri):" << std::endl;
     Pasager p1("Mihai Eminescu", "m.eminescu@poet.ro");
     std::cout << "   " << p1 << std::endl;
@@ -35,7 +36,50 @@ int main() {
     std::cout << "   Nume: " << p3.getNume() << std::endl;
     std::cout << "   Email: " << p3.getEmail() << std::endl;
 
-    //7. Testare destructori
+    //7. Testare destructori*/
+
+    // 1. CONSTRUCTOR + OPERATOR
+    std::cout << "\n1. Creare b1 cu constructor cu parametri:" << std::endl;
+    Bilet b1("14A", "Business", 250.0);
+    std::cout << "  " << b1 << std::endl;
+
+    //2.CONSTRUCTOR DEFAULT
+    std::cout << "\n2. Creare b2 cu constructor default: " << std::endl;
+    Bilet b2;
+    std::cout << "  " << b2 << std::endl;
+
+    //3. SETTERS
+    b2.setTipClasa("Economic");
+    b2.setLoc("22C");
+    b2.setPretBaza(99.90);
+    std::cout << "   SETTERS b2: " << b2 << std::endl;
+
+    b2.setPretBaza(-52);
+    std::cout << b2 << std::endl;
+    b2.setLoc("11111A");
+    std::cout << b2 << std::endl;
+
+    //Functii netriviale
+    std::cout << "\nEste locul lui b1(" << b1.getLoc() << ") la geam?";
+    std::cout << (b1.isWindowSeat() ? " DA" : " NU") << std::endl;
+
+    Bilet b3("10F", "Economic", 100);
+    std::cout << "Este locul lui b3(" << b3.getLoc() << ") la geam?";
+    std::cout << (b3.isWindowSeat() ? " DA" : " NU") << std::endl;
+
+    b2.setLoc("15B");
+    std::cout << "Este locul lui b2(" << b2.getLoc() << ") la geam?";
+    std::cout << (b2.isWindowSeat() ? " DA" : " NU") << std::endl;
+
+    std::cout << "\nPret inital b1: " << b1.getPretBaza();
+    b1.aplicaDiscount(150);
+    b1.aplicaDiscount(25);
+    std::cout << "Pretul lui b1 schimbat: " << b1.getPretFinal() ;
+
+
+
+
+
 
     return 0;
 }
