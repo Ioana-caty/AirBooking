@@ -26,7 +26,8 @@ int main() {
 
     // 5. Testare auto-atribuire
     std::cout << "\n5. Testare auto-atribuire (p1 = p1):" << std::endl;
-    p1 = p1;
+    Pasager* pointer = &p1;
+    p1 = *pointer;
     std::cout << "   " << p1 << std::endl;
 
     // 6. Testare Getters
