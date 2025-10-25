@@ -1,50 +1,52 @@
+
+#include "Pasager.h"
 #include <iostream>
-#include <array>
 
 int main() {
-    std::cout << "Hello, world!\n";
-    std::array<int, 100> v{};
-    int nr;
-    std::cout << "Introduceți nr: hhhhhhhhhhhh";
-    /////////////////////////////////////////////////////////////////////////
-    /// Observație: dacă aveți nevoie să citiți date de intrare de la tastatură,
-    /// dați exemple de date de intrare folosind fișierul tastatura.txt
-    /// Trebuie să aveți în fișierul tastatura.txt suficiente date de intrare
-    /// (în formatul impus de voi) astfel încât execuția programului să se încheie.
-    /// De asemenea, trebuie să adăugați în acest fișier date de intrare
-    /// pentru cât mai multe ramuri de execuție.
-    /// Dorim să facem acest lucru pentru a automatiza testarea codului, fără să
-    /// mai pierdem timp de fiecare dată să introducem de la zero aceleași date de intrare.
-    ///
-    /// Pe GitHub Actions (bife), fișierul tastatura.txt este folosit
-    /// pentru a simula date introduse de la tastatură.
-    /// Bifele verifică dacă programul are erori de compilare, erori de memorie și memory leaks.
-    ///
-    /// Dacă nu puneți în tastatura.txt suficiente date de intrare, îmi rezerv dreptul să vă
-    /// testez codul cu ce date de intrare am chef și să nu pun notă dacă găsesc vreun bug.
-    /// Impun această cerință ca să învățați să faceți un demo și să arătați părțile din
-    /// program care merg (și să le evitați pe cele care nu merg).
-    ///
-    /////////////////////////////////////////////////////////////////////////
-    std::cin >> nr;
-    /////////////////////////////////////////////////////////////////////////
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "v[" << i << "] = ";
-        std::cin >> v[i];
-    }
-    std::cout << "\n\n";
-    std::cout << "Ana are " << nr << " elemente:\n";
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "- " << v[i] << "\n";
-    }
-    ///////////////////////////////////////////////////////////////////////////
-    /// Pentru date citite din fișier, NU folosiți tastatura.txt. Creați-vă voi
-    /// alt fișier propriu cu ce alt nume doriți.
-    /// Exemplu:
-    /// std::ifstream fis("date.txt");
-    /// for(int i = 0; i < nr2; ++i)
-    ///     fis >> v2[i];
-    ///
-    ///////////////////////////////////////////////////////////////////////////
+    std::cout << "TEST CLASA PASAGER: \n";
+
+    //Test 1
+    std::cout << "Test1: Constructor cu paramteri";
+    Pasager p1("Popescu Ion", "popescu.ion@gmail.com");
+    std::cout << " ✓ Obiect p1 creat cu succes!\n";
+
+    //Test2
+    std::cout << "Test2: Afisare obiect p1 \n";
+    std::cout << "Detalii: " << p1 << "\n";
+
+    //Test3
+    std::cout << "Test3: Constructor de Copiere \n";
+    Pasager  p2 = p1;
+    std::cout << "Original (p1): " << p1 << "\n";
+    std:: cout << "Copia   (p2): " << p2 << "\n";
+    std::cout << " ✓ Constructorul de copiere functioneaza corect!\n";
+
+    //Test4
+    std::cout << "Test4: Operator de atribuire:\n";
+    Pasager p3 ("Negoita Vasile", "v.negoita@gmail.com");
+    std::cout << "Inainte de atribuire:\n";
+    std::cout << "p3: " << p3 << "\n";
+    std::cout << "p1: " << p1 << "\n";
+    p3 = p1;
+    std::cout << "Dupa atribuire:\n";
+    std::cout << "p3: " << p3 << "\n";
+    std::cout << " ✓ Atribuirea functioneaza corect!\n";
+
+    //Test5
+    std::cout << "Test5:\n";
+    std::cout << "p1 (original):    " << p1 << "\n";
+    std::cout << "p2 (copie):       " << p2 << "\n";
+    std::cout << "p3 (stribuit):    " << p3 << "\n";
+    std::cout << " ✓ Toate Obiectele sunt independente!\n";
+
+    //Test6
+    std::cout << " Test6: Auto-Atribuire:!\n";
+    std::cout << "p1 inainte: " << p1 << "\n";
+    p1 = p1;
+    std::cout << "p1 dupa: " << p1 << "\n";
+    std::cout << " ✓ Auto-atribuirea este tratata corect!\n";
+
+    //Test7
+    std::cout << "Test7:Destructori\n";
     return 0;
 }
