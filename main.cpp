@@ -1,6 +1,6 @@
 #include <iostream>
-//#include "Pasager.h"
-#include"Bilet.h"
+#include "Pasager.h"
+#include "Bilet.h"
 
 int main() {
 
@@ -38,6 +38,8 @@ int main() {
 
     //7. Testare destructori*/
 
+
+    /* BILETE
     // 1. CONSTRUCTOR + OPERATOR
     std::cout << "\n1. Creare b1 cu constructor cu parametri:" << std::endl;
     Bilet b1("14A", "Business", 250.0);
@@ -75,10 +77,27 @@ int main() {
     b1.aplicaDiscount(150);
     b1.aplicaDiscount(25);
     std::cout << "Pretul lui b1 schimbat: " << b1.getPretFinal() ;
+    */
 
+    //PASAGER + BILET
+    Bilet b1("25C", "Economic", 120.50);
+    b1.aplicaDiscount(10);
+    std::cout << "Informatii bilet: " << b1 << std::endl;
+    Pasager p1("Tudor Deaconu", "t.deaconu@gamil.com", b1);
+    std::cout <<"Informatii pasager1:\n   " << p1 << std::endl;
 
+    Bilet b2("17A", "Economic", 200);
+    b2.aplicaDiscount(0);
+    Pasager p2("Iustina Caramida", "i.caramida@gmail.com", b2);
+    std::cout <<"Informatii pasager2:\n   " << p2 << std::endl;
 
+    p2 = p1;
+    std::cout << "\nInformatii pasager2:\n  " << p2 << std::endl;
 
+    Pasager p3;
+    std::cout << "\nInformatii pasager3:\n  " << p3 << std::endl;
+    p3 = p1;
+    std::cout << "Noile informatii ale pasagerului3:\n  " << p3 << std::endl;
 
 
     return 0;

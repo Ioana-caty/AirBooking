@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
+#include <ostream>
 #include <string>
+#include "Bilet.h"
 
 class Pasager {
 private:
@@ -8,15 +10,22 @@ private:
     std::string email;      // string normal
     int pasagerID;          // D unic
     static int counterID;    // contor global pentru a da ID-urile unice && este pt toate obiectele Pasager
-public:
-    Pasager(const char* nume, std::string email);   // constructor de initalizare
-    Pasager();                                      // constructor default
-    virtual ~Pasager();                             // destructor
-    Pasager(const Pasager& another);                // constructor de copiere, Construieste un obiect nou si nu doar o copie a altuia
-    Pasager& operator=(const Pasager& another);     // constructor de atribuire, Copiaza datele dintr-un obiect existent in alt obiect deja existent
 
-    std::string getEmail() const;
-    const char* getNume() const;
+    Bilet bilet;
+
+public:
+    Pasager(const char* nume, std::string email, const Bilet& bilet);   // constructor de initalizare
+    Pasager();                                                          // constructor default
+
+    virtual ~Pasager();                                                 // destructor
+    Pasager(const Pasager& another);                                    // constructor de copiere, Construieste un obiect nou si nu doar o copie a altuia
+    Pasager& operator=(const Pasager& another);                         // constructor de atribuire, Copiaza datele dintr-un obiect existent in alt obiect deja existent
+
+    std::string getEmail() const;                                       // getter
+    const char* getNume() const;                                        // getter
+    Bilet getBilet()const;                                              // getter pentru Bilet
+
+    void setBilet(const Bilet& bilet);                                  //setter pentru bilet
 
     friend std::ostream& operator<<(std::ostream&os, const Pasager& p);
 };

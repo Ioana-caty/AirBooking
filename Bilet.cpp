@@ -1,5 +1,4 @@
 #include "Bilet.h"
-
 #include <iomanip>
 #include <iostream>
 
@@ -86,7 +85,7 @@ void Bilet::setPretBaza(double pretBaza) {
 
 // Aplicare discount
 void Bilet::aplicaDiscount(int discountProcent) {
-    if (discountProcent > 0 && discountProcent <= 80) {
+    if (discountProcent >= 0 && discountProcent <= 80) {
         this->discountProcent = discountProcent;
         std::cout << "\nDiscount de " << discountProcent << " aplicat biletului " << this->biletID << std::endl;
     } else {
