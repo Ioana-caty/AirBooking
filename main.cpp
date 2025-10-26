@@ -81,6 +81,7 @@ void meniuInformatii(CompanieAeriana& companie) {
         std::cout <<"3. Cauta pasager pentru un zbor\n";
         std::cout <<"4. Calculeaza incasarile totale\n";
         std::cout <<"5. Verifica disponibilitatea pentru un zbor\n";
+        std::cout <<"6. Verifica daca locul este la geam\n";
         std::cout <<"0. Inapoi la meniul principal\n";
 
         int optiune = citesteInt("Alege: ");
@@ -134,6 +135,21 @@ void meniuInformatii(CompanieAeriana& companie) {
                 }
                 break;
             }
+            case 6: {
+                Zbor* zbor = cautaZbor(companie);;
+                if (zbor != nullptr) {
+                    std::string numePasager = citesteString("Introduceti numele pasagerului: ");
+                    Pasager* pasagerGasit = zbor->cautaPasagerDupaNume(numePasager.c_str());
+
+                    if (pasagerGasit != nullptr) {
+                        Bilet biletPasager = pasagerGasit->getBilet();
+                        std::cout << "Loc la geam: " << (biletPasager.isWindowSeat() ? "DA" : "NU");
+                    } else {
+                        std::cerr << "EROARE: Pasagerul nu a fost gasit!\n";
+                    }
+                }
+                break;
+            }
             case 0: {
                 ruleaza = false;
                 std::cout << "Revenire la meniul princial...\n";
@@ -155,6 +171,7 @@ void meniuRezervari(CompanieAeriana& companie) {
         std::cout <<"2. Adauga pasager\n";
         std::cout <<"3. Modifica poarta zbor\n";
         std::cout <<"4. Aplica discount bilet pasager\n";
+        std::cout <<"5. Modifica loc pasager!";
         std::cout <<"0. Inapoi la meniul principal\n";
 
         int optiune = citesteInt("Alege: ");
@@ -207,6 +224,28 @@ void meniuRezervari(CompanieAeriana& companie) {
                                   << biletCurent.getPretFinal() << " EUR\n";
                     } else {
                         std::cerr <<"EROARE: Pasagerul nu a fost gasit!\n";
+                    }
+                }
+                break;
+            }
+            case 5: {
+                Zbor* zbor = cautaZbor(companie);
+                if (zbor != nullptr) {
+                    std::string numePasager = citesteString("Introduceti numele pasagerului: ");
+                    Pasager* pasagerGasit = zbor->cautaPasagerDupaNume(numePasager.c_str());
+
+                    if (pasagerGasit != nullptr) {
+                        Bilet biletCurent = pasagerGasit->getBilet();
+                        std::cout <<"Loc curent: " << biletCurent.getLoc() << "\n";
+
+                        std::string locNou = citesteString("Introduceti noul loc (ex: 12F): ");
+                        biletCurent.setLoc(locNou);
+
+                        pasagerGasit->setBilet((biletCurent));
+                        std::cout <<"Loc actualizat: " << biletCurent.getLoc() << "\n";
+                        std::cout << "Loc la geam: " << (biletCurent.isWindowSeat() ? "DA" : "NU");
+                    } else {
+                        std::cerr << "EROARE: Pasagerul nu a fost gasit!\n";
                     }
                 }
                 break;
