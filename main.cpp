@@ -209,6 +209,7 @@ void meniuRezervari(CompanieAeriana& companie) {
                         std::cerr <<"EROARE: Pasagerul nu a fost gasit!\n";
                     }
                 }
+                break;
             }
             case 0: {
                 ruleaza = false;
