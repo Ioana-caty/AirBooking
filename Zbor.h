@@ -32,7 +32,7 @@ public:
 
 
     //Setters
-    void setPoarta(const std::string& poarta);
+    void setPoarta(const std::string& nouaPoarta);
 
     //Functii
     bool adaugaPasager(const Pasager& p);

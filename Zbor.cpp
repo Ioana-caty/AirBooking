@@ -49,11 +49,11 @@ int Zbor::getLocuriOcupate()const{return this->listaPasageri.size();}
 size_t Zbor::getCapacitateMaxima() const {return this->capacitateMaxima;}
 
 
-void Zbor::setPoarta(const std:: string& poarta) {
-    if (this-> estePoartaValida(poarta)) {
-        this->poarta = poarta;
+void Zbor::setPoarta(const std:: string& nouaPoarta) {
+    if (this-> estePoartaValida(nouaPoarta)) {
+        this->poarta = nouaPoarta;
     } else {
-        std::cerr << "Eroare. Poarta " << poarta <<" este invalida!" << std::endl;
+        std::cerr << "Eroare. Poarta " << nouaPoarta <<" este invalida!" << std::endl;
         this->poarta = "N/A";
     }
 }

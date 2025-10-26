@@ -20,8 +20,8 @@ Bilet::Bilet() {
 }
 
 // Constructor cu parametri
-Bilet::Bilet(const std::string& loc, const std::string& tipClasa, double pretBaza) {
-    this->loc = loc;
+Bilet::Bilet(const std::string& nouLoc, const std::string& tipClasa, double pretBaza) {
+    this->loc = nouLoc;
     this->tipClasa = tipClasa;
     this->pretBaza = pretBaza;
     this->discountProcent = 0;
@@ -51,11 +51,11 @@ int Bilet::getDiscountProcent() const {
 }
 
 //Setters
-void Bilet::setLoc(const std:: string& loc) {
-    if (this->esteLocValid(loc)) {
-        this->loc = loc;
+void Bilet::setLoc(const std:: string& nouLoc) {
+    if (this->esteLocValid(nouLoc)) {
+        this->loc = nouLoc;
     } else {
-        std::cerr << "Eroare: Locul '" << loc << "' este invalid!!" << std::endl;
+        std::cerr << "Eroare: Locul '" << nouLoc << "' este invalid!!" << std::endl;
         this->loc = "N/A";
     }
 }
@@ -65,12 +65,12 @@ void Bilet::setLoc(const std:: string& loc) {
 //Implementare functii netriviale
 
 // Aplicare discount
-void Bilet::aplicaDiscount(int discountProcent) {
-    if (discountProcent >= 0 && discountProcent <= 80) {
-        this->discountProcent = discountProcent;
-        std::cout << "\nDiscount de " << discountProcent << " aplicat biletului " << this->biletID << std::endl;
+void Bilet::aplicaDiscount(int procent) {
+    if (procent >= 0 && procent <= 80) {
+        this->discountProcent = procent;
+        std::cout << "\nDiscount de " << procent << " aplicat biletului " << this->biletID << std::endl;
     } else {
-        std::cerr << "Eroare: Discountul (" << discountProcent << ") trebuie sa fie intr 1 si 80." << std::endl;
+        std::cerr << "Eroare: Discountul (" << procent << ") trebuie sa fie intr 1 si 80." << std::endl;
     }
 }
 
