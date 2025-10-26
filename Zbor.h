@@ -25,7 +25,6 @@ public:
 
     //Getters
     std::string getNumarZbor() const;
-    std::string getDestinatie() const;
     std::string getPoarta() const;
     int getLocuriOcupate() const;
     size_t getCapacitateMaxima() const;

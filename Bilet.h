@@ -23,7 +23,6 @@ public:
     Bilet(const std::string& nouLoc, const std::string& tipClasa, double pretBaza);
 
     std::string getLoc() const;
-    int getDiscountProcent() const;
     void setLoc(const std::string& nouLoc);
 
 

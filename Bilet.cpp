@@ -44,12 +44,6 @@ std::string Bilet::getLoc() const {
     return this->loc;
 }
 
-
-
-int Bilet::getDiscountProcent() const {
-    return this->discountProcent;
-}
-
 //Setters
 void Bilet::setLoc(const std:: string& nouLoc) {
     if (this->esteLocValid(nouLoc)) {

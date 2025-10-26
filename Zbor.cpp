@@ -43,7 +43,6 @@ bool Zbor::estePoartaValida(const std::string& poarta) const {
 }
 
 std::string Zbor::getNumarZbor()const{return this->numarZbor;}
-std::string Zbor::getDestinatie()const{return this->destinatie;}
 std::string Zbor::getPoarta()const{return this->poarta;}
 int Zbor::getLocuriOcupate()const{return this->listaPasageri.size();}
 size_t Zbor::getCapacitateMaxima() const {return this->capacitateMaxima;}
