@@ -10,13 +10,14 @@ private:
     std::string destinatie;
     std::string poarta;
     std::vector<Pasager> listaPasageri;
+    int capacitateMaxima;
 
     bool estePoartaValida(const std::string& poarta) const;
 
 public:
     //Constructori
     Zbor();
-    Zbor(const std::string& numarZbor, const std::string& destinatie, const std::string& poarta);
+    Zbor(const std::string& numarZbor, const std::string& destinatie, const std::string& poarta, int capacitateMaxima);
 
     //Destructor
     virtual ~Zbor();
@@ -25,13 +26,16 @@ public:
     std::string getNumarZbor() const;
     std::string getDestinatie() const;
     std::string getPoarta() const;
+    int getLocuriOcupate() const;
+    int getCapacitateMaxima() const;
 
 
     //Setters
     void setPoarta(const std::string& poarta);
-    void adaugaPasager(const Pasager& p);
+    bool adaugaPasager(const Pasager& p);
     double calculeazaIncasariTotale() const;
     Pasager* cautaPasagerDupaNume(const char* nume);
+    bool isFull() const;
 
     friend std::ostream& operator<<(std::ostream& COUT, const Zbor& z);
 };

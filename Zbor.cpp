@@ -10,12 +10,14 @@ Zbor::Zbor() {
     this->numarZbor = "N/A";
     this->destinatie = "N/A";
     this->poarta = "N/A";
+    this->capacitateMaxima = 0;
 }
 
-Zbor::Zbor(const std::string& numarZbor, const std::string& destinatie, const std::string& poarta) {
+Zbor::Zbor(const std::string& numarZbor, const std::string& destinatie, const std::string& poarta, int capacitateMaxima) {
     this->numarZbor = numarZbor;
     this->destinatie = destinatie;
     this->poarta = poarta;
+    this->capacitateMaxima = capacitateMaxima;
 }
 
 Zbor::~Zbor() { }
@@ -43,6 +45,9 @@ bool Zbor::estePoartaValida(const std::string& poarta) const {
 std::string Zbor::getNumarZbor()const{return this->numarZbor;}
 std::string Zbor::getDestinatie()const{return this->destinatie;}
 std::string Zbor::getPoarta()const{return this->poarta;}
+int Zbor::getLocuriOcupate()const{return this->listaPasageri.size();}
+int Zbor::getCapacitateMaxima() const {return this->capacitateMaxima;}
+
 
 void Zbor::setPoarta(const std:: string& poarta) {
     if (this-> estePoartaValida(poarta)) {
@@ -53,8 +58,19 @@ void Zbor::setPoarta(const std:: string& poarta) {
     }
 }
 
-void Zbor::adaugaPasager(const Pasager& p) {
+bool Zbor::isFull() const {
+    return this->listaPasageri.size() >= this->capacitateMaxima;
+}
+
+bool Zbor::adaugaPasager(const Pasager& p) {
+    if (this->isFull()) {
+        std::cerr   << "\n!!! EROARE: Zborul " << this->numarZbor << " este PLIN("
+                    << this->getLocuriOcupate() << "/" << this->capacitateMaxima
+                    <<").\nPasagerul " << p.getNume() << " NU a putut fi adaugat.\n";
+        return false;
+    }
     this->listaPasageri.push_back(p);
+    return true;
 }
 
 double Zbor::calculeazaIncasariTotale()const {
@@ -77,7 +93,9 @@ Pasager* Zbor::cautaPasagerDupaNume(const char* nume) {
 std::ostream& operator<<(std::ostream& COUT, const Zbor& z) {
     COUT    << "ZBOR: " << z.numarZbor
             <<"| DESTINATIE: " << z.destinatie
-            <<"| POARTA: " << z.poarta << "\n";
+            <<"| POARTA: " << z.poarta
+            <<"| LOCURI: " << z.getLocuriOcupate() << "/" << z.capacitateMaxima << "\n";
+
     COUT    <<"Lista pasageri (" << z.listaPasageri.size() << ")\n";
 
     if (z.listaPasageri.empty()) {
