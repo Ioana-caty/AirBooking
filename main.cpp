@@ -75,7 +75,7 @@ Zbor* cautaZbor(CompanieAeriana& companie) {
 void meniuInformatii(CompanieAeriana& companie) {
     bool ruleaza = true;
     while (ruleaza) {
-        std::cout <<"---MENIU INFORMATII (CONSULTARI)---\n";
+        std::cout <<"\n---MENIU INFORMATII (CONSULTARI)---\n";
         std::cout <<"1. Afiseaza toate informatiile companiei\n";
         std::cout <<"2. Cauta si afiseaza zbor\n";
         std::cout <<"3. Cauta pasager pentru un zbor\n";
@@ -96,7 +96,7 @@ void meniuInformatii(CompanieAeriana& companie) {
                 if (zborGasit != nullptr) {
                     std::cout << "\n" << *zborGasit << std::endl;
                 } else {
-                    std::cout <<"X Zborul '" << nrZbor << "' nu exista." << std::endl;
+                    std::cerr <<"X Zborul '" << nrZbor << "' nu exista." << std::endl;
                 }
                 break;
             }
@@ -114,13 +114,32 @@ void meniuInformatii(CompanieAeriana& companie) {
                 // teoretric am eroare si la cautaZbor !!!!
                 break;
             }
+            case 4: {
+                Zbor* zbor = cautaZbor(companie);
+                if (zbor != nullptr) {
+                    double incasari = zbor->calculeazaIncasariTotale();
+                    int nrPasageri = zbor->getLocuriOcupate();
+
+                    std::cout << "Incasari pentru zborul '" << zbor->getNumarZbor() <<"'" << std::endl;
+                    std::cout << "Numar Pasageri: " << nrPasageri << std::endl;
+                    std::cout << "Total incasari: " << std::fixed << std::setprecision(2) << incasari
+                              << " EUR" << std::endl;
+                }
+                break;
+            }
+            case 5: {
+                Zbor* zbor = cautaZbor(companie);
+                if (zbor != nullptr) {
+                    std::cout << "Status: " << (zbor->isFull() ? "COMPLET" : "DISPONIBIL") << std::endl;
+                }
+            }
             case 0: {
                 ruleaza = false;
                 std::cout << "Revenire la meniul princial...\n";
                 break;
             }
             default: {
-                std::cout << "X Optiune invalida!\n";
+                std::cerr << "X Optiune invalida!\n";
                 break;
             }
         }
@@ -194,24 +213,4 @@ int main() {
 }
 
 
-/*                      (Bilet, std::string) trebuie să fie construit înainte ca instrucțiunile din {...} să ruleze.
 
-Avem o clasă "Pasager" care are ca membru un obiect Bilet bilet;.
-    Când creez un obiect Pasager p1, ordinea e așa:
-        înainte să intre în corpul constructorului Pasager(...), C++ trebuie să inițializeze toți membrii clasei.
-        deci, C++ apelează automat constructorul default al lui Bilet, adică Bilet::Bilet().
-        acesta creează un bilet temporar → de aici apare „Biletul fantomă”.
-
-Constructorul default al lui Bilet incrementează counterID.
-→ De aceea ID-ul sare din 1000 în 1001 înainte ca tu să-l fi dorit.
-
-Apoi, în interiorul constructorului Pasager, facem o copiere a biletului real
-→ Dar biletul fantomă există deja, deci counterID a fost deja mărit o dată în plus.
-
-std::string este o clasă, la fel ca Bilet
--> are și ea un constructor default (care creează un string gol "")
--> daca pun intre {..} ia stringul gol "" si copiaza peste el valoarea mea (i.caramida@yahoo.com)
-        am facut 2 operatii
--> astfel sarim peste crearea inutile a stringului gol
-
-*/
