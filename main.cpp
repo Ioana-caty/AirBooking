@@ -153,6 +153,8 @@ void meniuRezervari(CompanieAeriana& companie) {
         std::cout <<"\n---MENIU REZERVARI---\n";
         std::cout <<"1. Adauga un nou zbor\n";
         std::cout <<"2. Adauga pasager\n";
+        std::cout <<"3. Modifica poarta zbor\n";
+        std::cout <<"4. Aplica discount bilet pasager\n";
         std::cout <<"0. Inapoi la meniul principal\n";
 
         int optiune = citesteInt("Alege: ");
@@ -179,6 +181,34 @@ void meniuRezervari(CompanieAeriana& companie) {
                     }
                 }
                 break;
+            }
+            case 3: {
+                Zbor* zbor = cautaZbor(companie);;
+                if (zbor != nullptr) {
+                    std::cout << "Poarta curenta: " << zbor->getPoarta() << std::endl;
+                    std::string poartaNoua = citesteString("Introduceti noua poarta (ex: C15): ");
+                    zbor->setPoarta(poartaNoua);
+                    std::cout << "Poarta actualizata: " << zbor->getPoarta() << std::endl;
+                }
+                break;
+            }
+            case 4: {
+                Zbor* zbor = cautaZbor(companie);;
+                if (zbor != nullptr) {
+                    std::string numePasager = citesteString("Introduceti numele pasagerului: ");
+                    Pasager* pasagerGasit = zbor->cautaPasagerDupaNume(numePasager.c_str());
+
+                    if (pasagerGasit != nullptr) {
+                        Bilet biletCurent = pasagerGasit->getBilet();
+                        int discount = citesteInt("Noul Discount (0 - 80%): ");
+                        biletCurent.aplicaDiscount(discount);
+                        pasagerGasit->setBilet(biletCurent);
+                        std::cout << "Pret nou: " << std::fixed << std::setprecision(2)
+                                  << biletCurent.getPretFinal() << " EUR\n";
+                    } else {
+                        std::cerr <<"EROARE: Pasagerul nu a fost gasit!\n";
+                    }
+                }
             }
             case 0: {
                 ruleaza = false;
