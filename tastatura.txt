@@ -1,2 +1,22 @@
-5
-11 22 33 44 55
+4
+W6-4020
+Vasile Alecsandri
+vasile@poet.ro
+5A
+Business
+300
+2
+W6-4020
+6
+W6-3150
+123
+6
+W6-3150
+C1
+8
+W6-3001
+Ana Popescu
+10
+7
+W6-3001
+0
