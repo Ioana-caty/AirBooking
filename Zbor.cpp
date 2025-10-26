@@ -46,7 +46,7 @@ std::string Zbor::getNumarZbor()const{return this->numarZbor;}
 std::string Zbor::getDestinatie()const{return this->destinatie;}
 std::string Zbor::getPoarta()const{return this->poarta;}
 int Zbor::getLocuriOcupate()const{return this->listaPasageri.size();}
-int Zbor::getCapacitateMaxima() const {return this->capacitateMaxima;}
+size_t Zbor::getCapacitateMaxima() const {return this->capacitateMaxima;}
 
 
 void Zbor::setPoarta(const std:: string& poarta) {
@@ -87,8 +87,10 @@ Pasager* Zbor::cautaPasagerDupaNume(const char* nume) {
             return &this->listaPasageri[i];
         }
     }
+    std::cerr << "EROARE: Pasagerul '" << nume << "' nu a fost gasit.\n";
     return nullptr;
 }
+
 
 std::ostream& operator<<(std::ostream& COUT, const Zbor& z) {
     COUT    << "ZBOR: " << z.numarZbor

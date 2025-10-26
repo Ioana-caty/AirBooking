@@ -10,11 +10,12 @@ private:
     std::string destinatie;
     std::string poarta;
     std::vector<Pasager> listaPasageri;
-    int capacitateMaxima;
+    size_t capacitateMaxima;
 
     bool estePoartaValida(const std::string& poarta) const;
 
 public:
+
     //Constructori
     Zbor();
     Zbor(const std::string& numarZbor, const std::string& destinatie, const std::string& poarta, int capacitateMaxima);
@@ -27,11 +28,13 @@ public:
     std::string getDestinatie() const;
     std::string getPoarta() const;
     int getLocuriOcupate() const;
-    int getCapacitateMaxima() const;
+    size_t getCapacitateMaxima() const;
 
 
     //Setters
     void setPoarta(const std::string& poarta);
+
+    //Functii
     bool adaugaPasager(const Pasager& p);
     double calculeazaIncasariTotale() const;
     Pasager* cautaPasagerDupaNume(const char* nume);

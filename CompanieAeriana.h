@@ -10,7 +10,7 @@ private:
     std::vector<Zbor> flotaZboruri; // Compunere: O companie ARE o lista de zboruri
 
     // Functie helper privata
-    bool esteZborDuplicat(const std::string& numarZbor) const;
+     bool esteZborDuplicat(const std::string& numarZbor) const;
 
 public:
     CompanieAeriana();

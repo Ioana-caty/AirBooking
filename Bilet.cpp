@@ -39,20 +39,12 @@ bool Bilet::esteLocValid(const std::string &loc) const {
 }
 
 // Getters
-int Bilet::getBiletID() const {
-    return this->biletID;
-}
 
 std::string Bilet::getLoc() const {
     return this->loc;
 }
-std::string Bilet::getTipClasa() const {
-    return this -> tipClasa;
-}
 
-double Bilet::getPretBaza() const {
-    return this->pretBaza;
-}
+
 
 int Bilet::getDiscountProcent() const {
     return this->discountProcent;
@@ -68,18 +60,7 @@ void Bilet::setLoc(const std:: string& loc) {
     }
 }
 
-void Bilet::setTipClasa(const std:: string& tipClasa) {
-    this->tipClasa = tipClasa;
-}
 
-void Bilet::setPretBaza(double pretBaza) {
-    if (pretBaza >= 0) {
-        this->pretBaza = pretBaza;
-    } else {
-        std::cerr <<"Eroare: Pretul nu poate sa fie negativ!";
-        this->pretBaza = 0;
-    }
-}
 
 //Implementare functii netriviale
 
