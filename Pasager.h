@@ -22,7 +22,7 @@ public:
     Pasager& operator=(const Pasager& another);                         // constructor de atribuire, Copiaza datele dintr-un obiect existent in alt obiect deja existent
 
     const char* getNume() const;                                        // getter
-    Bilet getBilet()const;                                              // getter pentru Bilet
+    const Bilet getBilet()const;                                              // getter pentru Bilet
 
     void setBilet(const Bilet& bilet);                                  //setter pentru bilet
 

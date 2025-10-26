@@ -63,7 +63,7 @@ const char* Pasager::getNume() const{
     return this->nume;
 }
 
-Bilet Pasager::getBilet() const {
+const Bilet Pasager::getBilet() const {
     return this->bilet;
 }
 
