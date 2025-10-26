@@ -132,6 +132,7 @@ void meniuInformatii(CompanieAeriana& companie) {
                 if (zbor != nullptr) {
                     std::cout << "Status: " << (zbor->isFull() ? "COMPLET" : "DISPONIBIL") << std::endl;
                 }
+                break;
             }
             case 0: {
                 ruleaza = false;
@@ -146,14 +147,51 @@ void meniuInformatii(CompanieAeriana& companie) {
     }
 }
 
-// void meniuRezervari(CompanieAeriana& companie) {
-//     bool ruleaza = true;
-//     while (ruleaza) {
-//         std::cout <<"---MENIU REZERVARI---\n";
-//         std::cout <<"1. .....";
-//         std::cout <<"2. ......";
-//     }
-// }
+void meniuRezervari(CompanieAeriana& companie) {
+    bool ruleaza = true;
+    while (ruleaza) {
+        std::cout <<"\n---MENIU REZERVARI---\n";
+        std::cout <<"1. Adauga un nou zbor\n";
+        std::cout <<"2. Adauga pasager\n";
+        std::cout <<"0. Inapoi la meniul principal\n";
+
+        int optiune = citesteInt("Alege: ");
+
+        switch (optiune) {
+            case 1: {
+                Zbor zborNou = creeazaZbor();
+                companie.adaugaZbor(zborNou);
+                std::cout << "Zborul a fost adaugat cu succes!";
+                break;
+            }
+            case 2: {
+                Zbor* zbor = cautaZbor(companie);;
+                if (zbor != nullptr) {
+                    if (zbor->isFull()) {
+                        std::cerr << "EROARE: Zborul este Complet! Cauta alt zbor!!";
+                    } else {
+                        Pasager pasagerNou = creeazaPasager();
+                        bool ok = zbor->adaugaPasager(pasagerNou);
+                        if (ok == true) {
+                            std::cout << "Pasagerul '" << pasagerNou.getNume() << "' a fost adaugat cu succes\n";
+                            std::cout << "Locuri disponibile: " << (zbor->getCapacitateMaxima() - zbor->getLocuriOcupate()) << "\n";
+                        }
+                    }
+                }
+                break;
+            }
+            case 0: {
+                ruleaza = false;
+                std::cout << "Revenire la meniul principal...\n";
+                break;
+            }
+            default: {
+                std::cerr << "X Optiune invalida!\n";
+                break;
+            }
+        }
+    }
+}
 
 void meniuPrincipal(CompanieAeriana& companie) {
     bool ruleaza = true;
@@ -168,9 +206,9 @@ void meniuPrincipal(CompanieAeriana& companie) {
             case 1:
                 meniuInformatii(companie);
                 break;
-            // case 2:
-            //     meniuRezervari(companie);
-            //     break;
+            case 2:
+                meniuRezervari(companie);
+                break;
             case 0:
                 ruleaza = false;
                 std::cout <<"La revedere! Va dorim o zi buna!" << std::endl;
@@ -186,26 +224,6 @@ int main() {
 
     std::string numeCompanie = citesteString("Introduceti numele companiei aeriene: ");
     CompanieAeriana companie(numeCompanie);
-
-    //date temporare
-
-    Zbor z1("RO123", "Bucuresti", "A5", 150);
-    Zbor z2("L456", "Frankfurt", "B12", 200);
-
-
-    Bilet b1("10A", "Economic", 120.50);
-    Pasager p1("Tudor Deaconu", "t.deaconu@gmail.com", b1);
-    Bilet b2("25A", "Business", 98.5);
-    Pasager p2("Iustina Caramida", "i.caramida@yahoo.com", b2);
-    Bilet b3("8A", "Economic", 60.50);
-    Pasager p3("Costin Sin", "c.sin@gmail.com", b3);
-
-    z1.adaugaPasager(p1);
-    z1.adaugaPasager(p2);
-    z2.adaugaPasager(p3);
-
-    companie.adaugaZbor((z1));
-    companie.adaugaZbor((z2));
 
     meniuPrincipal(companie);
 
