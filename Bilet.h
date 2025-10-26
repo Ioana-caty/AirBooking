@@ -2,7 +2,6 @@
 
 #include <string>
 #include <iostream>
-#include <ostream>
 
 class Bilet {
 private:
