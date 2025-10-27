@@ -65,7 +65,7 @@ const Bilet Pasager::getBilet() const {
 }
 
 //Setter
-void Pasager::setBilet(const Bilet& biletnou) {
+void Pasager::setBilet(const Bilet& bilet) {
     this->bilet = bilet;
 }
 
