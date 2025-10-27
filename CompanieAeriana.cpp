@@ -10,15 +10,13 @@ CompanieAeriana::CompanieAeriana(const std::string &nume) {
     this->numeCompanie = nume;
 }
 
-CompanieAeriana::~CompanieAeriana() {
-}
-
 std::string CompanieAeriana::getNumeCompanie() const {
     return this->numeCompanie;
 }
 
 bool CompanieAeriana::esteZborDuplicat(const std::string &numarZbor) const {
-    for (size_t i = 0; i < this->flotaZboruri.size(); ++i) {
+    size_t nrTotalZboruri = this->flotaZboruri.size();
+    for (size_t i = 0; i < nrTotalZboruri; i++) {
         if (this->flotaZboruri[i].getNumarZbor() == numarZbor) {
             return true;
         }
@@ -27,6 +25,7 @@ bool CompanieAeriana::esteZborDuplicat(const std::string &numarZbor) const {
 }
 
 void CompanieAeriana::adaugaZbor(const Zbor &z) {
+
     if (!this->esteZborDuplicat(z.getNumarZbor())) {
         this->flotaZboruri.push_back(z);
     } else {
@@ -34,13 +33,15 @@ void CompanieAeriana::adaugaZbor(const Zbor &z) {
     }
 }
 
+// nu e void pt ca vreau sa am detaliile zborului ca sa-l pot adauga
 Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string &numarZbor) {
-    for (size_t i = 0; i < this->flotaZboruri.size(); ++i) {
+    size_t nrTotalZboruri = this->flotaZboruri.size();
+    for (size_t i = 0; i < nrTotalZboruri; ++i) {
         if (this->flotaZboruri[i].getNumarZbor() == numarZbor) {
             return &this->flotaZboruri[i];
         }
     }
-    return nullptr; // Nu s-a gasit
+    return nullptr;
 }
 
 
@@ -48,10 +49,11 @@ std::ostream &operator<<(std::ostream &COUT, const CompanieAeriana &c) {
     COUT << "COMPANIE: " << c.numeCompanie << "\n";
     COUT << "FLOTA DE ZBORURI (" << c.flotaZboruri.size() << "):\n";
 
-    if (c.flotaZboruri.empty()) {
+    if (c.flotaZboruri.empty() == true) {
         COUT << "(Niciun zbor inregistrat)\n";
     } else {
-        for (size_t i = 0; i < c.flotaZboruri.size(); ++i) {
+        size_t nrTotalZboruri = c.flotaZboruri.size();
+        for (size_t i = 0; i < nrTotalZboruri; ++i) {
             COUT << c.flotaZboruri[i] << "\n\n";
         }
     }

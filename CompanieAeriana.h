@@ -7,9 +7,8 @@
 class CompanieAeriana {
 private:
     std::string numeCompanie;
-    std::vector<Zbor> flotaZboruri; // Compunere: O companie ARE o lista de zboruri
+    std::vector<Zbor> flotaZboruri;                                 // stocam toate obiectele zbor care apartin companiei
 
-    // Functie helper privata
     bool esteZborDuplicat(const std::string &numarZbor) const;
 
 public:
@@ -17,7 +16,6 @@ public:
 
     CompanieAeriana(const std::string &nume); // Cu parametri
 
-    virtual ~CompanieAeriana();
 
     std::string getNumeCompanie() const;
 

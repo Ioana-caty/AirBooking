@@ -86,7 +86,6 @@ Pasager* Zbor::cautaPasagerDupaNume(const char* nume) {
             return &this->listaPasageri[i];
         }
     }
-    std::cerr << "EROARE: Pasagerul '" << nume << "' nu a fost gasit.\n";
     return nullptr;
 }
 

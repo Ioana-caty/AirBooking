@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <ostream>
 #include <string>
 #include "Bilet.h"
 
@@ -14,7 +13,7 @@ private:
     Bilet bilet;            // Obiect memebru
 
 public:
-    Pasager(const char* nume, std::string email, const Bilet& bilet);   // constructor de cu parametri
+    Pasager(const char* nume, std::string Email, const Bilet& biletNou);   // constructor de cu parametri
     Pasager();                                                          // constructor default
 
     virtual ~Pasager();                                                 // destructor

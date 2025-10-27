@@ -5,8 +5,8 @@
 int Pasager::counterID = 0;
 
 //Constructor de Initializare
-Pasager::Pasager(const char* nume, std::string email, const Bilet& bilet)
-: email(email), bilet(bilet) {
+Pasager::Pasager(const char* nume, std::string Email, const Bilet& biletNou)
+: email(Email), bilet(biletNou) {
 
     this->nume = new char[strlen(nume) + 1];    // alocam memorie noua pe heap
     strcpy(this->nume, nume);                   // copiem continutul
@@ -14,7 +14,6 @@ Pasager::Pasager(const char* nume, std::string email, const Bilet& bilet)
     this->pasagerID = counterID++;
 }
 
-//Constructor default
 Pasager::Pasager() {
     this->nume = new char[strlen("not_specifying") + 1];
     strcpy(this->nume, "not_specifying");
@@ -22,9 +21,7 @@ Pasager::Pasager() {
     this->pasagerID = counterID++;
 }
 
-// Destrcutor
 Pasager::~Pasager() {
-    //std::cout << "Destructor" << std::endl;
     delete[] this->nume;
     this->nume = nullptr;
 }
@@ -68,8 +65,8 @@ const Bilet Pasager::getBilet() const {
 }
 
 //Setter
-void Pasager::setBilet(const Bilet& Bilet) {
-    this->bilet = Bilet;
+void Pasager::setBilet(const Bilet& bilet) {
+    this->bilet = bilet;
 }
 
 std::ostream& operator<<(std::ostream& COUT, const Pasager& p) {
