@@ -22,7 +22,7 @@ Zbor::Zbor(const std::string& numarZbor, const std::string& destinatie, const st
 
 Zbor::~Zbor() { }
 
-bool Zbor::estePoartaValida(const std::string& poarta) const {
+bool Zbor::estePoartaValida(const std::string& nouaPoarta) const {
     //minim 2 caractere
     if (poarta.length() < 2) {
         return false;
