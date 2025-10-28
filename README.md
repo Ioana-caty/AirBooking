@@ -4,7 +4,7 @@ Această aplicație simulează un sistem de management pentru o companie aerian�
 
 ### Funcționalități Principale
 ---
-###Aplicația permite utilizatorului să execute următoarele acțiuni:
+Aplicația permite utilizatorului să execute următoarele acțiuni:
 
 * **Gestiunea Zborurilor:**
     * **Adaugă zbor:** Înregistrează un nou zbor în sistem (număr zbor, destinație, poartă, capacitate).
