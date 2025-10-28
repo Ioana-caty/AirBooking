@@ -95,6 +95,3 @@ std::ostream& operator<<(std::ostream& COUT, const Bilet& b) {
     }
     return COUT;
 }
-
-
-
