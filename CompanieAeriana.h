@@ -14,11 +14,11 @@ private:
 public:
     CompanieAeriana();
 
-    CompanieAeriana(const std::string &nume); // Cu parametri
+    explicit CompanieAeriana(const std::string &nume); // Cu parametri
 
     void adaugaZbor(const Zbor &z);
 
-    Zbor *cautaZborDupaNumar(const std::string &numarZbor);
+    const Zbor *cautaZborDupaNumar(const std::string &numarZbor);
 
     friend std::ostream &operator<<(std::ostream &COUT, const CompanieAeriana &c);
 }

@@ -30,7 +30,7 @@ void CompanieAeriana::adaugaZbor(const Zbor &z) {
 }
 
 // nu e void pt ca vreau sa am detaliile zborului ca sa-l pot adauga
-Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string &numarZbor) {
+const Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string &numarZbor) {
     size_t nrTotalZboruri = this->flotaZboruri.size();
     for (size_t i = 0; i < nrTotalZboruri; ++i) {
         if (this->flotaZboruri[i].getNumarZbor() == numarZbor) {
