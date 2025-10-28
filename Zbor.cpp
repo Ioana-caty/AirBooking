@@ -79,7 +79,7 @@ double Zbor::calculeazaIncasariTotale()const {
     return total;
 }
 
-Pasager* Zbor::cautaPasagerDupaNume(const char* nume) {
+Pasager* Zbor::cautaPasagerDupaNume(const char* nume){
    for (size_t i = 0; i < this->listaPasageri.size(); i++) {
         if (std::strcmp(this->listaPasageri[i].getNume(), nume) == 0) {
             return &this->listaPasageri[i];

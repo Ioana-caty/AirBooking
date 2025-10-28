@@ -18,7 +18,7 @@ public:
 
     void adaugaZbor(const Zbor &z);
 
-    const Zbor *cautaZborDupaNumar(const std::string &numarZbor);
+    Zbor *cautaZborDupaNumar(const std::string &numarZbor);
 
     friend std::ostream &operator<<(std::ostream &COUT, const CompanieAeriana &c);
 }

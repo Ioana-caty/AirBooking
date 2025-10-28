@@ -112,14 +112,14 @@ int main() {
             char nume[100];
             std::cout <<"Numar zbor: "; std::cin >> numar;
 
-            const Zbor* z = companie.cautaZborDupaNumar(numar);
+            Zbor* z = companie.cautaZborDupaNumar(numar);
             if (!z) {
                 std::cerr << "Zbor negasit!\n";
                 continue;
             }
             std::cin.ignore(); //ENTER
             std::cout << "Nume: "; std::cin.getline(nume, 100);
-            const Pasager* p = z->cautaPasagerDupaNume(nume);
+            Pasager* p = z->cautaPasagerDupaNume(nume);
             if (p) {
                 std::cout << "\n" << *p << "\n";
             } else {
@@ -132,7 +132,7 @@ int main() {
             int discount;
 
             std::cout <<"Numar zbor: "; std::cin >> numar;
-            const Zbor* z = companie.cautaZborDupaNumar(numar);
+            Zbor* z = companie.cautaZborDupaNumar(numar);
             if (!z) {
                 std::cerr << "Zbor negasit!\n";
                 continue;
@@ -140,7 +140,7 @@ int main() {
 
             std::cin.ignore(); //ENTER
             std::cout << "Nume: "; std::cin.getline(nume, 100);
-            const Pasager* p = z->cautaPasagerDupaNume(nume);
+            Pasager* p = z->cautaPasagerDupaNume(nume);
             if (!p) {
                 std::cerr << "Pasager negasit!\n";
                 continue;
@@ -155,7 +155,7 @@ int main() {
             std::string numar, poarta;
             std::cout <<"Numar zbor: "; std::cin >> numar;
 
-            const Zbor* z = companie.cautaZborDupaNumar(numar);
+            Zbor* z = companie.cautaZborDupaNumar(numar);
             if (!z) {
                 std::cerr << "Zbor negasit!\n";
                 continue;
@@ -171,7 +171,7 @@ int main() {
             char nume[100];
 
             std::cout <<"Numar zbor: "; std::cin >> numar;
-            const Zbor* z = companie.cautaZborDupaNumar(numar);
+            Zbor* z = companie.cautaZborDupaNumar(numar);
             if (!z) {
                 std::cerr << "Zbor negasit!\n";
                 continue;
@@ -179,7 +179,7 @@ int main() {
 
             std::cin.ignore(); //ENTER
             std::cout << "Nume: "; std::cin.getline(nume, 100);
-            const Pasager*p = z->cautaPasagerDupaNume(nume);
+            Pasager*p = z->cautaPasagerDupaNume(nume);
             if (!p) {
                 std::cerr << "Pasager negasit!\n";
                 continue;
@@ -211,7 +211,7 @@ int main() {
             char nume[100];
 
             std::cout <<"Numar zbor: "; std::cin >> numar;
-            const Zbor* z = companie.cautaZborDupaNumar(numar);
+            Zbor* z = companie.cautaZborDupaNumar(numar);
             if (!z) {
                 std::cerr << "Zbor negasit!\n";
                 continue;
@@ -219,7 +219,7 @@ int main() {
 
             std::cin.ignore(); //ENTER
             std::cout << "Nume: "; std::cin.getline(nume, 100);
-            const Pasager* p = z->cautaPasagerDupaNume(nume);
+            Pasager* p = z->cautaPasagerDupaNume(nume);
             if (!p) {
                 std::cerr << "Pasager negasit!\n";
                 continue;
@@ -235,7 +235,7 @@ int main() {
             std::string numar;
             std::cout <<"Numar zbor: "; std::cin >> numar;
 
-            const Zbor* z = companie.cautaZborDupaNumar(numar);
+            Zbor* z = companie.cautaZborDupaNumar(numar);
             if (!z) {
                 std::cerr << "Zbor negasit!\n";
                 continue;
