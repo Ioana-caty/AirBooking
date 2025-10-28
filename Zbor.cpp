@@ -24,18 +24,18 @@ Zbor::~Zbor() { }
 
 bool Zbor::estePoartaValida(const std::string& poartaNoua) const {
     //minim 2 caractere
-    if (poarta.length() < 2) {
+    if (poartaNoua.length() < 2) {
         return false;
     }
 
     // primul caracter sa fie litera
-    if (!isalpha(poarta[0])) {
+    if (!isalpha(poartaNoua[0])) {
         return false;
     }
 
     //verificam ca toate celelalte caractere sunt cifre
-    for (size_t i = 1; i < poarta.length(); i++) {
-        if (!isdigit(poarta[i])) {
+    for (size_t i = 1; i < poartaNoua.length(); i++) {
+        if (!isdigit(poartaNoua[i])) {
             return false;
         }
     }

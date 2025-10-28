@@ -66,7 +66,7 @@ const Bilet Pasager::getBilet() const {
 
 //Setter
 void Pasager::setBilet(const Bilet& biletNou) {
-    this->bilet = bilet;
+    this->bilet = biletNou;
 }
 
 std::ostream& operator<<(std::ostream& COUT, const Pasager& p) {
