@@ -23,7 +23,7 @@ public:
     const char* getNume() const;                                        // getter
     const Bilet getBilet()const;                                              // getter pentru Bilet
 
-    void setBilet(const Bilet& biletnou);                                  //setter pentru bilet
+    void setBilet(const Bilet& biletNou);                                  //setter pentru bilet
 
     friend std::ostream& operator<<(std::ostream&os, const Pasager& p);
 };

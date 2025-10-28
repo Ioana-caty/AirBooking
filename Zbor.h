@@ -12,7 +12,7 @@ private:
     std::vector<Pasager> listaPasageri;
     size_t capacitateMaxima;
 
-    bool estePoartaValida(const std::string& poarta) const;
+    bool estePoartaValida(const std::string& poartaNoua) const;
 
 public:
 
