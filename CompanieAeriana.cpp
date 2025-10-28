@@ -10,10 +10,6 @@ CompanieAeriana::CompanieAeriana(const std::string &nume) {
     this->numeCompanie = nume;
 }
 
-std::string CompanieAeriana::getNumeCompanie() const {
-    return this->numeCompanie;
-}
-
 bool CompanieAeriana::esteZborDuplicat(const std::string &numarZbor) const {
     size_t nrTotalZboruri = this->flotaZboruri.size();
     for (size_t i = 0; i < nrTotalZboruri; i++) {

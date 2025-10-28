@@ -16,9 +16,6 @@ public:
 
     CompanieAeriana(const std::string &nume); // Cu parametri
 
-
-    std::string getNumeCompanie() const;
-
     void adaugaZbor(const Zbor &z);
 
     Zbor *cautaZborDupaNumar(const std::string &numarZbor);

@@ -39,11 +39,6 @@ bool Bilet::esteLocValid(const std::string &Loc) {
     return Loc.length() >= 2 && Loc.length() <= 3;
 }
 
-// Getter
-std::string Bilet::getLoc() const {
-    return this->loc;
-}
-
 //Setter
 void Bilet::setLoc(const std:: string& nouLoc) {
     // esteLocValid este o functie statica => nu folosim this->

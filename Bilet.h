@@ -21,9 +21,7 @@ public:
     Bilet();
     Bilet(const std::string& Loc, const std::string& tipClasa, double pretBaza);
 
-    std::string getLoc() const;
     void setLoc(const std::string& nouLoc);
-
 
     // Functii netrivale
     double getPretFinal() const; // dupa taxe si discount-uri
