@@ -1,4 +1,41 @@
-# Airbooking
+# Airbooking ✈️ 
+
+Această aplicație simulează un sistem de management pentru o companie aeriană (de exemplu, Wizz), permițând administrarea completă a zborurilor, a pasagerilor înregistrați și a biletelor acestora. Sistemul este pre-populat cu date inițiale (zboruri, pasageri, bilete) și oferă un meniu interactiv pentru a gestiona operațiunile zilnice. (datele se găsesc atât ân opțiunea 1 din aplicație, cât și în fișierul "tasatura.txt"
+
+### Funcționalități Principale
+---
+###Aplicația permite utilizatorului să execute următoarele acțiuni:
+
+* **Gestiunea Zborurilor:**
+    * **Adaugă zbor:** Înregistrează un nou zbor în sistem (număr zbor, destinație, poartă, capacitate).
+    * **Caută zbor:** Găsește și afișează detaliile complete ale unui zbor, inclusiv lista de pasageri.
+    * **Modifică poarta:** Actualizează poarta de îmbarcare pentru un zbor existent.
+
+* **Gestiunea Pasagerilor și Biletelor:**
+    * **Adaugă pasager:** Înrolează un nou pasager pe un zbor specific, asignându-i un bilet (loc, clasă, preț).
+    * **Caută pasager:** Găsește și afișează detaliile unui pasager anume de pe un zbor.
+    * **Aplică discount:** Aplică o reducere procentuală biletului unui pasager.
+    * **Modifică loc bilet:** Schimbă locul alocat unui pasager.
+
+* **Rapoarte și Verificări:**
+    * **Calculează încasări:** Afișează venitul total generat pentru un anumit zbor.
+    * **Verifică loc geam:** Confirmă dacă biletul unui pasager este la geam.
+    * **Verifică dacă zborul este plin:** Afișează statusul locurilor (disponibile sau zbor complet).
+    * 
+---
+
+### ⚙️ Reguli de Business și Detalii de Implementare:
+
+Pentru a reflecta un scenariu real, aplicația funcționează pe baza următoarelor reguli:
+
+1.  **Calculul Încasărilor:**
+    Prețul final al unui bilet nu este doar prețul de bază. Pentru fiecare bilet se adaugă o **TAXĂ fixă** (aceeași pentru toate zborurile), peste care se poate aplica (sau nu) un discount.
+
+2.  **Aplicarea Discounturilor:**
+    Sistemul permite aplicarea unor discounturi flexibile. La solicitarea aplicării unui discount, utilizatorul poate introduce o valoare procentuală cuprinsă între **0% și 80%**.
+
+3.  **Validarea Locului la Geam:**
+    Aplicația determină automat dacă un loc este la geam. Un loc este considerat "la geam" dacă indicativul său (ex: "14A", "22F") se termină cu litera **'A'** sau **'F'**.
 
 ### Folosiți template-ul corespunzător grupei voastre!
 
