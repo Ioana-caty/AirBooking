@@ -21,7 +21,7 @@ Aplicația permite utilizatorului să execute următoarele acțiuni:
     * **Calculează încasări:** Afișează venitul total generat pentru un anumit zbor.
     * **Verifică loc geam:** Confirmă dacă biletul unui pasager este la geam.
     * **Verifică dacă zborul este plin:** Afișează statusul locurilor (disponibile sau zbor complet).
-    * 
+      
 ---
 
 ### ⚙️ Reguli de Business și Detalii de Implementare:
