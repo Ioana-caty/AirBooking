@@ -63,7 +63,7 @@ bool Zbor::adaugaPasager(const Pasager& p) {
     if (this->isFull()) {
         std::cerr   << "\n!!! EROARE: Zborul " << this->numarZbor << " este PLIN("
                     << this->getLocuriOcupate() << "/" << this->capacitateMaxima
-                    <<").\nPasagerul " << p.getNume() << " NU a putut fi adaugat.\n";
+                    <<").\n";
         return false;
     }
     this->listaPasageri.push_back(p);

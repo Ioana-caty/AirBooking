@@ -131,9 +131,11 @@ int main() {
 
             Bilet b(loc, clasa, pret);
             Pasager p(nume, email, b);
-            z->adaugaPasager(p);
-
-            std::cout << "Pasager adaugat cu succes!\n";
+            if (z->adaugaPasager(p)) {
+                std::cout << "Pasager adaugat cu succes!\n";
+            } else {
+                std::cerr << "Pasagerul " << p.getNume() << " NU a putut fi adaugat.\n";
+            }
         }
         if (optiune == 5) {
             std::string numar;
