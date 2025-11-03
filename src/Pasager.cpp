@@ -37,6 +37,7 @@ Pasager& Pasager::operator=(const Pasager& another) {
     // copiem direct, std::string se ocupă de gestionarea memoriei
     this->nume = another.nume;
     this->email = another.email;
+    this->pasagerID = another.pasagerID;
     this->bilet = another.bilet;
 
     return *this;
