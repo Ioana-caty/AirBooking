@@ -1,6 +1,6 @@
 # Airbooking ✈️ 
 
-Această aplicație simulează un sistem de management pentru o companie aeriană (de exemplu, Wizz), permițând administrarea completă a zborurilor, a pasagerilor înregistrați și a biletelor acestora. Sistemul este pre-populat cu date inițiale (zboruri, pasageri, bilete) și oferă un meniu interactiv pentru a gestiona operațiunile zilnice. (datele se găsesc atât ân opțiunea 1 din aplicație, cât și în fișierul "tasatura.txt"
+Această aplicație simulează un sistem de management pentru o companie aeriană (de exemplu, Wizz), permițând administrarea completă a zborurilor, a pasagerilor înregistrați și a biletelor acestora. Sistemul este pre-populat cu date inițiale (zboruri, pasageri, bilete) și oferă un meniu interactiv pentru a gestiona operațiunile zilnice. (datele se găsesc atât în opțiunea 1 din aplicație, cât și în fișierul "tasatura.txt"
 
 ### Funcționalități Principale
 ---
@@ -21,7 +21,7 @@ Aplicația permite utilizatorului să execute următoarele acțiuni:
     * **Calculează încasări:** Afișează venitul total generat pentru un anumit zbor.
     * **Verifică loc geam:** Confirmă dacă biletul unui pasager este la geam.
     * **Verifică dacă zborul este plin:** Afișează statusul locurilor (disponibile sau zbor complet).
-    * 
+      
 ---
 
 ### ⚙️ Reguli de Business și Detalii de Implementare:
