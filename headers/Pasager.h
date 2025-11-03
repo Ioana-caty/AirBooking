@@ -1,0 +1,28 @@
+#pragma once
+#include <iostream>
+#include <string>
+#include "../headers//Bilet.h"
+
+class Pasager {
+private:
+    std::string nume;
+    std::string email;
+    int pasagerID;
+    static int counterID;
+
+    Bilet bilet;
+
+public:
+    Pasager(const std::string& nume, const std::string& Email, const Bilet& biletNou);
+    Pasager();
+
+    virtual ~Pasager();
+    Pasager(const Pasager& another);
+    Pasager& operator=(const Pasager& another);
+
+    const std::string& getNume() const;
+    const Bilet getBilet()const;
+    void setBilet(const Bilet& biletNou);
+
+    friend std::ostream& operator<<(std::ostream&os, const Pasager& p);
+};

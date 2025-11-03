@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Pasager.h"
+#include "../headers/Pasager.h"
 
 class Zbor {
 private:
@@ -35,7 +35,7 @@ public:
     //Functii
     bool adaugaPasager(const Pasager& p);
     double calculeazaIncasariTotale() const;
-    Pasager* cautaPasagerDupaNume(const char* nume);
+    Pasager* cautaPasagerDupaNume(const std::string &nume);
     bool isFull() const;
 
     friend std::ostream& operator<<(std::ostream& COUT, const Zbor& z);

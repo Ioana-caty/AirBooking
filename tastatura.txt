@@ -1,11 +1,19 @@
-zbor1       nr:RO123                destinatie:Paris                 poarta:A12      locuri disponibile:5               Pasager1 & Pasager2
-zbor2       nr:RO456                destinatie:Londra                poarta:B5       locuri disponibile:4               Pasager3
-zbor3       nr:RO789                destinatie:Berlin                poarta:C20      locuri disponibile:3
-
-bilet1      loc:14A                 tipClasa:Economic                pretBaza:150.0
-bilet2      loc:1F                  tipClasa:Business                pretBaza:350.5      +se aplica discount de 10%
-bilet3      loc:22C                 tipClasa:Economic                pretBaza:120.6
-
-Pasager1    nume:Iustina Caramida   mail:i.caramida@gmail.com       are biletul b1
-Pasager2    nume:Costin Sin         mail:c.sin@gmail.com            are biletul b2
-Pasager3    nume:Tudor Deaconu      mail:tudor.d@gmail.com          are biletul b3
+3
+RO123 Paris A12 5
+2
+Iustina Caramida
+i.caramida@gmail.com
+14A Economic 150.0
+0
+Costin Sin
+c.sin@gmail.com
+1F Business 350.5
+10
+RO456 Londra B5 4
+1
+Ana Maria
+ana.m@gmail.com
+22C Economic 120.6
+0
+RO789 Berlin C20 3
+0

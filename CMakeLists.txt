@@ -50,15 +50,18 @@ include(cmake/CopyHelper.cmake)
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${MAIN_EXECUTABLE_NAME}
     main.cpp
-        Pasager.h
-        Pasager.cpp
-        Bilet.h
-        Bilet.cpp
-        Zbor.h
-        Zbor.cpp
-        CompanieAeriana.h
-        CompanieAeriana.cpp
+        headers/Pasager.h
+        src/Pasager.cpp
+        headers/Bilet.h
+        src/Bilet.cpp
+        headers/Zbor.h
+        src/Zbor.cpp
+        headers/CompanieAeriana.h
+        src/CompanieAeriana.cpp
 )
+
+target_include_directories(${MAIN_EXECUTABLE_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/inc)
+
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
 # NOTE: RUN_SANITIZERS is optional, if it's not present it will default to true
