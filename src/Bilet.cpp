@@ -11,21 +11,19 @@ const double Bilet::TAXA_AEROPORT = 15.75;
     C++ poate genera automat
 */
 
-// Constructor Default
 Bilet::Bilet()
-    : loc("N/A"),
+    : biletID(counterID++),
+      loc("N/A"),
       tipClasa("N/A"),
       pretBaza(0.0),
-      discountProcent(0),
-      biletID(counterID++) {
+      discountProcent(0) {
 }
-
 Bilet::Bilet(const std::string& Loc, const std::string& tipClasa, double pretBaza)
-    : loc(Loc),
+    : biletID(counterID++),
+      loc(Loc),
       tipClasa(tipClasa),
       pretBaza(pretBaza >= 0 ? pretBaza : 0.0),
-      discountProcent(0),
-      biletID(counterID++) {
+      discountProcent(0) {
 }
 
 // Functie privata

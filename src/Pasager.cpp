@@ -6,15 +6,17 @@ int Pasager::counterID = 0;
 Pasager::Pasager(const std::string& nume, const std::string& Email, const Bilet& biletNou)
     : nume(nume),
       email(Email),
-      bilet(biletNou),
-      pasagerID(counterID++) {
+      pasagerID(counterID++),
+      bilet(biletNou) {
 }
 
 Pasager::Pasager()
     : nume("not_specified"),
       email("none@gmail.com"),
-      pasagerID(counterID++) {
+      pasagerID(counterID++),
+      bilet() {
 }
+
 
 Pasager::~Pasager() {
 }
