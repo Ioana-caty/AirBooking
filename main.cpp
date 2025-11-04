@@ -9,7 +9,8 @@
 void populareDate(CompanieAeriana& companie) {
     std::cout << "---POPULARE DATE---\n";
 
-    std::ifstream fin("tastatura.txt");
+    const std::string FISIER_DATE = "tastatura.txt";
+    std::ifstream fin(FISIER_DATE);
 
     if (!fin.is_open()) {
         std::cerr << "EROARE: Nu s-a putut deschide fisierul tastatura.txt\n";
@@ -84,7 +85,6 @@ int main() {
         if (optiune == 0) {
             break;
         }
-
         if (optiune == 1) {
             std::cout << "\n" << companie << "\n";
         }
@@ -112,8 +112,7 @@ int main() {
             }
         }
         if (optiune == 4) {
-            std::string numar, email, loc, clasa;
-            char nume[100];
+            std::string numar, email, loc, clasa, nume;
             double pret;
 
             std::cout <<"Numar zbor: "; std::cin >> numar;
@@ -123,7 +122,7 @@ int main() {
                 continue; // opreste executia lui while si sare la meniu
             }
             std::cin.ignore(); // de la ENTER
-            std::cout << "Nume: "; std::cin.getline(nume, 100);
+            std::cout << "Nume: "; std::cin>>nume;
             std::cout <<"Email: "; std::cin>>email;
             std::cout <<"Loc: "; std::cin>>loc;
             std::cout <<"Clasa: "; std::cin>>clasa;

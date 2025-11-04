@@ -12,26 +12,20 @@ const double Bilet::TAXA_AEROPORT = 15.75;
 */
 
 // Constructor Default
-Bilet::Bilet() {
-    this->loc = "N/A";
-    this->tipClasa = "N/A";
-    this->pretBaza = 0.0;
-    this->discountProcent = 0;
-    this->biletID = counterID++; //generam ID unic
+Bilet::Bilet()
+    : loc("N/A"),
+      tipClasa("N/A"),
+      pretBaza(0.0),
+      discountProcent(0),
+      biletID(counterID++) {
 }
 
-// Constructor cu parametri
-Bilet::Bilet(const std::string& Loc, const std::string& tipClasa, double pretBaza) {
-    this->loc = Loc;
-    this->tipClasa = tipClasa;
-    this->pretBaza = pretBaza;
-    this->discountProcent = 0;
-
-    if (pretBaza < 0) {
-        this->pretBaza = 0;
-    }
-
-    this->biletID = counterID++;
+Bilet::Bilet(const std::string& Loc, const std::string& tipClasa, double pretBaza)
+    : loc(Loc),
+      tipClasa(tipClasa),
+      pretBaza(pretBaza >= 0 ? pretBaza : 0.0),
+      discountProcent(0),
+      biletID(counterID++) {
 }
 
 // Functie privata

@@ -5,11 +5,11 @@
 #include <cctype>
 
 
-Zbor::Zbor() {
-    this->numarZbor = "N/A";
-    this->destinatie = "N/A";
-    this->poarta = "N/A";
-    this->capacitateMaxima = 0;
+Zbor::Zbor()
+    : numarZbor("N/A"),
+      destinatie("N/A"),
+      poarta("N/A"),
+      capacitateMaxima(0) {
 }
 
 Zbor::Zbor(const std::string& numarZbor, const std::string& destinatie, const std::string& poarta, int capacitateMaxima) {
@@ -44,7 +44,6 @@ bool Zbor::estePoartaValida(const std::string& poartaNoua) const {
 std::string Zbor::getNumarZbor()const{return this->numarZbor;}
 int Zbor::getLocuriOcupate()const{return this->listaPasageri.size();}
 size_t Zbor::getCapacitateMaxima() const {return this->capacitateMaxima;}
-
 
 void Zbor::setPoarta(const std:: string& nouaPoarta) {
     if (this-> estePoartaValida(nouaPoarta)) {

@@ -2,15 +2,15 @@
 #include <iostream>
 #include <iomanip>
 
-CompanieAeriana::CompanieAeriana() {
-    this->numeCompanie = "Companie Anonima";
+CompanieAeriana::CompanieAeriana()
+    : numeCompanie("Companie Anonima") {
 }
 
-CompanieAeriana::CompanieAeriana(const std::string &nume) {
-    this->numeCompanie = nume;
+CompanieAeriana::CompanieAeriana(const std::string& nume)
+    : numeCompanie(nume) {
 }
 
-bool CompanieAeriana::esteZborDuplicat(const std::string &numarZbor) const {
+bool CompanieAeriana::esteZborDuplicat(const std::string& numarZbor) const {
     size_t nrTotalZboruri = this->flotaZboruri.size();
     for (size_t i = 0; i < nrTotalZboruri; i++) {
         if (this->flotaZboruri[i].getNumarZbor() == numarZbor) {
@@ -20,7 +20,7 @@ bool CompanieAeriana::esteZborDuplicat(const std::string &numarZbor) const {
     return false;
 }
 
-void CompanieAeriana::adaugaZbor(const Zbor &z) {
+void CompanieAeriana::adaugaZbor(const Zbor& z) {
 
     if (!this->esteZborDuplicat(z.getNumarZbor())) {
         this->flotaZboruri.push_back(z);
@@ -30,7 +30,7 @@ void CompanieAeriana::adaugaZbor(const Zbor &z) {
 }
 
 // nu e void pt ca vreau sa am detaliile zborului ca sa-l pot adauga
-Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string &numarZbor) {
+Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {
     size_t nrTotalZboruri = this->flotaZboruri.size();
     for (size_t i = 0; i < nrTotalZboruri; ++i) {
         if (this->flotaZboruri[i].getNumarZbor() == numarZbor) {
@@ -41,7 +41,7 @@ Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string &numarZbor) {
 }
 
 
-std::ostream &operator<<(std::ostream &COUT, const CompanieAeriana &c) {
+std::ostream& operator<<(std::ostream& COUT, const CompanieAeriana& c) {
     COUT << "COMPANIE: " << c.numeCompanie << "\n";
     COUT << "FLOTA DE ZBORURI (" << c.flotaZboruri.size() << "):\n";
 

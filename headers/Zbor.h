@@ -16,23 +16,17 @@ private:
 
 public:
 
-    //Constructori
     Zbor();
     Zbor(const std::string& numarZbor, const std::string& destinatie, const std::string& poarta, int capacitateMaxima);
 
-    //Destructor
     virtual ~Zbor();
 
-    //Getters
     std::string getNumarZbor() const;
     int getLocuriOcupate() const;
     size_t getCapacitateMaxima() const;
 
-
-    //Setters
     void setPoarta(const std::string& nouaPoarta);
 
-    //Functii
     bool adaugaPasager(const Pasager& p);
     double calculeazaIncasariTotale() const;
     Pasager* cautaPasagerDupaNume(const std::string &nume);
