@@ -43,10 +43,21 @@ void populareDate(CompanieAeriana& companie) {
             fin >> loc >> tipClasa >> pretBaza >> discount;
             fin.ignore();
 
-            Bilet bilet(loc, tipClasa, pretBaza);
+            Bilet* bilet = nullptr;
+        	// Cream biletul in functie de clasa
+        	if (tipClasa == "Economic") {
+        		bilet = new BiletEconomic(loc, pretBaza);
+        	} else if (tipClasa == "Business") {
+        		bilet = new BiletBusiness(loc, pretBaza);
+        	} else if (tipClasa == "FirstClass") {
+        		bilet = new BiletFirstClass(loc, pretBaza);
+        	} else {
+        		std::cerr << "Clasa necunoscuta: " << tipClasa << ", se foloseste Economic\n";
+        		bilet = new BiletEconomic(loc, pretBaza);
+        	}
 
             if (discount > 0) {
-                bilet.aplicaDiscount(discount);
+                bilet->aplicaDiscount(discount);
             }
 
             Pasager pasager(nume, email, bilet);
@@ -98,7 +109,6 @@ int main() {
 
             Zbor z(numar, destinatie, poarta, cap);
             companie.adaugaZbor(z);
-            std::cout << "Zbor adaugat cu succes!\n";
         }
         if (optiune == 3) {
             std::string numar;
@@ -122,14 +132,33 @@ int main() {
                 continue; // opreste executia lui while si sare la meniu
             }
             std::cin.ignore(); // de la ENTER
-            std::cout << "Nume: "; std::cin>>nume;
+            std::cout << "Nume: "; std::getline(std::cin, nume);
             std::cout <<"Email: "; std::cin>>email;
             std::cout <<"Loc: "; std::cin>>loc;
             std::cout <<"Clasa: "; std::cin>>clasa;
             std::cout <<"Pret: "; std::cin>>pret;
 
-            Bilet b(loc, clasa, pret);
-            Pasager p(nume, email, b);
+        	Bilet* bilet = nullptr;
+
+        	if (clasa == "Economic") {
+        		bilet = new BiletEconomic(loc, pret);
+        	} else if (clasa == "Business") {
+        		bool accesLounge;
+        		std::cout << "Acces lounge (1-DA/0-NU): ";
+        		std::cin >> accesLounge;
+        		bilet = new BiletBusiness(loc, pret, accesLounge);
+        	} else if (clasa == "FirstClass") {
+        		bool servireMasa, prioritate;
+        		std::cout << "Servire masa (1-DA/0-NU): ";
+        		std::cin >> servireMasa;
+        		std::cout << "Prioritate imbarcare (1-DA/0-NU): ";
+        		std::cin >> prioritate;
+        		bilet = new BiletFirstClass(loc, pret, servireMasa, prioritate);
+        	} else {
+        		std::cerr << "Clasa necunoscuta, se foloseste Economic\n";
+        		bilet = new BiletEconomic(loc, pret);
+        	}
+            Pasager p(nume, email, bilet);
             if (z->adaugaPasager(p)) {
                 std::cout << "Pasager adaugat cu succes!\n";
             } else {
@@ -176,9 +205,13 @@ int main() {
             }
 
             std::cout <<"Discount (0-80): "; std::cin >> discount;
-            Bilet b = p->getBilet();
-            b.aplicaDiscount(discount);
-            p->setBilet(b);
+            const Bilet* biletVechi = p->getBilet();
+        	if (biletVechi != nullptr) {
+        		Bilet* biletNou = biletVechi->clone();
+        		biletNou->aplicaDiscount(discount);
+        		p->setBilet(biletNou);
+        		delete biletNou;
+        	}
         }
         if (optiune == 7) {
             std::string numar, poarta;
@@ -215,9 +248,14 @@ int main() {
             }
 
             std::cout <<"Loc nou: "; std::cin>>loc;
-            Bilet b = p->getBilet();
-            b.setLoc(loc);
-            p->setBilet(b);
+
+        	const Bilet* biletVechi = p->getBilet();
+        	if (biletVechi != nullptr) {
+        		Bilet* biletNou = biletVechi->clone();
+        		biletNou->setLoc(loc);
+        		p->setBilet(biletNou);
+        		delete biletNou;
+        	}
 
             std::cout <<"Locul modificat cu succes!\n";
         }
@@ -254,7 +292,7 @@ int main() {
                 continue;
             }
 
-            if (p->getBilet().isWindowSeat()) {
+            if (p->getBilet() && p->getBilet()->isWindowSeat()) {
                 std::cout<<"DA, este loc la geam!\n";
             } else {
                 std::cout<<"NU, nu este loc la geam!\n";

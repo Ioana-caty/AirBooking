@@ -12,12 +12,8 @@ Zbor::Zbor()
       capacitateMaxima(0) {
 }
 
-Zbor::Zbor(const std::string& numarZbor, const std::string& destinatie, const std::string& poarta, int capacitateMaxima) {
-    this->numarZbor = numarZbor;
-    this->destinatie = destinatie;
-    this->poarta = poarta;
-    this->capacitateMaxima = capacitateMaxima;
-}
+Zbor::Zbor(const std::string& nrz, const std::string& destinatie, const std::string& p, int c)
+	: numarZbor(nrz), destinatie(destinatie), poarta(p), capacitateMaxima(c) {}
 
 Zbor::~Zbor() { }
 
@@ -41,9 +37,9 @@ bool Zbor::estePoartaValida(const std::string& poartaNoua) const {
     return true;
 }
 
-std::string Zbor::getNumarZbor()const{return this->numarZbor;}
-int Zbor::getLocuriOcupate()const{return this->listaPasageri.size();}
-size_t Zbor::getCapacitateMaxima() const {return this->capacitateMaxima;}
+std::string Zbor::getNumarZbor()const { return this->numarZbor; }
+int Zbor::getLocuriOcupate()const { return this->listaPasageri.size(); }
+size_t Zbor::getCapacitateMaxima() const { return this->capacitateMaxima; }
 
 void Zbor::setPoarta(const std:: string& nouaPoarta) {
     if (this-> estePoartaValida(nouaPoarta)) {
@@ -72,7 +68,7 @@ bool Zbor::adaugaPasager(const Pasager& p) {
 double Zbor::calculeazaIncasariTotale()const {
     double total = 0.0;
     for (size_t i = 0; i < this->listaPasageri.size(); i++) {
-        total += this->listaPasageri[i].getBilet().getPretFinal();
+        total += this->listaPasageri[i].getBilet()->getPretFinal();
     }
     return total;
 }

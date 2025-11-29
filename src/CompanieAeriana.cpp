@@ -2,12 +2,10 @@
 #include <iostream>
 #include <iomanip>
 
-CompanieAeriana::CompanieAeriana()
-    : numeCompanie("Companie Anonima") {
+CompanieAeriana::CompanieAeriana() : numeCompanie("Companie Anonima") {
 }
 
-CompanieAeriana::CompanieAeriana(const std::string& nume)
-    : numeCompanie(nume) {
+CompanieAeriana::CompanieAeriana(const std::string& nume) : numeCompanie(nume) {
 }
 
 bool CompanieAeriana::esteZborDuplicat(const std::string& numarZbor) const {
