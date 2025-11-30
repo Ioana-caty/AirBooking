@@ -64,7 +64,7 @@ double Zbor::calculeazaIncasariTotale()const {
 }
 
 Pasager* Zbor::cautaPasagerDupaNume(const std::string& nume){
-   for (const auto& pasager : this->listaPasageri) {
+   for (auto& pasager : this->listaPasageri) {
 	   if (pasager.getNume() == nume) {
 		   return &pasager;
 	   }

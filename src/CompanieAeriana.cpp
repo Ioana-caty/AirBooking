@@ -25,7 +25,7 @@ void CompanieAeriana::adaugaZbor(const Zbor& z) {
 }
 // nu e void pt ca vreau sa am detaliile zborului ca sa-l pot adauga
 Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {
-    for (const auto& zbor : flotaZboruri) {
+    for (auto& zbor : flotaZboruri) {
         if (zbor.getNumarZbor() == numarZbor) {
             return &zbor;
         }
@@ -40,7 +40,7 @@ std::ostream& operator<<(std::ostream& COUT, const CompanieAeriana& c) {
     if (c.flotaZboruri.empty() == true) {
         COUT << "Niciun zbor inregistrat\n";
     } else {
-        for (auto& zbor : c.flotaZboruri) {
+        for (const auto& zbor : c.flotaZboruri) {
             COUT << zbor << "\n";
         }
     }
