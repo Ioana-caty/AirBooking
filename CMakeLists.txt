@@ -58,6 +58,9 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         src/Zbor.cpp
         headers/CompanieAeriana.h
         src/CompanieAeriana.cpp
+        Pattern/BiletFactory.h
+        input/populareDate.cpp
+        input/populareDate.h
 )
 
 target_include_directories(${MAIN_EXECUTABLE_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/inc)

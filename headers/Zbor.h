@@ -13,6 +13,7 @@ private:
     size_t capacitateMaxima;
 
     bool estePoartaValida(const std::string& poartaNoua) const;
+	bool exitaPasager(const std::string& nume) const;
 
 public:
 

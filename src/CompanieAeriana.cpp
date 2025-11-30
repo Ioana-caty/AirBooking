@@ -34,14 +34,17 @@ Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {
 }
 
 std::ostream& operator<<(std::ostream& COUT, const CompanieAeriana& c) {
+
+	COUT << "==============================================================================================\n";
     COUT << "COMPANIE: " << c.numeCompanie << "\n";
     COUT << "FLOTA DE ZBORURI (" << c.flotaZboruri.size() << "):\n";
+	COUT << "==============================================================================================\n";
 
     if (c.flotaZboruri.empty() == true) {
         COUT << "Niciun zbor inregistrat\n";
     } else {
         for (const auto& zbor : c.flotaZboruri) {
-            COUT << zbor << "\n";
+            COUT << zbor << "\n\n";
         }
     }
     return COUT;

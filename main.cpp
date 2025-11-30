@@ -1,324 +1,212 @@
-#include <iostream>
-#include <iomanip>
-#include <fstream>
 #include "headers/Bilet.h"
 #include "headers/Pasager.h"
 #include "headers/Zbor.h"
 #include "headers/CompanieAeriana.h"
-
-void populareDate(CompanieAeriana& companie) {
-    std::cout << "---POPULARE DATE---\n";
-
-    const std::string FISIER_DATE = "tastatura.txt";
-    std::ifstream fin(FISIER_DATE);
-
-    if (!fin.is_open()) {
-        std::cerr << "EROARE: Nu s-a putut deschide fisierul tastatura.txt\n";
-        return;
-    }
-
-    int numarzboruri;
-    fin >> numarzboruri;
-    fin.ignore();
-
-    for (int i = 0; i < numarzboruri; i++) {
-        std::string codZbor, destinatie, poarta;
-        int capacitateMaxima;
-
-        fin >> codZbor >> destinatie >> poarta >> capacitateMaxima;
-        fin.ignore();
-
-        Zbor zbor(codZbor, destinatie, poarta, capacitateMaxima);
-
-        int numarPasageri;
-        fin >> numarPasageri;
-        fin.ignore();
-
-        for (int j = 0; j < numarPasageri; j++) {
-            std::string nume, email, loc, tipClasa;
-            double pretBaza, discount;
-
-            std::getline(fin, nume);
-            std::getline(fin, email);
-            fin >> loc >> tipClasa >> pretBaza >> discount;
-            fin.ignore();
-
-            Bilet* bilet = nullptr;
-        	// Cream biletul in functie de clasa
-        	if (tipClasa == "Economic") {
-        		bilet = new BiletEconomic(loc, pretBaza);
-        	} else if (tipClasa == "Business") {
-        		bilet = new BiletBusiness(loc, pretBaza);
-        	} else if (tipClasa == "FirstClass") {
-        		bilet = new BiletFirstClass(loc, pretBaza);
-        	} else {
-        		std::cerr << "Clasa necunoscuta: " << tipClasa << ", se foloseste Economic\n";
-        		bilet = new BiletEconomic(loc, pretBaza);
-        	}
-
-            if (discount > 0) {
-                bilet->aplicaDiscount(discount);
-            }
-
-            Pasager pasager(nume, email, bilet);
-            zbor.adaugaPasager(pasager);
-        }
-
-        companie.adaugaZbor(zbor);
-    }
-
-    fin.close();
-    std::cout << "S-au implementat datele din fisier!\n";
-}
+#include "input/populareDate.h"
+#include "Pattern/BiletFactory.h"
+#include <iostream>
+#include <iomanip>
+#include <fstream>
 
 int main() {
-    CompanieAeriana companie("Wizz");
-    populareDate(companie);
+	CompanieAeriana companie("Wizz");
+	populareDate(companie);
 
-    int optiune;
-    while (true) {
-        std::cout << "\n---MENIU---\n";
-        std::cout << "1. Afiseaza date companie\n";
-        std::cout << "2. Adauga zbor\n";
-        std::cout <<"3. Cauta zbor\n";
-        std::cout <<"4. Adauga pasager\n";
-        std::cout <<"5. Cauta pasager\n";
-        std::cout <<"6 Aplica discount\n";
-        std::cout <<"7. Modifica poarta\n";
-        std::cout <<"8 Modifica loc bilet\n";
-        std::cout <<"9 Calculeaza incasari\n";
-        std::cout <<"10 Verifica loc geam\n";
-        std::cout <<"11 Verifica daca zborul este plin\n";
-        std::cout << "0. Iesire\n";
-        std::cout <<"Optiune: ";
-        std::cin >> optiune;
+	int optiune;
+	while (true) {
+		std::cout << "\n---MENIU---\n";
+		std::cout << "1. Afiseaza date companie\n";
+		std::cout << "2. Adauga zbor\n";
+		std::cout << "3. Cauta zbor\n";
+		std::cout << "4. Adauga pasager\n";
+		std::cout << "5. Cauta pasager (nume)\n";
+		std::cout << "6. Modifica poarta\n";
+		std::cout << "7. Modifica loc bilet\n";
+		std::cout << "8. Calculeaza incasari\n";
+		std::cout << "9. Verifica loc geam\n";
+		std::cout << "10. Verifica daca zborul este plin\n";
+		std::cout <<"0. Optiune: ";
+		std::cin >> optiune;
 
-        if (optiune == 0) {
-            break;
-        }
-        if (optiune == 1) {
-            std::cout << "\n" << companie << "\n";
-        }
-        if (optiune == 2) {
-            std::string numar, destinatie, poarta;
-            int cap;
-            std::cout <<"Numar zbor: "; std::cin >> numar;
-            std::cout <<"Destinatie: "; std::cin >> destinatie;
-            std::cout <<"Poarta: "; std::cin >> poarta;
-            std::cout <<"Capacitate: "; std::cin >> cap;
+		if (optiune == 0) {
+			break;
+		}
 
-            Zbor z(numar, destinatie, poarta, cap);
-            companie.adaugaZbor(z);
-        }
-        if (optiune == 3) {
-            std::string numar;
-            std::cout <<"Numar zbor: "; std::cin >> numar;
+		if (optiune == 1) {
+			std::cout << "\n" << companie << "\n";
+		}
+		if (optiune == 2) {
+			std::string numar, destinatie, poarta;
+			int capacitateMax;
+			std::cout << "Numar zbor: "; std::cin >> numar;
+			std::cout << "Destinatie: "; std::cin >> destinatie;
+			std::cout << "Poarta: "; std::cin >> poarta;
+			std::cout << "Capacitate: "; std::cin >> capacitateMax;
 
-            const Zbor *z = companie.cautaZborDupaNumar(numar);
-            if (z) {
-                std::cout << "\n" << *z << "\n";
-            } else {
-                std::cerr << "\nZbor negasit!\n";
-            }
-        }
-        if (optiune == 4) {
-            std::string numar, email, loc, clasa, nume;
-            double pret;
+			Zbor zbor(numar, destinatie, poarta, capacitateMax);
+			companie.adaugaZbor(zbor);
+		}
+		if (optiune == 3) {
+			std::string numar;
+			std::cout << "Numar zbor: "; std::cin >> numar;
 
-            std::cout <<"Numar zbor: "; std::cin >> numar;
-            Zbor *z = companie.cautaZborDupaNumar(numar);
-            if (!z) {
-                std::cerr << "Zbor negasit!\n";
-                continue; // opreste executia lui while si sare la meniu
-            }
-            std::cin.ignore(); // de la ENTER
-            std::cout << "Nume: "; std::getline(std::cin, nume);
-            std::cout <<"Email: "; std::cin>>email;
-            std::cout <<"Loc: "; std::cin>>loc;
-            std::cout <<"Clasa: "; std::cin>>clasa;
-            std::cout <<"Pret: "; std::cin>>pret;
+			const Zbor* z = companie.cautaZborDupaNumar(numar);
+			if (z) {
+				std::cout << "\n" << *z << "\n";
+			} else {
+				std::cerr << "\nZbor negasit!\n";
+			}
+		}
+		if (optiune == 4) {
+			std::string numar, email, loc, clasa, nume;
+			double pret;
+			int discount;
 
-        	Bilet* bilet = nullptr;
+			std::cout << "Numar zbor: ";
+			std::cin >> numar;
+			std::cin.ignore(); // pentru ENTER
 
-        	if (clasa == "Economic") {
-        		bilet = new BiletEconomic(loc, pret);
-        	} else if (clasa == "Business") {
-        		bool accesLounge;
-        		std::cout << "Acces lounge (1-DA/0-NU): ";
-        		std::cin >> accesLounge;
-        		bilet = new BiletBusiness(loc, pret, accesLounge);
-        	} else if (clasa == "FirstClass") {
-        		bool servireMasa, prioritate;
-        		std::cout << "Servire masa (1-DA/0-NU): ";
-        		std::cin >> servireMasa;
-        		std::cout << "Prioritate imbarcare (1-DA/0-NU): ";
-        		std::cin >> prioritate;
-        		bilet = new BiletFirstClass(loc, pret, servireMasa, prioritate);
-        	} else {
-        		std::cerr << "Clasa necunoscuta, se foloseste Economic\n";
-        		bilet = new BiletEconomic(loc, pret);
-        	}
-            Pasager p(nume, email, bilet);
-            if (z->adaugaPasager(p)) {
-                std::cout << "Pasager adaugat cu succes!\n";
-            } else {
-                std::cerr << "Pasagerul " << p.getNume() << " NU a putut fi adaugat.\n";
-            }
-        }
-        if (optiune == 5) {
-            std::string numar;
-            char nume[100];
-            std::cout <<"Numar zbor: "; std::cin >> numar;
+			Zbor* z = companie.cautaZborDupaNumar(numar);
+			if (!z) {
+				std::cerr << "Zbor negasit!\n";
+				continue; // opreste executia lui while si sare la meniu
+			}
 
-            Zbor* z = companie.cautaZborDupaNumar(numar);
-            if (!z) {
-                std::cerr << "Zbor negasit!\n";
-                continue;
-            }
-            std::cin.ignore(); //ENTER
-            std::cout << "Nume: "; std::cin.getline(nume, 100);
-            const Pasager* p = z->cautaPasagerDupaNume(nume);
-            if (p) {
-                std::cout << "\n" << *p << "\n";
-            } else {
-                std::cerr << "\nPasager negasit!\n";
-            }
-        }
-        if (optiune == 6) {
-            std::string numar;
-            char nume[100];
-            int discount;
+			std::cout << "Nume: "; std::getline(std::cin, nume);
+			std::cout << "Email: "; std::cin >> email;
+			std::cout << "Loc: "; std::cin >> loc;
+			std::cout << "Tip clasa: "; std::cin >> clasa;
+			std::cout << "Pret: "; std::cin >> pret;
+			std::cout << "Discount: "; std::cin >> discount;
 
-            std::cout <<"Numar zbor: "; std::cin >> numar;
-            Zbor* z = companie.cautaZborDupaNumar(numar);
-            if (!z) {
-                std::cerr << "Zbor negasit!\n";
-                continue;
-            }
+			Bilet* bilet = BiletFactory::creeazaBilet(clasa, loc, pret, discount);
 
-            std::cin.ignore(); //ENTER
-            std::cout << "Nume: "; std::cin.getline(nume, 100);
-            Pasager* p = z->cautaPasagerDupaNume(nume);
-            if (!p) {
-                std::cerr << "Pasager negasit!\n";
-                continue;
-            }
+			Pasager p(nume, email, bilet);
+			if (z->adaugaPasager(p)) {
+				std::cout << "Pasager adaugat cu succes!\n";
+			} else {
+				std::cerr << "Pasagerul nu a putut fi adaugat.\n";
+				continue;
+			}
+		}
+		if (optiune == 5) {
+			std::string numar, nume;
+			std::cout << "Numar zbor: "; std::cin>>numar;
+			std::cin.ignore();
 
-            std::cout <<"Discount (0-80): "; std::cin >> discount;
-            const Bilet* biletVechi = p->getBilet();
-        	if (biletVechi != nullptr) {
-        		Bilet* biletNou = biletVechi->clone();
-        		biletNou->aplicaDiscount(discount);
-        		p->setBilet(biletNou);
-        		delete biletNou;
-        	}
-        }
-        if (optiune == 7) {
-            std::string numar, poarta;
-            std::cout <<"Numar zbor: "; std::cin >> numar;
+			Zbor *z = companie.cautaZborDupaNumar(numar);
+			if (!z) {
+				std::cerr << "Zbor negasit!\n";
+				continue;
+			}
+			std::cout << "Nume: "; std::getline(std::cin, nume);
+			const Pasager* p = z->cautaPasagerDupaNume(nume);
+			if (p) {
+				std::cout << "\n" << *p << "\n";
+			} else {
+				std::cerr << "\nPasager negasit!\n";
+			}
+		}
+		if (optiune == 6) {
+			std::string numar, poarta;
+			std::cout << "Numar zbor: "; std::cin >> numar;
 
-            Zbor* z = companie.cautaZborDupaNumar(numar);
-            if (!z) {
-                std::cerr << "Zbor negasit!\n";
-                continue;
-            }
+			Zbor* z = companie.cautaZborDupaNumar(numar);
+			if (!z) {
+				std::cerr << "Zbor negasit!\n";
+				continue;
+			}
 
-            std::cin.ignore(); //ENTER
-            std::cout <<"Poarta noua: "; std::cin >> poarta;
-            z->setPoarta(poarta);
-            std::cout <<"Poarta modificata cu succes!";
-        }
-        if (optiune == 8) {
-            std::string numar, loc;
-            char nume[100];
+			std::cout << "Poarta noua: "; std::cin >> poarta;
+			z->setPoarta(poarta);
+			std::cout <<"Poarta modificata cu succes!\n";
+		}
+		if (optiune == 7) {
+			std::string numar, nume, loc;
+			std::cout << "Numar zbor: "; std::cin >> numar;
+			std::cin.ignore();
 
-            std::cout <<"Numar zbor: "; std::cin >> numar;
-            Zbor* z = companie.cautaZborDupaNumar(numar);
-            if (!z) {
-                std::cerr << "Zbor negasit!\n";
-                continue;
-            }
+			Zbor* z = companie.cautaZborDupaNumar(numar);
+			if (!z) {
+				std::cerr << "Zbor negasit!\n";
+				continue;
+			}
 
-            std::cin.ignore(); //ENTER
-            std::cout << "Nume: "; std::cin.getline(nume, 100);
-            Pasager*p = z->cautaPasagerDupaNume(nume);
-            if (!p) {
-                std::cerr << "Pasager negasit!\n";
-                continue;
-            }
+			std::cout << "Nume: "; std::getline(std::cin, nume);
+			Pasager* p = z->cautaPasagerDupaNume(nume);
+			if (!p) {
+				std::cerr << "Pasager negasit!\n";
+				continue;
+			}
 
-            std::cout <<"Loc nou: "; std::cin>>loc;
+			std::cout << "Loc nou: "; std::cin >> loc;
 
-        	const Bilet* biletVechi = p->getBilet();
-        	if (biletVechi != nullptr) {
-        		Bilet* biletNou = biletVechi->clone();
-        		biletNou->setLoc(loc);
-        		p->setBilet(biletNou);
-        		delete biletNou;
-        	}
+			const Bilet* biletVechi = p->getBilet();
+			if (biletVechi != nullptr) {
+				Bilet* biletNou = biletVechi->clone();
+				biletNou->setLoc(loc);
+				p->setBilet(biletNou);
+				delete biletNou;
+			}
 
-            std::cout <<"Locul modificat cu succes!\n";
-        }
-        if (optiune == 9) {
-            std::string numar;
-            std::cout <<"Numar zbor: "; std::cin >> numar;
+			std::cout << "Locul modificat cu succes!\n";
+		}
+		if (optiune == 8) {
+			std::string numar;
+			std::cout << "Numar zbor: "; std::cin >> numar;
 
-            const Zbor* z = companie.cautaZborDupaNumar(numar);
-            if (!z) {
-                std::cerr << "Zbor negasit!\n";
-                continue;
-            }
+			const Zbor *z = companie.cautaZborDupaNumar(numar);
+			if (!z) {
+				std::cerr << "Zbor negasit!\n";
+				continue;
+			}
 
-            std::cout   << "Incasari: "
-                        << std::fixed << std::setprecision(2)
-                        << z->calculeazaIncasariTotale() << " EUR\n";
-        }
-        if (optiune == 10) {
-            std::string numar;
-            char nume[100];
+			std::cout   << "Incasari: " << std::fixed << std::setprecision(2)
+						<< z->calculeazaIncasariTotale() << " EUR\n";
+		}
+		if (optiune == 9) {
+			std::string numar, nume;
+			std::cout << "Numar zbor: "; std::cin >> numar;
+			std::cin.ignore();
 
-            std::cout <<"Numar zbor: "; std::cin >> numar;
-            Zbor* z = companie.cautaZborDupaNumar(numar);
-            if (!z) {
-                std::cerr << "Zbor negasit!\n";
-                continue;
-            }
+			Zbor* z = companie.cautaZborDupaNumar(numar);
+			if (!z) {
+				std::cerr <<"Zbor negasit!\n";
+				continue;
+			}
 
-            std::cin.ignore(); //ENTER
-            std::cout << "Nume: "; std::cin.getline(nume, 100);
-            const Pasager* p = z->cautaPasagerDupaNume(nume);
-            if (!p) {
-                std::cerr << "Pasager negasit!\n";
-                continue;
-            }
+			std::cout << "Nume: "; std::getline(std::cin, nume);
+			Pasager* p = z->cautaPasagerDupaNume(nume);
+			if (!p) {
+				std::cerr << "Pasager negasit!\n";
+				continue;
+			}
 
-            if (p->getBilet() && p->getBilet()->isWindowSeat()) {
-                std::cout<<"DA, este loc la geam!\n";
-            } else {
-                std::cout<<"NU, nu este loc la geam!\n";
-            }
-        }
-        if (optiune == 11) {
-            std::string numar;
-            std::cout <<"Numar zbor: "; std::cin >> numar;
+			if (p->getBilet() && p->getBilet()->isWindowSeat()) {
+				std::cout << "DA, este loc la geam!\n";
+			} else {
+				std::cout << "NU, nu este loc la geam!\n";
+			}
+		}
+		if (optiune == 10) {
+			std::string numar;
+			std::cout << "Numar zbor: "; std::cin >> numar;
 
-            const Zbor* z = companie.cautaZborDupaNumar(numar);
-            if (!z) {
-                std::cerr << "Zbor negasit!\n";
-                continue;
-            }
+			const Zbor* z = companie.cautaZborDupaNumar(numar);
+			if (!z) {
+				std::cerr << "Zbor negasit!\n";
+				continue;
+			}
 
-            if (z->isFull()) {
-                std::cout   <<"Zborul este PLIN ("
-                            << z->getLocuriOcupate() << "/" << z->getCapacitateMaxima() << ")\n";
-            } else {
-                int disponibile = z->getCapacitateMaxima() - z->getLocuriOcupate();
-                std::cout   <<"Zborul are locuri disponibile:" << disponibile << " locuri ramase ("
-                            << z->getLocuriOcupate() << "/" << z->getCapacitateMaxima() << ")\n";
-            }
-        }
-    }
-    std::cout << "\nLA REVEDERE! SA AVETI O ZI BUNA!\n";
-
-
+			if (z->isFull()) {
+				std::cout	<< "Zborul este PLIN (" << z->getLocuriOcupate()
+							<< "/" << z->getCapacitateMaxima() << ")\n";
+			} else {
+				int disponibile = z->getCapacitateMaxima() - z->getLocuriOcupate();
+				std::cout << "Zborul are " << disponibile << " locuri ramase ("
+						 << z->getLocuriOcupate() << "/" << z->getCapacitateMaxima() << ")\n";
+			}
+		}
+	}
+	std::cout << "\nLA REVEDERE! SA AVETI O ZI BUNA!\n";
 }

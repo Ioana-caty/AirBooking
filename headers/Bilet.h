@@ -16,18 +16,19 @@ protected:
 
 public:
     Bilet();
-    Bilet(const std::string& Loc, double pretBaza);
+    Bilet(const std::string& Loc, double pretBaza, int discountProcent);
 
 	Bilet(const Bilet& other);
 	Bilet& operator=(const Bilet& other);
 
-    void setLoc(const std::string& nouLoc);
-    void aplicaDiscount(int procent);
-    bool isWindowSeat() const;
-
 	// int getBiletID() const { return biletID; }
 	// std::string getLoc() const { return loc; }
 	// double getPretBaza() const { return pretBaza; }
+
+    void setLoc(const std::string& nouLoc);
+
+
+    bool isWindowSeat() const;
 
 	virtual double getPretFinal() const = 0;
 	virtual std::string getTipClasa() const = 0;
@@ -37,32 +38,33 @@ public:
     friend std::ostream& operator<<(std::ostream& COUT, const Bilet& b);
 };
 
-
+// DERIVATA1 : BILET ECONOMIC
 class BiletEconomic : public Bilet {
 private:
 	static const double TAXA_EXTRA;
 public:
 	BiletEconomic();
-	BiletEconomic(const std::string& Loc, double pretBaza);
+	BiletEconomic(const std::string& Loc, double pretBaza, int discountProcent);
 
-	virtual double getPretFinal() const override;
-	virtual std::string getTipClasa() const override;
-	virtual Bilet* clone() const override;
+	double getPretFinal() const override;
+	std::string getTipClasa() const override;
+	Bilet* clone() const override;
 
 	~BiletEconomic() override;
 };
 
+// DERIVATA2 : BILET BUSINESS
 class BiletBusiness : public Bilet {
 private:
 	static const double TAXA_CONFORT;
 	bool accesLounge;
 public:
 	BiletBusiness();
-	BiletBusiness(const std::string& Loc, double pretBaza, bool accesLounge = true);
+	BiletBusiness(const std::string& Loc, double pretBaza, int discountProcent, bool accesLounge = true);
 
-	virtual double getPretFinal() const override;
-	virtual std::string getTipClasa() const override;
-	virtual Bilet* clone() const override;
+	double getPretFinal() const override;
+	std::string getTipClasa() const override;
+	Bilet* clone() const override;
 
 	// bool getAccesLounge() const { return accesLounge; }
 	// void setAccesLounge(bool acces) { accesLounge = acces; }
@@ -78,12 +80,12 @@ private:
 	bool prioritateImbracare;
 public:
 	BiletFirstClass();
-	BiletFirstClass(const std::string& Loc, double pretBaza,
+	BiletFirstClass(const std::string& Loc, double pretBaza, int discountProcent,
 					bool servireMasa = true, bool prioritateImbarcare = true);
 
-	virtual double getPretFinal() const override;
-	virtual std::string getTipClasa() const override;
-	virtual Bilet* clone() const override;
+	double getPretFinal() const override;
+	std::string getTipClasa() const override;
+	Bilet* clone() const override;
 
 	// bool getServireMasa() const { return servireMasa; }
 	// bool getPrioritateImbarcare() { return prioritateImbracare; }

@@ -4,19 +4,13 @@
 int Pasager::counterID = 0;
 
 Pasager::Pasager(const std::string& nume, const std::string& Email, Bilet* biletNou)
-    : nume(nume),
-      email(Email),
-      pasagerID(counterID++),
-      bilet(biletNou) {
-} // !!!!!!!!!!
+					: nume(nume), email(Email), pasagerID(counterID++), bilet(biletNou) {}
 
-Pasager::Pasager() : nume("not_specified"), email("none@gmail.com"),
-					 pasagerID(counterID++), bilet(nullptr) {}
+Pasager::Pasager()	: nume("not_specified"), email("none@gmail.com"), pasagerID(counterID++), bilet(nullptr) {}
 
-
-Pasager::Pasager(const Pasager& another) : nume(another.nume), email(another.email), pasagerID(another.pasagerID) {
-	if (another.bilet != nullptr) {
-		bilet = another.bilet->clone();
+Pasager::Pasager(const Pasager& other) : nume(other.nume), email(other.email), pasagerID(other.pasagerID) {
+	if (other.bilet != nullptr) {
+		bilet = other.bilet->clone();
 	} else {
 		bilet = nullptr;
 	}
@@ -50,7 +44,7 @@ const Bilet* Pasager::getBilet() const { return this->bilet; }
 void Pasager::setBilet(const Bilet *biletNou) {
 	if (biletNou != nullptr) {
 		delete this->bilet;
-		this->bilet = bilet->clone();
+		this->bilet = biletNou->clone();
 	} else {
 		delete this->bilet;
 		this->bilet = nullptr;
@@ -63,8 +57,8 @@ Pasager::~Pasager() {
 }
 std::ostream& operator<<(std::ostream& COUT, const Pasager& p) {
     COUT    << "Pasager [ID: " << p.pasagerID
-            << ",Nume: " << p.nume
-            << ",Email: " << p.email << "]"
+            << ", Nume: " << p.nume
+            << ", Email: " << p.email << "]"
             << std:: endl;
     if (p.bilet != nullptr) {
 	    COUT << *(p.bilet);

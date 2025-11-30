@@ -12,8 +12,12 @@ const double BiletFirstClass::TAXA_LUXURY = 74.75;
 // BILET:
 Bilet::Bilet() : biletID(counterID++), loc("N/A"), pretBaza(0.0), discountProcent (0.0) {}
 
-Bilet::Bilet(const std::string &Loc, double pretBaza)
-				: biletID(counterID++), loc(Loc), pretBaza(pretBaza >= 0 ? pretBaza : 0.0), discountProcent (0.0) {}
+Bilet::Bilet(const std::string &Loc, double pretBaza, int discountProcent)
+				: biletID(counterID++), loc(Loc), pretBaza(pretBaza >= 0 ? pretBaza : 0.0), discountProcent (0.0) {
+	if (this->discountProcent < 0 || this->discountProcent > 80) {
+		this->discountProcent = 0;
+	}
+}
 
 Bilet::Bilet(const Bilet &other) : biletID(other.biletID), loc(other.loc), pretBaza(other.pretBaza), discountProcent(other.discountProcent) {}
 
@@ -44,16 +48,6 @@ void Bilet::setLoc(const std::string &nouLoc) {
 	}
 }
 
-void Bilet::aplicaDiscount(int procent) {
-	if (procent >= 0 && procent <= 80) {
-		this->discountProcent = procent;
-		std::cout	<< " Discount de " << procent << "% aplicat biletului "
-					<< this->biletID << std::endl;
-	} else {
-		std::cerr << "EROARE: Discountul " << procent << " trebuie sa fie intre 0 si 80!\n";
-	}
-}
-
 bool Bilet::isWindowSeat() const {
 	if (this->loc == "N/A") {
 		return false ;
@@ -79,15 +73,17 @@ std::ostream & operator<<(std::ostream &COUT, const Bilet &b) {
 Bilet::~Bilet() {}
 
 // ECONOMIC:
-
 BiletEconomic::BiletEconomic() :
 	Bilet() {}
-BiletEconomic::BiletEconomic(const std::string &Loc, double pretBaza) :
-	Bilet(Loc, pretBaza) {}
+BiletEconomic::BiletEconomic(const std::string &Loc, double pretBaza, int discountProcent) :
+	Bilet(Loc, pretBaza, discountProcent) {}
 
 double BiletEconomic::getPretFinal() const {
 	const double pretCuTaxe = this->pretBaza + Bilet::TAXA_AEROPORT + BiletEconomic::TAXA_EXTRA;
-	const double discount = pretCuTaxe * (static_cast<double> (this->discountProcent) / 100.0);
+	double discount = 0.0;
+	if (this->discountProcent > 0) {
+		discount = pretCuTaxe * (static_cast<double>(this->discountProcent) / 100.0);
+	}
 	return pretCuTaxe - discount;
 }
 
@@ -100,16 +96,19 @@ BiletEconomic::~BiletEconomic() {}
 BiletBusiness::BiletBusiness() :
 	Bilet(), accesLounge(true) {}
 
-BiletBusiness::BiletBusiness(const std::string &Loc, double pretBaza, bool accesLounge) :
-	Bilet(Loc, pretBaza), accesLounge(accesLounge) {}
+BiletBusiness::BiletBusiness(const std::string &Loc, double pretBaza, int discountProcent, bool accesLounge) :
+	Bilet(Loc, pretBaza, discountProcent), accesLounge(accesLounge) {}
 
 double BiletBusiness::getPretFinal() const {
-	double pretuCuTaxe = this->pretBaza + Bilet::TAXA_AEROPORT + BiletBusiness::TAXA_CONFORT;
+	double pretCuTaxe = this->pretBaza + Bilet::TAXA_AEROPORT + BiletBusiness::TAXA_CONFORT;
 	if (this->accesLounge) {
-		pretuCuTaxe += 20.0;
+		pretCuTaxe += 20.0;
 	}
-	const double discount = pretuCuTaxe + (static_cast<double> (this->discountProcent) / 100.0);
-	return pretuCuTaxe - discount;
+	double discount = 0.0;
+	if (this->discountProcent > 0) {
+		discount = pretCuTaxe * (static_cast<double>(this->discountProcent) / 100.0);
+	}
+	return pretCuTaxe - discount;
 }
 
 std::string BiletBusiness::getTipClasa() const { return "Business"; }
@@ -120,8 +119,8 @@ BiletBusiness::~BiletBusiness() {}
 
 BiletFirstClass::BiletFirstClass() :
 	Bilet(), servireMasa(true), prioritateImbracare(true) {}
-BiletFirstClass::BiletFirstClass(const std::string &Loc, double pretBaza, bool servireMasa, bool prioritateImbarcare) :
-	Bilet(Loc, pretBaza), servireMasa(servireMasa), prioritateImbracare(prioritateImbarcare) {}
+BiletFirstClass::BiletFirstClass(const std::string &Loc, double pretBaza, int discountProcent, bool servireMasa, bool prioritateImbarcare) :
+	Bilet(Loc, pretBaza, discountProcent), servireMasa(servireMasa), prioritateImbracare(prioritateImbarcare) {}
 
 double BiletFirstClass::getPretFinal() const {
 	double pretCuTaxe = this->pretBaza + Bilet::TAXA_AEROPORT + BiletFirstClass::TAXA_LUXURY;
@@ -131,7 +130,10 @@ double BiletFirstClass::getPretFinal() const {
 	if (this->prioritateImbracare) {
 		pretCuTaxe += 25.0;
 	}
-	const double discount = pretCuTaxe + (static_cast<double>(this->discountProcent) / 100);
+	double discount = 0.0;
+	if (this->discountProcent > 0) {
+		discount = pretCuTaxe * (static_cast<double>(this->discountProcent) / 100.0);
+	}
 	return pretCuTaxe - discount;
 }
 

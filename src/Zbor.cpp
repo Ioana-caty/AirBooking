@@ -25,6 +25,15 @@ bool Zbor::estePoartaValida(const std::string& poartaNoua) const {
     return true;
 }
 
+bool Zbor::exitaPasager(const std::string& nume) const {
+	for (const auto& pasager : this->listaPasageri) {
+		if (pasager.getNume() == nume) {
+			return true;
+		}
+	}
+	return false;
+}
+
 std::string Zbor::getNumarZbor()const { return this->numarZbor; }
 int Zbor::getLocuriOcupate()const { return this->listaPasageri.size(); }
 size_t Zbor::getCapacitateMaxima() const { return this->capacitateMaxima; }
@@ -49,6 +58,11 @@ bool Zbor::adaugaPasager(const Pasager& p) {
                     <<").\n";
         return false;
     }
+	if (this->exitaPasager(p.getNume())) {
+		std::cerr	<< "\n!!! EROARE: Pasagerul '" << p.getNume()
+					<< "' a fost deja inregistrat.\n";
+		return false;
+	}
     this->listaPasageri.push_back(p);
     return true;
 }
@@ -78,7 +92,7 @@ std::ostream& operator<<(std::ostream& COUT, const Zbor& z) {
             <<"| DESTINATIE: " << z.destinatie
             <<"| POARTA: " << z.poarta
             <<"| LOCURI: " << z.getLocuriOcupate() << "/" << z.capacitateMaxima << "\n";
-
+	COUT << "----------------------------------------------------------------------------------------------\n";
     COUT    <<"Lista pasageri (" << z.listaPasageri.size() << ")\n";
 
     if (z.listaPasageri.empty()) {
