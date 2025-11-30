@@ -22,10 +22,11 @@ Bilet & Bilet::operator=(const Bilet &other) {
 		return *this;
 	}
 
+	this->biletID = other.biletID;
 	this->loc = other.loc;
 	this->pretBaza = other.pretBaza;
-	this->counterID = other.counterID;
 	this->discountProcent = other.discountProcent;
+	this->counterID = other.counterID;
 
 	return *this;
 }

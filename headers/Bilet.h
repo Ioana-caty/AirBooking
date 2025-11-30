@@ -49,7 +49,7 @@ public:
 	virtual std::string getTipClasa() const override;
 	virtual Bilet* clone() const override;
 
-	~BiletEconomic();
+	~BiletEconomic() override;
 };
 
 class BiletBusiness : public Bilet {
@@ -67,7 +67,7 @@ public:
 	// bool getAccesLounge() const { return accesLounge; }
 	// void setAccesLounge(bool acces) { accesLounge = acces; }
 
-	~BiletBusiness();
+	~BiletBusiness() override;
 };
 
 
@@ -88,5 +88,5 @@ public:
 	// bool getServireMasa() const { return servireMasa; }
 	// bool getPrioritateImbarcare() { return prioritateImbracare; }
 
-	~BiletFirstClass();
+	~BiletFirstClass() override;
 };
