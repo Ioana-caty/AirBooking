@@ -27,20 +27,6 @@ public:
 		}
 	}
 
-	static Bilet* creeazaBiletSimplu(const std::string& tipClasa, const std::string& loc, double pretBaza, int discountProcent) {
-		std::string tip = toLower(tipClasa);
-
-		if (tip == "economic") {
-			return new BiletEconomic(loc, pretBaza, discountProcent);
-		} else if (tip == "business") {
-			return new BiletBusiness(loc, pretBaza, discountProcent);
-		} else if (tip == "firstclass") {
-			return new BiletFirstClass(loc, pretBaza, discountProcent);
-		} else {
-			std::cerr << "Clasa necunoscuta: " << tipClasa << ", se foloseste Economic\n";
-			return new BiletEconomic(loc, pretBaza, discountProcent);
-		}
-	}
 private:
 	static std::string toLower(const std::string& str) {
 		std::string result = str;
