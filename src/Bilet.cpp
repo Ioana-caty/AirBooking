@@ -10,10 +10,10 @@ const double BiletBusiness::TAXA_CONFORT = 35.5;
 const double BiletFirstClass::TAXA_LUXURY = 74.75;
 
 // BILET:
-Bilet::Bilet() : biletID(counterID++), loc("N/A"), pretBaza(0.0), discountProcent (discountProcent) {}
+Bilet::Bilet() : biletID(counterID++), loc("N/A"), pretBaza(0.0), discountProcent (0.0) {}
 
 Bilet::Bilet(const std::string &Loc, double pretBaza, int discountProcent)
-				: biletID(counterID++), loc(Loc), pretBaza(pretBaza >= 0 ? pretBaza : 0.0), discountProcent (0.0) {
+				: biletID(counterID++), loc(Loc), pretBaza(pretBaza >= 0 ? pretBaza : 0.0), discountProcent (discountProcent) {
 	if (this->discountProcent < 0 || this->discountProcent > 80) {
 		this->discountProcent = 0;
 	}
