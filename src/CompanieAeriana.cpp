@@ -8,7 +8,7 @@ CompanieAeriana::CompanieAeriana(const std::string& nume) : numeCompanie(nume) {
 }
 
 bool CompanieAeriana::esteZborDuplicat(const std::string& numarZbor) const {
-    for (auto& zbor : flotaZboruri) {
+    for (const auto& zbor : flotaZboruri) {
 	    if (zbor.getNumarZbor() == numarZbor) {
 		    return true;
 	    }
@@ -25,7 +25,7 @@ void CompanieAeriana::adaugaZbor(const Zbor& z) {
 }
 // nu e void pt ca vreau sa am detaliile zborului ca sa-l pot adauga
 Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {
-    for (auto& zbor : flotaZboruri) {
+    for (const auto& zbor : flotaZboruri) {
         if (zbor.getNumarZbor() == numarZbor) {
             return &zbor;
         }

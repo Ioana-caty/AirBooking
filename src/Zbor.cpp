@@ -55,7 +55,7 @@ bool Zbor::adaugaPasager(const Pasager& p) {
 
 double Zbor::calculeazaIncasariTotale()const {
     double total = 0.0;
-    for (auto& pasager : this->listaPasageri) {
+    for (const auto& pasager : this->listaPasageri) {
     	if (pasager.getBilet() != nullptr) {
     		total += pasager.getBilet()->getPretFinal();
     	}
@@ -64,7 +64,7 @@ double Zbor::calculeazaIncasariTotale()const {
 }
 
 Pasager* Zbor::cautaPasagerDupaNume(const std::string& nume){
-   for (auto& pasager : this->listaPasageri) {
+   for (const auto& pasager : this->listaPasageri) {
 	   if (pasager.getNume() == nume) {
 		   return &pasager;
 	   }
