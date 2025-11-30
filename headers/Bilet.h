@@ -25,9 +25,9 @@ public:
     void aplicaDiscount(int procent);
     bool isWindowSeat() const;
 
-	int getBiletID() const { return biletID; }
-	std::string getLoc() const { return loc; }
-	double getPretBaza() const { return pretBaza; }
+	// int getBiletID() const { return biletID; }
+	// std::string getLoc() const { return loc; }
+	// double getPretBaza() const { return pretBaza; }
 
 	virtual double getPretFinal() const = 0;
 	virtual std::string getTipClasa() const = 0;
@@ -64,8 +64,8 @@ public:
 	virtual std::string getTipClasa() const override;
 	virtual Bilet* clone() const override;
 
-	bool getAccesLounge() const { return accesLounge; }
-	void setAccesLounge(bool acces) { accesLounge = acces; }
+	// bool getAccesLounge() const { return accesLounge; }
+	// void setAccesLounge(bool acces) { accesLounge = acces; }
 
 	~BiletBusiness();
 };
@@ -85,8 +85,8 @@ public:
 	virtual std::string getTipClasa() const override;
 	virtual Bilet* clone() const override;
 
-	bool getServireMasa() const { return servireMasa; }
-	bool getPrioritateImbarcare() { return prioritateImbracare; }
+	// bool getServireMasa() const { return servireMasa; }
+	// bool getPrioritateImbarcare() { return prioritateImbracare; }
 
 	~BiletFirstClass();
 };
