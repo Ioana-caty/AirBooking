@@ -10,12 +10,12 @@ const double BiletBusiness::TAXA_CONFORT = 35.5;
 const double BiletFirstClass::TAXA_LUXURY = 74.75;
 
 // BILET:
-Bilet::Bilet() : loc("N/A"), pretBaza(0.0), biletID(counterID++), discountProcent (0.0) {}
+Bilet::Bilet() : biletID(counterID++), loc("N/A"), pretBaza(0.0), discountProcent (0.0) {}
 
 Bilet::Bilet(const std::string &Loc, double pretBaza)
-				: loc(Loc), pretBaza(pretBaza >= 0 ? pretBaza : 0.0), biletID(counterID++), discountProcent (0.0) {}
+				: biletID(counterID++), loc(Loc), pretBaza(pretBaza >= 0 ? pretBaza : 0.0), discountProcent (0.0) {}
 
-Bilet::Bilet(const Bilet &other) : loc(other.loc), pretBaza(other.pretBaza), biletID(other.biletID), discountProcent(other.discountProcent) {}
+Bilet::Bilet(const Bilet &other) : biletID(other.biletID), loc(other.loc), pretBaza(other.pretBaza), discountProcent(other.discountProcent) {}
 
 Bilet & Bilet::operator=(const Bilet &other) {
 	if (this == &other) {
