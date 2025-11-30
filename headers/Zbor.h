@@ -19,8 +19,6 @@ public:
     Zbor();
     Zbor(const std::string& numarZbor, const std::string& destinatie, const std::string& poarta, int capacitateMaxima);
 
-    virtual ~Zbor();
-
     std::string getNumarZbor() const;
     int getLocuriOcupate() const;
     size_t getCapacitateMaxima() const;
@@ -32,5 +30,6 @@ public:
     Pasager* cautaPasagerDupaNume(const std::string &nume);
     bool isFull() const;
 
+	virtual ~Zbor();
     friend std::ostream& operator<<(std::ostream& COUT, const Zbor& z);
 };

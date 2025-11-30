@@ -4,33 +4,21 @@
 #include <algorithm>    // std::sort
 #include <cctype>
 
-
 Zbor::Zbor()
-    : numarZbor("N/A"),
-      destinatie("N/A"),
-      poarta("N/A"),
-      capacitateMaxima(0) {
+    : numarZbor("N/A"), destinatie("N/A"), poarta("N/A"), capacitateMaxima(0) {
 }
-
-Zbor::Zbor(const std::string& nrz, const std::string& destinatie, const std::string& p, int c)
-	: numarZbor(nrz), destinatie(destinatie), poarta(p), capacitateMaxima(c) {}
-
-Zbor::~Zbor() { }
+Zbor::Zbor(const std::string& nrz, const std::string& d, const std::string& p, int c)
+	: numarZbor(nrz), destinatie(d), poarta(p), capacitateMaxima(c) {}
 
 bool Zbor::estePoartaValida(const std::string& poartaNoua) const {
-    //minim 2 caractere
-    if (poartaNoua.length() < 2) {
+    if (poartaNoua.length() < 2) { //minim 2 caractere
         return false;
     }
-
-    // primul caracter sa fie litera
-    if (!isalpha(poartaNoua[0])) {
+    if (!isalpha(poartaNoua[0])) { // primul caracter sa fie litera
         return false;
     }
-
-    //verificam ca toate celelalte caractere sunt cifre
     for (size_t i = 1; i < poartaNoua.length(); i++) {
-        if (!isdigit(poartaNoua[i])) {
+        if (!isdigit(poartaNoua[i])) { //toate celelalte caractere sunt cifre
             return false;
         }
     }
@@ -67,22 +55,24 @@ bool Zbor::adaugaPasager(const Pasager& p) {
 
 double Zbor::calculeazaIncasariTotale()const {
     double total = 0.0;
-    for (size_t i = 0; i < this->listaPasageri.size(); i++) {
-        total += this->listaPasageri[i].getBilet()->getPretFinal();
+    for (auto& pasager : this->listaPasageri) {
+    	if (pasager.getBilet() != nullptr) {
+    		total += pasager.getBilet()->getPretFinal();
+    	}
     }
     return total;
 }
 
 Pasager* Zbor::cautaPasagerDupaNume(const std::string& nume){
-   for (size_t i = 0; i < this->listaPasageri.size(); i++) {
-        if (this->listaPasageri[i].getNume() == nume) {
-            return &this->listaPasageri[i];
-        }
-    }
+   for (auto& pasager : this->listaPasageri) {
+	   if (pasager.getNume() == nume) {
+		   return &pasager;
+	   }
+   }
     return nullptr;
 }
 
-
+Zbor::~Zbor() {}
 std::ostream& operator<<(std::ostream& COUT, const Zbor& z) {
     COUT    << "ZBOR: " << z.numarZbor
             <<"| DESTINATIE: " << z.destinatie
