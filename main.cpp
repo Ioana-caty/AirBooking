@@ -176,7 +176,7 @@ int main() {
 			}
 
 			std::cout << "Nume: "; std::getline(std::cin, nume);
-			Pasager* p = z->cautaPasagerDupaNume(nume);
+			const Pasager* p = z->cautaPasagerDupaNume(nume);
 			if (!p) {
 				std::cerr << "Pasager negasit!\n";
 				continue;
