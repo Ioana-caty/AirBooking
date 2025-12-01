@@ -25,6 +25,7 @@ int main() {
 		std::cout << "8. Calculeaza incasari\n";
 		std::cout << "9. Verifica loc geam\n";
 		std::cout << "10. Verifica daca zborul este plin\n";
+		std::cout << "11. Upgrade bilet pasager\n";
 		std::cout <<"0. Optiune: ";
 		std::cin >> optiune;
 
@@ -205,6 +206,42 @@ int main() {
 				int disponibile = z->getCapacitateMaxima() - z->getLocuriOcupate();
 				std::cout << "Zborul are " << disponibile << " locuri ramase ("
 						 << z->getLocuriOcupate() << "/" << z->getCapacitateMaxima() << ")\n";
+			}
+		}
+		if (optiune == 11) {
+			std::string numar, nume;
+			std::cout << "Numar zbor: "; std::cin >> numar;
+			std::cin.ignore();
+
+			Zbor* z = companie.cautaZborDupaNumar(numar);
+			if (!z) {
+				std::cerr << "Zbor negasit!\n";
+				continue;
+			}
+			std::cout << "Nume pasager: "; std::getline(std::cin, nume);
+
+			const Pasager* p = z->cautaPasagerDupaNume(nume);
+			if (p && p->getBilet()) {
+				std::cout << "\n--- BILET CURENT ---\n";
+				std::cout << *(p->getBilet()) << "\n";
+				std::cout << "--------------------------------------\n";
+			}
+
+			char confirm;
+			std::cout <<"\nConfirmati upgrade-ul? (y/n): ";
+			std::cin >> confirm;
+
+			if (confirm == 'y' || confirm == 'Y') {
+				if (z->upgradeBiletPasager(nume)) {
+					std::cout << "\n--- BILET ACTUALIZAT ---\n";
+					const Pasager* pNou = z->cautaPasagerDupaNume(nume);
+					if (pNou && pNou->getBilet()) {
+						std::cout << *(pNou->getBilet()) << "\n";
+					}
+					std::cout << "-----------------------------------\n";
+				}
+			} else {
+				std::cout << "Upgrade anulat.\n";
 			}
 		}
 	}

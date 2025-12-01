@@ -27,6 +27,6 @@ public:
     const Bilet* getBilet() const;
     void setBilet(const Bilet* biletNou);
 
-	virtual ~Pasager();
+	~Pasager();
     friend std::ostream& operator<<(std::ostream&os, const Pasager& p);
 };

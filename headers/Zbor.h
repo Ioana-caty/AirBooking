@@ -25,12 +25,12 @@ public:
     size_t getCapacitateMaxima() const;
 
     void setPoarta(const std::string& nouaPoarta);
-
     bool adaugaPasager(const Pasager& p);
     double calculeazaIncasariTotale() const;
     Pasager* cautaPasagerDupaNume(const std::string &nume);
     bool isFull() const;
+	bool upgradeBiletPasager(const std::string& nume);
 
-	virtual ~Zbor();
+	~Zbor();
     friend std::ostream& operator<<(std::ostream& COUT, const Zbor& z);
 };

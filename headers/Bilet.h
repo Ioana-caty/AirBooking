@@ -26,9 +26,11 @@ public:
 	// double getPretBaza() const { return pretBaza; }
 
     void setLoc(const std::string& nouLoc);
-
-
     bool isWindowSeat() const;
+
+	std::string getLoc() const {return loc; }
+	double getPretBaza() const { return pretBaza; }
+	int getDiscountProcent() const { return discountProcent; }
 
 	virtual double getPretFinal() const = 0;
 	virtual std::string getTipClasa() const = 0;
@@ -87,8 +89,8 @@ public:
 	std::string getTipClasa() const override;
 	Bilet* clone() const override;
 
-	// bool getServireMasa() const { return servireMasa; }
-	// bool getPrioritateImbarcare() { return prioritateImbracare; }
+	// bool getServerMasa() const { return servireMasa; }
+	// bool getPrioritizeImbarcare() { return prioritateImbracare; }
 
 	~BiletFirstClass() override;
 };

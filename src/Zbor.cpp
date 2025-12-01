@@ -46,11 +46,9 @@ void Zbor::setPoarta(const std:: string& nouaPoarta) {
         this->poarta = "N/A";
     }
 }
-
 bool Zbor::isFull() const {
     return this->listaPasageri.size() >= this->capacitateMaxima;
 }
-
 bool Zbor::adaugaPasager(const Pasager& p) {
     if (this->isFull()) {
         std::cerr   << "\n!!! EROARE: Zborul " << this->numarZbor << " este PLIN("
@@ -66,7 +64,6 @@ bool Zbor::adaugaPasager(const Pasager& p) {
     this->listaPasageri.push_back(p);
     return true;
 }
-
 double Zbor::calculeazaIncasariTotale()const {
     double total = 0.0;
     for (const auto& pasager : this->listaPasageri) {
@@ -76,7 +73,6 @@ double Zbor::calculeazaIncasariTotale()const {
     }
     return total;
 }
-
 Pasager* Zbor::cautaPasagerDupaNume(const std::string& nume){
    for (auto& pasager : this->listaPasageri) {
 	   if (pasager.getNume() == nume) {
@@ -84,6 +80,76 @@ Pasager* Zbor::cautaPasagerDupaNume(const std::string& nume){
 	   }
    }
     return nullptr;
+}
+bool Zbor::upgradeBiletPasager(const std::string& nume) {
+	Pasager* pasager = cautaPasagerDupaNume(nume);
+	if (pasager == nullptr) {
+		std::cerr << "Pasager negasit!\n";
+		return false;
+	}
+
+	const Bilet* biletVechi = pasager->getBilet();
+	if (biletVechi == nullptr) {
+		std::cerr << "Pasagerul nu are bilet!\n";
+		return false;
+	}
+
+	const BiletEconomic* economic = dynamic_cast<const BiletEconomic*>(biletVechi);
+	const BiletBusiness* business = dynamic_cast<const BiletBusiness*>(biletVechi);
+	const BiletFirstClass* firstclass = dynamic_cast<const BiletFirstClass*>(biletVechi);
+
+	Bilet* biletNou = nullptr;
+
+	if (economic != nullptr) {
+		std::cout << "\n=== UPGRADE: Economic -> Business ===\n";
+		std::cout << "Pret actual: " << economic->getPretFinal() << " EUR\n";
+
+		bool accesLounge;
+		std::cout << "Acces lounge (1-DA/0-NU):";
+		std::cin >> accesLounge;
+
+		biletNou = new BiletBusiness (
+			biletVechi->getLoc(),
+			biletVechi->getPretBaza() + 50.0, // + taxa upgrade
+			biletVechi->getDiscountProcent(),
+			accesLounge
+			);
+
+		std::cout << "Pret nou: " << biletNou->getPretFinal() << " EUR\n";
+		std::cout << "Diferenta: +" << (biletNou->getPretFinal() - economic->getPretFinal()) << " EUR\n";
+	} else if (business != nullptr) {
+		std::cout << "\n=== UPGRADE: Business -> First Class ===\n";
+		std::cout << "Pret actual: " << business->getPretFinal() << " EUR\n";
+
+		bool servireMasa, prioritate;
+		std::cout << "Servire masa (1-DA/0-NU):";
+		std::cin >> servireMasa;
+		std::cout << "Prioritate (1-DA/0-NU):";
+		std::cin >> prioritate;
+
+		biletNou = new BiletFirstClass (
+			biletVechi->getLoc(),
+			biletVechi->getPretBaza() + 100.0, // + taxa upgrade
+			biletVechi->getDiscountProcent(),
+			servireMasa,
+			prioritate
+			);
+
+		std::cout << "Pret nou: " << biletNou->getPretFinal() << " EUR\n";
+		std::cout << "Diferenta: +" << (biletNou->getPretFinal() - business->getPretFinal()) << " EUR\n";
+	} else if (firstclass != nullptr) {
+		std::cout << "\n[INFO] Biletul este deja First Class - nivel maxim!\n";
+		std::cout << "Nu este posibil un upgrade ulterior.\n";
+		return false;
+	}
+
+	if (biletNou != nullptr) {
+		pasager->setBilet(biletNou);
+		delete biletNou;
+		std::cout << "Upgrade realizat cu succes!\n";
+		return true;
+	}
+	return true;
 }
 
 Zbor::~Zbor() {}

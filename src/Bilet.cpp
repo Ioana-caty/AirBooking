@@ -115,7 +115,7 @@ std::string BiletBusiness::getTipClasa() const { return "Business"; }
 Bilet * BiletBusiness::clone() const { return new BiletBusiness(*this); }
 BiletBusiness::~BiletBusiness() {}
 
-// FIRSTA CLASS:
+// FIRST CLASS:
 
 BiletFirstClass::BiletFirstClass() :
 	Bilet(), servireMasa(true), prioritateImbracare(true) {}
