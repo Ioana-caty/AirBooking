@@ -19,7 +19,6 @@ public:
     Zbor *cautaZborDupaNumar(const std::string& numarZbor);
 
 	const std::vector<Zbor>& getZboruri() const {  return flotaZboruri; }
-	const std::string& getNumecompanie() const { return numeCompanie; }
 
     friend std::ostream& operator<<(std::ostream& COUT, const CompanieAeriana& c);
 };

@@ -13,7 +13,7 @@ int main() {
 	CompanieAeriana companie("Wizz");
 	populareDate(companie);
 
-	int optiune;
+	int optiune = -1;
 	while (true) {
 		std::cout << "\n---MENIU---\n";
 		std::cout << "1. Afiseaza date companie\n";
@@ -156,7 +156,6 @@ int main() {
 				Bilet* biletNou = biletVechi->clone();
 				biletNou->setLoc(loc);
 				p->setBilet(biletNou);
-				delete biletNou;
 			}
 
 			std::cout << "Locul modificat cu succes!\n";
