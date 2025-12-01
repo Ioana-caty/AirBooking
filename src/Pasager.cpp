@@ -39,7 +39,6 @@ Pasager &Pasager::operator=(const Pasager &other) {
 	return *this;
 }
 
-const std::string &Pasager::getNume() const { return this->nume; }
 
 const Bilet *Pasager::getBilet() const { return this->bilet; }
 

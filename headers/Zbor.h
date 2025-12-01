@@ -24,6 +24,10 @@ public:
     int getLocuriOcupate() const;
     size_t getCapacitateMaxima() const;
 
+	const std::string& getDestinatie() const { return destinatie; }
+	const std::string& getPoarta() const { return poarta; }
+	const std::vector<Pasager>& getPasageri() const { return listaPasageri; }
+
     void setPoarta(const std::string& nouaPoarta);
     bool adaugaPasager(const Pasager& p);
     double calculeazaIncasariTotale() const;

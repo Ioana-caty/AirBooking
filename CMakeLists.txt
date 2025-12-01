@@ -61,6 +61,7 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         Pattern/BiletFactory.h
         input/populareDate.cpp
         input/populareDate.h
+        input/saveData.h
 )
 
 target_include_directories(${MAIN_EXECUTABLE_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/inc)

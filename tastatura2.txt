@@ -1,0 +1,21 @@
+4
+RO123 Paris A12 5
+2
+Iustina Caramida
+i.caramida@gmail.com
+14A Business 200 0
+Costin Sin
+c.sin@gmail.com
+1F Business 350.5 10
+RO456 Londra B5 4
+1
+Ana Maria
+ana.m@gmail.com
+22C Economic 120.6 0
+RO789 Berlin C20 3
+0
+RO1 Irlanda 12A 1
+1
+caty
+caty
+12A Business 123 12

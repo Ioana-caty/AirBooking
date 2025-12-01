@@ -85,8 +85,5 @@ public:
 	std::string getTipClasa() const override;
 	Bilet* clone() const override;
 
-	// bool getServerMasa() const { return servireMasa; }
-	// bool getPrioritizeImbarcare() { return prioritateImbracare; }
-
 	~BiletFirstClass() override;
 };

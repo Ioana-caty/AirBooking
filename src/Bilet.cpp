@@ -137,7 +137,7 @@ double BiletFirstClass::getPretFinal() const {
 	return pretCuTaxe - discount;
 }
 
-std::string BiletFirstClass::getTipClasa() const { return "First Class"; }
+std::string BiletFirstClass::getTipClasa() const { return "FirstClass"; }
 Bilet * BiletFirstClass::clone() const { return new BiletFirstClass(*this); }
 
 BiletFirstClass::~BiletFirstClass() {}

@@ -23,7 +23,8 @@ public:
     Pasager(const Pasager& another);
     Pasager& operator=(const Pasager& another);
 
-    const std::string& getNume() const;
+    const std::string& getNume() const { return nume; }
+	const std::string& getEmail() const { return email; }
     const Bilet* getBilet() const;
     void setBilet(const Bilet* biletNou);
 

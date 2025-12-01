@@ -3,6 +3,7 @@
 #include "headers/Zbor.h"
 #include "headers/CompanieAeriana.h"
 #include "input/populareDate.h"
+#include "input/saveData.h"
 #include "Pattern/BiletFactory.h"
 #include <iostream>
 #include <iomanip>
@@ -30,6 +31,14 @@ int main() {
 		std::cin >> optiune;
 
 		if (optiune == 0) {
+			char raspuns;
+			std::cout << "\nDoriti sa salvati modificarile? (y/n): ";
+			std::cin >> raspuns;
+
+			if (raspuns == 'y' || raspuns == 'Y') {
+				const std::string FISIER_DATE = "tastatura2.txt";
+				saveData(companie, FISIER_DATE);
+			}
 			break;
 		}
 
