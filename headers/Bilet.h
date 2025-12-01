@@ -21,14 +21,10 @@ public:
 	Bilet(const Bilet& other);
 	Bilet& operator=(const Bilet& other);
 
-	// int getBiletID() const { return biletID; }
-	// std::string getLoc() const { return loc; }
-	// double getPretBaza() const { return pretBaza; }
-
     void setLoc(const std::string& nouLoc);
     bool isWindowSeat() const;
 
-	std::string getLoc() const {return loc; }
+	const std::string& getLoc() const {return loc; }
 	double getPretBaza() const { return pretBaza; }
 	int getDiscountProcent() const { return discountProcent; }
 
