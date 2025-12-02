@@ -1,5 +1,5 @@
-6
-RO123 Paris b12 5
+3
+RO123 Paris A12 5
 2
 Iustina Caramida
 i.caramida@gmail.com
@@ -13,10 +13,4 @@ Ana Maria
 ana.m@gmail.com
 22C Economic 120.6 0
 RO789 Berlin C20 3
-0
-RO02 varsovia d12 12
-0
-RO03 madird d12 1
-0
-RO09 guatemala d3 1
 0

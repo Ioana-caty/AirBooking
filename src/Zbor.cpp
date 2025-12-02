@@ -1,15 +1,7 @@
 #include "../headers/Zbor.h"
+#include "../headers/CompanieAeriana.h"
 #include <iostream>
 #include <iomanip>
-#include <algorithm>    // std::sort
-#include <cctype>
-
-std::string toUpperCase(const std::string& s) {
-	std::string result = s;
-	std::transform(result.begin(), result.end(), result.begin(),
-					[](unsigned char c) { return std::toupper(c); });
-	return result;
-}
 
 Zbor::Zbor()
     : numarZbor("N/A"), destinatie("N/A"), poarta("N/A"), capacitateMaxima(0) {
@@ -56,13 +48,13 @@ bool Zbor::exitaPasager(const std::string& nume) const {
 	return false;
 }
 
-std::string Zbor::getNumarZbor()const { return this->numarZbor; }
-int Zbor::getLocuriOcupate()const { return this->listaPasageri.size(); }
-size_t Zbor::getCapacitateMaxima() const { return this->capacitateMaxima; }
+
+
 
 bool Zbor::setPoarta(const std:: string& nouaPoarta) {
+
     if (this-> estePoartaValida(toUpperCase(nouaPoarta))) {
-        this->poarta = nouaPoarta;
+        this->poarta = toUpperCase(nouaPoarta);
     	return true;
     } else {
     	return false;

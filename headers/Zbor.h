@@ -2,7 +2,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <cctype>
 #include "../headers/Pasager.h"
+
 
 class Zbor {
 private:
@@ -20,9 +23,9 @@ public:
     Zbor();
     Zbor(const std::string& numarZbor, const std::string& destinatie, const std::string& poarta, int capacitateMaxima);
 
-    std::string getNumarZbor() const;
-    int getLocuriOcupate() const;
-    size_t getCapacitateMaxima() const;
+    std::string getNumarZbor() const { return numarZbor; }
+    int getLocuriOcupate() const {return listaPasageri.size(); }
+    size_t getCapacitateMaxima() const {return capacitateMaxima; }
 
 	const std::string& getDestinatie() const { return destinatie; }
 	const std::string& getPoarta() const { return poarta; }

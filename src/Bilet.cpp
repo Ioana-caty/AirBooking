@@ -1,6 +1,9 @@
 #include "../headers/Bilet.h"
+#include "../headers/CompanieAeriana.h"
 #include <iomanip>
 #include <iostream>
+#include <cctype>
+#include <algorithm>
 
 
 int Bilet::counterID = 1000; // se incepe de la 1000
@@ -66,9 +69,12 @@ bool Bilet::esteLocValid(const std::string &Loc) {
 	return true;
 }
 
-void Bilet::setLoc(const std::string &nouLoc) {
-	if (Bilet::esteLocValid(nouLoc)) {
-		this->loc = nouLoc;
+bool Bilet::setLoc(const std::string &nouLoc) {
+	if (this->esteLocValid(toUpperCase(nouLoc))) {
+		this->loc = toUpperCase(nouLoc);
+		return true;
+	} else {
+		return false;
 	}
 }
 

@@ -4,6 +4,14 @@
 #include <vector>
 #include "Zbor.h"
 
+inline std::string toUpperCase(const std::string& s) {
+	std::string result = s;
+	std::transform(result.begin(), result.end(), result.begin(),
+				   [](unsigned char c){ return std::toupper(c); });
+	return result;
+}
+
+
 class CompanieAeriana {
 private:
     std::string numeCompanie;
@@ -15,7 +23,7 @@ public:
     CompanieAeriana();
     explicit CompanieAeriana(const std::string& nume);
 
-    void adaugaZbor(const Zbor& z);
+    bool adaugaZbor(const Zbor& z);
     Zbor *cautaZborDupaNumar(const std::string& numarZbor);
 
 	const std::vector<Zbor>& getZboruri() const {  return flotaZboruri; }

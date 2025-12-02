@@ -48,8 +48,9 @@ int main() {
 			std::cout << "Capacitate: "; std::cin >> capacitateMax;
 
 			Zbor zbor(numar, destinatie, poarta, capacitateMax);
-			if (zbor.setPoarta(poarta)) {
-				companie.adaugaZbor(zbor);
+
+			if (companie.adaugaZbor(zbor)) {
+				std::cout << "\nZbor adaugat cu succes!\n";
 			}
 
 		}
@@ -105,7 +106,7 @@ int main() {
 
 			Zbor *z = companie.cautaZborDupaNumar(numar);
 			if (!z) {
-				std::cerr << "Zbor negasit!\n";
+				std::cerr << "\nZbor negasit!\n";
 				continue;
 			}
 			std::cout << "Nume: "; std::getline(std::cin, nume);
@@ -136,7 +137,7 @@ int main() {
 			}
 		}
 		if (optiune == 7) {
-			std::string numar, nume, loc;
+			std::string numar, nume, locNou;
 			std::cout << "Numar zbor: "; std::cin >> numar;
 			std::cin.ignore();
 
@@ -153,15 +154,30 @@ int main() {
 				continue;
 			}
 
-			std::cout << "Loc nou: "; std::cin >> loc;
-
 			const Bilet* biletVechi = p->getBilet();
-			if (biletVechi != nullptr) {
-				Bilet* biletNou = biletVechi->clone();
-				biletNou->setLoc(loc);
-				p->setBilet(biletNou);
+			if (biletVechi == nullptr) {
+				std::cerr << "\nPasagerul nu are bilet inregistrat!\n";
+				continue;
 			}
 
+			std::cout << "----------------------------------------\n";
+			std::cout << "Loc vechi: " << biletVechi->getLoc() << "\n";
+			std::cout << "Loc nou: "; std::cin >> locNou;
+
+			std::string locUpper = toUpperCase(locNou);
+			if (z->esteLocOcupat(locUpper, nume)) {
+				std::cerr << "!!!EROARE: Locul " << locUpper << " este deja ocupat de alt pasager!\n";
+				continue;
+			}
+
+			Bilet* biletNou = biletVechi->clone();
+			biletNou->setLoc(locUpper);
+			if (biletNou->getLoc() != locUpper) {
+				std::cerr << "!!!EROARE: Formatul locului " << locNou << " este invalid.\n";
+				continue;
+			}
+
+			p->setBilet(biletNou);
 			std::cout << "Locul modificat cu succes!\n";
 		}
 		if (optiune == 8) {

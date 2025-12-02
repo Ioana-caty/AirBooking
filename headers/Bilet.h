@@ -21,7 +21,7 @@ public:
 	Bilet(const Bilet& other);
 	Bilet& operator=(const Bilet& other);
 
-    void setLoc(const std::string& nouLoc);
+    bool setLoc(const std::string& nouLoc);
     bool isWindowSeat() const;
 
 	const std::string& getLoc() const {return loc; }
