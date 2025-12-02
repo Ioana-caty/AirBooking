@@ -13,7 +13,7 @@ int main() {
 	CompanieAeriana companie("Wizz");
 	populareDate(companie);
 
-	int optiune = -1;
+	int optiune ;
 	while (true) {
 		std::cout << "\n---MENIU---\n";
 		std::cout << "1. Afiseaza date companie\n";
@@ -31,14 +31,8 @@ int main() {
 		std::cin >> optiune;
 
 		if (optiune == 0) {
-			char raspuns;
-			std::cout << "\nDoriti sa salvati modificarile? (y/n): ";
-			std::cin >> raspuns;
-
-			if (raspuns == 'y' || raspuns == 'Y') {
-				const std::string FISIER_DATE = "tastatura2.txt";
-				saveData(companie, FISIER_DATE);
-			}
+			const std::string FISIER_DATE = "tastatura2.txt";
+			saveData(companie, FISIER_DATE);
 			break;
 		}
 
