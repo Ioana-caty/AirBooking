@@ -48,9 +48,10 @@ int main() {
 			std::cout << "Capacitate: "; std::cin >> capacitateMax;
 
 			Zbor zbor(numar, destinatie, poarta, capacitateMax);
-
-			if (companie.adaugaZbor(zbor)) {
+			if (zbor.setPoarta(poarta)) {
+				if (companie.adaugaZbor(zbor)) {
 					std::cout << "\nZbor adaugat cu succes!\n";
+				}
 			}
 
 		}
