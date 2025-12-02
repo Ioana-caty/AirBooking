@@ -1,6 +1,15 @@
 #include "../headers/CompanieAeriana.h"
 #include <iostream>
 #include <iomanip>
+#include <cctype>
+#include <algorithm>
+
+std::string toUpper(const std::string& s) {
+	std::string result = s;
+	std::transform(result.begin(), result.end(), result.begin(),
+				   [](unsigned char c){ return std::toupper(c); });
+	return result;
+}
 
 CompanieAeriana::CompanieAeriana() : numeCompanie("Companie Anonima") {
 }
@@ -9,7 +18,7 @@ CompanieAeriana::CompanieAeriana(const std::string& nume) : numeCompanie(nume) {
 
 bool CompanieAeriana::esteZborDuplicat(const std::string& numarZbor) const {
     for (const auto& zbor : flotaZboruri) {
-	    if (zbor.getNumarZbor() == numarZbor) {
+	    if (toUpper(zbor.getNumarZbor()) == toUpper(numarZbor)) {
 		    return true;
 	    }
     }
@@ -19,14 +28,15 @@ bool CompanieAeriana::esteZborDuplicat(const std::string& numarZbor) const {
 void CompanieAeriana::adaugaZbor(const Zbor& z) {
     if (!this->esteZborDuplicat(z.getNumarZbor())) {
         this->flotaZboruri.push_back(z);
+    	std::cout << "\nZbor adaugat cu succes!\n";
     } else {
-        std::cerr << "Eroare: Zborul " << z.getNumarZbor() << " exista deja!\n";
+        std::cerr << "\n !!!EROARE: Zborul " << z.getNumarZbor() << " exista deja!\n";
     }
 }
 // nu e void pt ca vreau sa am detaliile zborului ca sa-l pot adauga
 Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {
     for (auto& zbor : flotaZboruri) {
-        if (zbor.getNumarZbor() == numarZbor) {
+        if (toUpper(zbor.getNumarZbor()) == toUpper(numarZbor)) {
             return &zbor;
         }
     }

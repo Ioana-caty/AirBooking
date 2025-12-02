@@ -28,12 +28,14 @@ public:
 	const std::string& getPoarta() const { return poarta; }
 	const std::vector<Pasager>& getPasageri() const { return listaPasageri; }
 
-    void setPoarta(const std::string& nouaPoarta);
+    bool setPoarta(const std::string& nouaPoarta);
     bool adaugaPasager(const Pasager& p);
     double calculeazaIncasariTotale() const;
     Pasager* cautaPasagerDupaNume(const std::string &nume);
     bool isFull() const;
 	bool upgradeBiletPasager(const std::string& nume);
+	void afiseazaLocuriOcupate() const;
+	bool esteLocOcupat (const std::string& loc, const std::string& numeDeExclus) const;
 
 	~Zbor();
     friend std::ostream& operator<<(std::ostream& COUT, const Zbor& z);

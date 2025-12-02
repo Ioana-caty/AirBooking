@@ -48,7 +48,10 @@ int main() {
 			std::cout << "Capacitate: "; std::cin >> capacitateMax;
 
 			Zbor zbor(numar, destinatie, poarta, capacitateMax);
-			companie.adaugaZbor(zbor);
+			if (zbor.setPoarta(poarta)) {
+				companie.adaugaZbor(zbor);
+			}
+
 		}
 		if (optiune == 3) {
 			std::string numar;
@@ -78,6 +81,8 @@ int main() {
 
 			std::cout << "Nume: "; std::getline(std::cin, nume);
 			std::cout << "Email: "; std::cin >> email;
+
+			z->afiseazaLocuriOcupate();
 			std::cout << "Loc: "; std::cin >> loc;
 			std::cout << "Tip clasa: "; std::cin >> clasa;
 			std::cout << "Pret: "; std::cin >> pret;
@@ -87,9 +92,9 @@ int main() {
 
 			Pasager p(nume, email, bilet);
 			if (z->adaugaPasager(p)) {
-				std::cout << "Pasager adaugat cu succes!\n";
+				std::cout << "\nPasager adaugat cu succes!\n";
 			} else {
-				std::cerr << "Pasagerul nu a putut fi adaugat.\n";
+				std::cerr << "\nPasagerul nu a putut fi adaugat.\n";
 				continue;
 			}
 		}
@@ -121,9 +126,14 @@ int main() {
 				continue;
 			}
 
+			std::cout << "----------------------------------------\n";
+			std::cout << "Poarta veche: " << z->getPoarta() << "\n";
 			std::cout << "Poarta noua: "; std::cin >> poarta;
-			z->setPoarta(poarta);
-			std::cout <<"Poarta modificata cu succes!\n";
+			if (z->setPoarta(poarta)) {
+				std::cout << "\n Poarta schimbata cu succes!\n";
+			} else {
+				std::cout << "\nPoarta a ramas aceeasi!\n";
+			}
 		}
 		if (optiune == 7) {
 			std::string numar, nume, loc;

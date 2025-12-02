@@ -14,8 +14,19 @@ Bilet::Bilet() : biletID(counterID++), loc("N/A"), pretBaza(0.0), discountProcen
 
 Bilet::Bilet(const std::string &Loc, double pretBaza, int discountProcent)
 				: biletID(counterID++), loc(Loc), pretBaza(pretBaza >= 0 ? pretBaza : 0.0), discountProcent (discountProcent) {
+
+	// validare pentru discount
 	if (this->discountProcent < 0 || this->discountProcent > 80) {
 		this->discountProcent = 0;
+	}
+
+	// validare si setarea locului
+	if (esteLocValid(Loc)) {
+		this->loc = Loc;
+	} else {
+		std::cerr	<< "\nEROARE: Locul: " << Loc << " este invalid!\n"
+					<< "Format: cifre (1-2) + litera mare (ex: 12A, 5F)\n";
+		this->loc = "N/A";
 	}
 }
 
@@ -37,14 +48,27 @@ Bilet & Bilet::operator=(const Bilet &other) {
 
 
 bool Bilet::esteLocValid(const std::string &Loc) {
-	return Loc.length() >= 2 && Loc.length() <= 3;
+	// trebuie sa aiba 2-3 caractere
+	if (Loc.length() < 2 && Loc.length() > 3) {
+		return false;
+	}
+	// ultima litera trebuia sa fie majuscula
+	char ultimaLitera = Loc.back();
+	if (!std::isupper(ultimaLitera)) {
+		return false;
+	}
+	// toate caracterele inainte de ultima litera trebuie sa fie cifre
+	for (size_t i = 0; i < Loc.length() - 1; i++) {
+		if (!std::isdigit(Loc[i])) {
+			return false;
+		}
+	}
+	return true;
 }
 
 void Bilet::setLoc(const std::string &nouLoc) {
 	if (Bilet::esteLocValid(nouLoc)) {
 		this->loc = nouLoc;
-	} else {
-		std::cerr << "EROARE: Locul " << nouLoc << " este invalid!\n";
 	}
 }
 

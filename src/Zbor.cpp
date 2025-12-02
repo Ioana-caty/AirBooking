@@ -4,21 +4,43 @@
 #include <algorithm>    // std::sort
 #include <cctype>
 
+std::string toUpperCase(const std::string& s) {
+	std::string result = s;
+	std::transform(result.begin(), result.end(), result.begin(),
+					[](unsigned char c) { return std::toupper(c); });
+	return result;
+}
+
 Zbor::Zbor()
     : numarZbor("N/A"), destinatie("N/A"), poarta("N/A"), capacitateMaxima(0) {
 }
 Zbor::Zbor(const std::string& nrz, const std::string& d, const std::string& p, int c)
-	: numarZbor(nrz), destinatie(d), poarta(p), capacitateMaxima(c) {}
+	: destinatie(d), capacitateMaxima(c) {
+
+	// validare si conversie pentru nrz
+	std::string nrzUpper = toUpperCase(nrz);
+	this->numarZbor = nrzUpper;
+
+	// validare poarta
+	std::string poartaUpper = toUpperCase(p);
+	if (!estePoartaValida(poartaUpper)) {
+		std::cerr << "\n!!!Eroare. Poarta " << poartaUpper <<" este invalida!\n";
+	}
+	this->poarta = poartaUpper;
+}
 
 bool Zbor::estePoartaValida(const std::string& poartaNoua) const {
-    if (poartaNoua.length() < 2) { //minim 2 caractere
+	// trebuie sa aiba 2-3 caractere
+    if (poartaNoua.length() < 2 || poartaNoua.length() > 3) {
         return false;
     }
-    if (!isalpha(poartaNoua[0])) { // primul caracter sa fie litera
-        return false;
+	// primul caracter trebuie sa fie litera mare
+    if (!std::isupper(poartaNoua[0])) {
+	    return false;
     }
+	// toate celelalte caractere sunt cifre
     for (size_t i = 1; i < poartaNoua.length(); i++) {
-        if (!isdigit(poartaNoua[i])) { //toate celelalte caractere sunt cifre
+        if (!isdigit(poartaNoua[i])) {
             return false;
         }
     }
@@ -27,7 +49,7 @@ bool Zbor::estePoartaValida(const std::string& poartaNoua) const {
 
 bool Zbor::exitaPasager(const std::string& nume) const {
 	for (const auto& pasager : this->listaPasageri) {
-		if (pasager.getNume() == nume) {
+		if (toUpperCase(pasager.getNume()) == toUpperCase(nume)) {
 			return true;
 		}
 	}
@@ -38,29 +60,42 @@ std::string Zbor::getNumarZbor()const { return this->numarZbor; }
 int Zbor::getLocuriOcupate()const { return this->listaPasageri.size(); }
 size_t Zbor::getCapacitateMaxima() const { return this->capacitateMaxima; }
 
-void Zbor::setPoarta(const std:: string& nouaPoarta) {
-    if (this-> estePoartaValida(nouaPoarta)) {
+bool Zbor::setPoarta(const std:: string& nouaPoarta) {
+    if (this-> estePoartaValida(toUpperCase(nouaPoarta))) {
         this->poarta = nouaPoarta;
+    	return true;
     } else {
-        std::cerr << "Eroare. Poarta " << nouaPoarta <<" este invalida!" << std::endl;
-        this->poarta = "N/A";
+    	return false;
     }
 }
 bool Zbor::isFull() const {
     return this->listaPasageri.size() >= this->capacitateMaxima;
 }
 bool Zbor::adaugaPasager(const Pasager& p) {
+	// verificare zbor este full
     if (this->isFull()) {
         std::cerr   << "\n!!! EROARE: Zborul " << this->numarZbor << " este PLIN("
                     << this->getLocuriOcupate() << "/" << this->capacitateMaxima
                     <<").\n";
         return false;
     }
+	// verificam daca pasagerul exista deja
 	if (this->exitaPasager(p.getNume())) {
 		std::cerr	<< "\n!!! EROARE: Pasagerul '" << p.getNume()
 					<< "' a fost deja inregistrat.\n";
 		return false;
 	}
+	// daca am ajuns pana aici, numele pasagerului clar nu mai exista
+	// ne ramane sa verificam daca locul este disponibil
+	if (p.getBilet() != nullptr) {
+		std::string loc = p.getBilet()->getLoc();
+		if (esteLocOcupat(loc, "")) {
+			std::cerr	<< "\nEROARE: Locul: " << p.getBilet()->getLoc()
+						<< " este ocupat!\n";
+			return false;
+		}
+	}
+
     this->listaPasageri.push_back(p);
     return true;
 }
@@ -75,7 +110,7 @@ double Zbor::calculeazaIncasariTotale()const {
 }
 Pasager* Zbor::cautaPasagerDupaNume(const std::string& nume){
    for (auto& pasager : this->listaPasageri) {
-	   if (pasager.getNume() == nume) {
+	   if (toUpperCase(pasager.getNume()) == toUpperCase(nume)) {
 		   return &pasager;
 	   }
    }
@@ -150,6 +185,29 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 		return true;
 	}
 	return true;
+}
+
+void Zbor::afiseazaLocuriOcupate() const {
+	std::cout << "----Locuri Ocupate---- ";
+	for (const auto& pasager: this->listaPasageri) {
+		const Bilet* bilet = pasager.getBilet();
+		if (bilet != nullptr) {
+			std::cout << bilet->getLoc() << " ";
+		}
+	}
+	std::cout << "\n";
+}
+bool Zbor::esteLocOcupat(const std::string& loc, const std::string& numeDeExclus) const {
+	for (const auto& pasager : this->listaPasageri) {
+		if (pasager.getNume() == numeDeExclus) {
+			continue;
+		}
+		const Bilet* bilet = pasager.getBilet();
+		if (bilet != nullptr && bilet->getLoc() == loc) {
+			return true;
+		}
+	}
+	return false;
 }
 
 Zbor::~Zbor() {}
