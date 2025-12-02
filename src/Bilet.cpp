@@ -49,7 +49,7 @@ Bilet & Bilet::operator=(const Bilet &other) {
 
 bool Bilet::esteLocValid(const std::string &Loc) {
 	// trebuie sa aiba 2-3 caractere
-	if (Loc.length() < 2 && Loc.length() > 3) {
+	if (Loc.length() < 2 || Loc.length() > 3) {
 		return false;
 	}
 	// ultima litera trebuia sa fie majuscula
