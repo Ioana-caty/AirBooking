@@ -50,7 +50,7 @@ int main() {
 			Zbor zbor(numar, destinatie, poarta, capacitateMax);
 
 			if (companie.adaugaZbor(zbor)) {
-				std::cout << "\nZbor adaugat cu succes!\n";
+					std::cout << "\nZbor adaugat cu succes!\n";
 			}
 
 		}

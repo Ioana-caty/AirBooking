@@ -23,7 +23,7 @@ public:
     Zbor();
     Zbor(const std::string& numarZbor, const std::string& destinatie, const std::string& poarta, int capacitateMaxima);
 
-    std::string getNumarZbor() const { return numarZbor; }
+    const std::string getNumarZbor() const { return numarZbor; }
     int getLocuriOcupate() const {return listaPasageri.size(); }
     size_t getCapacitateMaxima() const {return capacitateMaxima; }
 
