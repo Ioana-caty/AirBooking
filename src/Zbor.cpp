@@ -98,7 +98,7 @@ double Zbor::calculeazaIncasariTotale()const {
     return total;
 }
 Pasager* Zbor::cautaPasagerDupaNume(const std::string& nume){
-   for (auto& pasager : this->listaPasageri) {
+	for (auto& pasager : this->listaPasageri) {
 	   if (toUpperCase(pasager.getNume()) == toUpperCase(nume)) {
 		   return &pasager;
 	   }
@@ -188,7 +188,7 @@ void Zbor::afiseazaLocuriOcupate() const {
 }
 bool Zbor::esteLocOcupat(const std::string& loc, const std::string& numeDeExclus) const {
 	for (const auto& pasager : this->listaPasageri) {
-		if (pasager.getNume() == numeDeExclus) {
+		if (pasager.getNume() == toUpperCase(numeDeExclus)) {
 			continue;
 		}
 		const Bilet* bilet = pasager.getBilet();

@@ -1,10 +1,11 @@
 #include "../headers/Pasager.h"
+#include "../headers/CompanieAeriana.h"
 #include <iostream>
 
 int Pasager::counterID = 0;
 
 Pasager::Pasager(const std::string &nume, const std::string &Email, Bilet *biletNou)
-	: nume(nume), email(Email), pasagerID(counterID++), bilet(biletNou) {
+	: nume(toUpperCase(nume)), email(Email), pasagerID(counterID++), bilet(biletNou) {
 }
 
 Pasager::Pasager() : nume("not_specified"), email("none@gmail.com"), pasagerID(counterID++), bilet(nullptr) {

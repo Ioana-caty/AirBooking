@@ -14,15 +14,15 @@ public:
 
 class ExceptieValidare : public ExceptieZboruri {
 public:
-	ExceptieValidare(const std::string& msg) : ExceptieZboruri(msg) {}
+	explicit ExceptieValidare(const std::string& msg) : ExceptieZboruri(msg) {}
 };
 
 class ExceptieCapacitate : public ExceptieZboruri {
 public:
-	ExceptieCapacitate(const std::string& msg) : ExceptieZboruri(msg) {}
+	explicit ExceptieCapacitate(const std::string& msg) : ExceptieZboruri(msg) {}
 };
 
 class ExceptieOperatie : public ExceptieZboruri {
 public:
-	ExceptieOperatie(const std::string& msg) : ExceptieZboruri(msg) {}
+	explicit ExceptieOperatie(const std::string& msg) : ExceptieZboruri(msg) {}
 };
