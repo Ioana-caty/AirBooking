@@ -15,30 +15,32 @@ void saveData(const CompanieAeriana& companie, const std::string& nameFile) {
 		return;
 	}
 
-	const std::vector<Zbor>& zboruri = companie.getZboruri();
+	// acces prin friend
+	const std::vector<Zbor>& zboruri = companie.flotaZboruri;
 
 	fout << zboruri.size() << "\n";
 
 	for (const auto& zbor : zboruri) {
-		fout << zbor.getNumarZbor() << " "
-			 << zbor.getDestinatie() << " "
-			 << zbor.getPoarta() << " "
-			 << zbor.getCapacitateMaxima() << "\n";
+		// acces direct la membrii privati prin friend
+		fout << zbor.numarZbor << " "
+			 << zbor.destinatie << " "
+			 << zbor.poarta << " "
+			 << zbor.capacitateMaxima << "\n";
 
 		const std::vector<Pasager>& pasageri = zbor.getPasageri();
 
 		fout << pasageri.size() << "\n";
 
 		for (const auto& pasager : pasageri) {
-			fout << pasager.getNume() << "\n";
-			fout << pasager.getEmail() << "\n";
+			fout << pasager.nume << "\n";
+			fout << pasager.email << "\n";
 
-			const Bilet* bilet = pasager.getBilet();
+			const Bilet* bilet = pasager.bilet;
 			if (bilet != nullptr) {
-				fout	<< bilet->getLoc() << " "
+				fout    << bilet->loc << " "
 						<< bilet->getTipClasa() << " "
-						<< bilet->getPretBaza() << " "
-						<< bilet->getDiscountProcent() << "\n";
+						<< bilet->pretBaza << " "
+						<< bilet->discountProcent << "\n";
 			} else {
 				fout << "EROARE";
 			}

@@ -29,7 +29,7 @@ bool CompanieAeriana::adaugaZbor(const Zbor& z) {
 // nu e void pt ca vreau sa am detaliile zborului ca sa-l pot adauga
 Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {
     for (auto& zbor : flotaZboruri) {
-        if (toUpperCase(zbor.getNumarZbor()) == toUpperCase(numarZbor)) {
+        if (zbor.corespundeNumarului(numarZbor)) {
             return &zbor;
         }
     }

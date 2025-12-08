@@ -44,9 +44,9 @@ bool Zbor::estePoartaValida(const std::string& poartaNoua) const {
     return true;
 }
 
-bool Zbor::exitaPasager(const std::string& nume) const {
+bool Zbor::existaPasager(const std::string& nume) const {
 	for (const auto& pasager : this->listaPasageri) {
-		if (toUpperCase(pasager.getNume()) == toUpperCase(nume)) {
+		if (pasager.corespundeNumelui(nume)) {
 			return true;
 		}
 	}
@@ -74,12 +74,12 @@ bool Zbor::adaugaPasager(const Pasager& p) {
 		throw ExceptieCapacitate("Zborul " + this->numarZbor + " este plin");
 	}
 	// verificam daca pasagerul exista deja
-	if (this->exitaPasager(p.getNume())) {
-		throw ExceptieOperatie("Pasagerul " + p.getNume() + " este deja pe zborul " + this->numarZbor);
+	if (this->existaPasager(p.nume)) {
+		throw ExceptieOperatie("Pasagerul " + p.nume + " este deja pe zborul " + this->numarZbor);
 	}
 	// verificam daca locul este disponibil
-	if (p.getBilet() != nullptr) {
-		std::string loc = p.getBilet()->getLoc();
+	if (p.bilet != nullptr) {
+		std::string loc = p.bilet->loc;
 		if (esteLocOcupat(loc, "")) {
 			throw ExceptieOperatie("Locul " + loc + " este ocupat pe zborul " + this->numarZbor);
 		}
@@ -88,23 +88,23 @@ bool Zbor::adaugaPasager(const Pasager& p) {
 	this->listaPasageri.push_back(p);
 	return true;
 }
+
 double Zbor::calculeazaIncasariTotale()const {
     double total = 0.0;
     for (const auto& pasager : this->listaPasageri) {
-    	if (pasager.getBilet() != nullptr) {
-    		total += pasager.getBilet()->getPretFinal();
-    	}
+    	pasager.incasari(total);
     }
     return total;
 }
 Pasager* Zbor::cautaPasagerDupaNume(const std::string& nume){
 	for (auto& pasager : this->listaPasageri) {
-	   if (toUpperCase(pasager.getNume()) == toUpperCase(nume)) {
+	   if (pasager.corespundeNumelui(nume)) {
 		   return &pasager;
 	   }
    }
     return nullptr;
 }
+
 bool Zbor::upgradeBiletPasager(const std::string& nume) {
 	Pasager* pasager = cautaPasagerDupaNume(nume);
 	if (pasager == nullptr) {
@@ -112,7 +112,7 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 		return false;
 	}
 
-	const Bilet* biletVechi = pasager->getBilet();
+	const Bilet* biletVechi = pasager->bilet;
 	if (biletVechi == nullptr) {
 		std::cerr << "Pasagerul nu are bilet!\n";
 		return false;
@@ -132,12 +132,12 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 		std::cout << "Acces lounge (1-DA/0-NU):";
 		std::cin >> accesLounge;
 
-		biletNou = new BiletBusiness (
-			biletVechi->getLoc(),
-			biletVechi->getPretBaza() + 50.0, // + taxa upgrade
-			biletVechi->getDiscountProcent(),
+		biletNou = new BiletBusiness(
+			biletVechi->loc,
+			biletVechi->pretBaza + 50.0,
+			biletVechi->discountProcent,
 			accesLounge
-			);
+		);
 
 		std::cout << "Pret nou: " << biletNou->getPretFinal() << " EUR\n";
 		std::cout << "Diferenta: +" << (biletNou->getPretFinal() - economic->getPretFinal()) << " EUR\n";
@@ -151,13 +151,13 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 		std::cout << "Prioritate (1-DA/0-NU):";
 		std::cin >> prioritate;
 
-		biletNou = new BiletFirstClass (
-			biletVechi->getLoc(),
-			biletVechi->getPretBaza() + 100.0, // + taxa upgrade
-			biletVechi->getDiscountProcent(),
+		biletNou = new BiletFirstClass(
+			biletVechi->loc,
+			biletVechi->pretBaza + 100.0,
+			biletVechi->discountProcent,
 			servireMasa,
 			prioritate
-			);
+		);
 
 		std::cout << "Pret nou: " << biletNou->getPretFinal() << " EUR\n";
 		std::cout << "Diferenta: +" << (biletNou->getPretFinal() - business->getPretFinal()) << " EUR\n";
@@ -168,7 +168,7 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 	}
 
 	if (biletNou != nullptr) {
-		pasager->setBilet(biletNou);
+		pasager->actualizeazaBilet(biletNou);
 		delete biletNou;
 		std::cout << "Upgrade realizat cu succes!\n";
 		return true;
@@ -179,27 +179,42 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 void Zbor::afiseazaLocuriOcupate() const {
 	std::cout << "----Locuri Ocupate---- ";
 	for (const auto& pasager: this->listaPasageri) {
-		const Bilet* bilet = pasager.getBilet();
-		if (bilet != nullptr) {
-			std::cout << bilet->getLoc() << " ";
+		if (pasager.bilet != nullptr) {
+			std::cout << pasager.bilet->loc << " ";
 		}
 	}
 	std::cout << "\n";
 }
+
 bool Zbor::esteLocOcupat(const std::string& loc, const std::string& numeDeExclus) const {
 	for (const auto& pasager : this->listaPasageri) {
-		if (pasager.getNume() == toUpperCase(numeDeExclus)) {
+		if (pasager.nume == toUpperCase(numeDeExclus)) {
 			continue;
 		}
-		const Bilet* bilet = pasager.getBilet();
-		if (bilet != nullptr && bilet->getLoc() == loc) {
+		if (pasager.bilet != nullptr && pasager.bilet->loc == loc) {
 			return true;
 		}
 	}
 	return false;
 }
 
+void Zbor::afiseazaDetaliiCapacitate() const {
+	if (isFull()) {
+		std::cout << "Zborul este PLIN (" << listaPasageri.size()
+				  << "/" << capacitateMaxima << ")\n";
+	} else {
+		int disponibile = capacitateMaxima - listaPasageri.size();
+		std::cout << "Zborul are " << disponibile << " locuri ramase ("
+				 << listaPasageri.size() << "/" << capacitateMaxima << ")\n";
+	}
+}
+
+bool Zbor::corespundeNumarului(const std::string& numar) const {
+	return toUpperCase(numarZbor) == toUpperCase(numar);
+}
+
 Zbor::~Zbor() {}
+
 std::ostream& operator<<(std::ostream& COUT, const Zbor& z) {
     COUT    << "ZBOR: " << z.numarZbor
             <<"| DESTINATIE: " << z.destinatie

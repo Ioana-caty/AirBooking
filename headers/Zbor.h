@@ -6,6 +6,7 @@
 #include <cctype>
 #include "../headers/Pasager.h"
 
+class CompanieAeriana;
 
 class Zbor {
 private:
@@ -16,7 +17,7 @@ private:
     size_t capacitateMaxima;
 
     bool estePoartaValida(const std::string& poartaNoua) const;
-	bool exitaPasager(const std::string& nume) const;
+	bool existaPasager(const std::string& nume) const;
 
 public:
 
@@ -33,13 +34,20 @@ public:
 
     bool setPoarta(const std::string& nouaPoarta);
     bool adaugaPasager(const Pasager& p);
-    double calculeazaIncasariTotale() const;
-    Pasager* cautaPasagerDupaNume(const std::string &nume);
-    bool isFull() const;
+	bool isFull() const;
 	bool upgradeBiletPasager(const std::string& nume);
-	void afiseazaLocuriOcupate() const;
 	bool esteLocOcupat (const std::string& loc, const std::string& numeDeExclus) const;
+	bool corespundeNumarului(const std::string& numar) const;
+
+	double calculeazaIncasariTotale() const;
+	void afiseazaLocuriOcupate() const;
+	void afiseazaDetaliiCapacitate() const;
+
+	Pasager* cautaPasagerDupaNume(const std::string &nume);
 
 	~Zbor();
+
+
     friend std::ostream& operator<<(std::ostream& COUT, const Zbor& z);
+	friend void saveData(const CompanieAeriana& companie, const std::string& nameFile);
 };

@@ -26,7 +26,6 @@ public:
     bool adaugaZbor(const Zbor& z);
     Zbor *cautaZborDupaNumar(const std::string& numarZbor);
 
-	const std::vector<Zbor>& getZboruri() const {  return flotaZboruri; }
-
     friend std::ostream& operator<<(std::ostream& COUT, const CompanieAeriana& c);
+	friend void saveData(const CompanieAeriana& companie, const std::string& numeFisier);
 };

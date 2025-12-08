@@ -2,6 +2,8 @@
 #include <string>
 #include <iostream>
 
+class CompanieAeriana;
+
 class Bilet {
 protected:
     int biletID;
@@ -24,16 +26,18 @@ public:
     bool setLoc(const std::string& nouLoc);
     bool isWindowSeat() const;
 
-	const std::string& getLoc() const {return loc; }
-	double getPretBaza() const { return pretBaza; }
-	int getDiscountProcent() const { return discountProcent; }
-
 	virtual double getPretFinal() const = 0;
 	virtual std::string getTipClasa() const = 0;
 	virtual Bilet* clone() const = 0;
 
 	virtual ~Bilet();
+	// clasele primesc acces la membrii privati si protected ai clasei Bilet
+	// functii friend pt a accesa direct in loc de getteri
+	friend class Pasager;
+	friend class Zbor;
+	friend class BiletFactory;
     friend std::ostream& operator<<(std::ostream& COUT, const Bilet& b);
+	friend void saveData(const CompanieAeriana& companie, const std::string& nameFile);
 };
 
 // DERIVATA1 : BILET ECONOMIC
@@ -63,9 +67,6 @@ public:
 	double getPretFinal() const override;
 	std::string getTipClasa() const override;
 	Bilet* clone() const override;
-
-	// bool getAccesLounge() const { return accesLounge; }
-	// void setAccesLounge(bool acces) { accesLounge = acces; }
 
 	~BiletBusiness() override;
 };

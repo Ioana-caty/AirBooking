@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "../headers//Bilet.h"
+#include "../headers/Bilet.h"
+
+class CompanieAeriana;
 
 class Pasager {
 private:
@@ -11,10 +13,6 @@ private:
     static int counterID;
 
     Bilet* bilet;
-	/*
-		- ne putem referi acum la BiletEconomic, BiletBusiness, BiletFirstClass
-		- putem sa facem polimorfism
-	 */
 
 public:
     Pasager(const std::string& nume, const std::string& Email, Bilet* biletNou);
@@ -23,11 +21,15 @@ public:
     Pasager(const Pasager& another);
     Pasager& operator=(const Pasager& another);
 
-    const std::string& getNume() const { return nume; }
-	const std::string& getEmail() const { return email; }
-    const Bilet* getBilet() const;
-    void setBilet(const Bilet* biletNou);
+	bool areBilet() const { return bilet != nullptr; }
+	bool corespundeNumelui(const std::string& numeVerificat) const;
+	void modificaLoc(const std::string& locNou);
+	void actualizeazaBilet(const Bilet* biletNou);
+	void incasari(double& total) const;
 
 	~Pasager();
+
+	friend class Zbor;
     friend std::ostream& operator<<(std::ostream&os, const Pasager& p);
+	friend void saveData(const CompanieAeriana& companie, const std::string& nameFile);
 };

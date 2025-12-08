@@ -157,14 +157,13 @@ int main() {
 					continue;
 				}
 
-				const Bilet* biletVechi = p->getBilet();
-				if (biletVechi == nullptr) {
+				if (!p->areBilet()) {
 					std::cerr << "\nPasagerul nu are bilet inregistrat!\n";
 					continue;
 				}
 
 				std::cout << "----------------------------------------\n";
-				std::cout << "Loc vechi: " << biletVechi->getLoc() << "\n";
+				std::cout << "Bilet curent:\n " << *p << "\n";
 				std::cout << "Loc nou: "; std::cin >> locNou;
 
 				std::string locUpper = toUpperCase(locNou);
@@ -173,15 +172,13 @@ int main() {
 					continue;
 				}
 
-				Bilet* biletNou = biletVechi->clone();
-				biletNou->setLoc(locUpper);
-				if (biletNou->getLoc() != locUpper) {
-					std::cerr << "!!!EROARE: Formatul locului " << locNou << " este invalid.\n";
-					continue;
+				try {
+					p->modificaLoc(locUpper);
+					std::cout << "Locul modificat cu succes!";
 				}
-
-				p->setBilet(biletNou);
-				std::cout << "Locul modificat cu succes!\n";
+				catch (const ExceptieZboruri& e) {
+					std::cerr << "[EROARE] " << e.what() << "\n";
+				}
 			}
 			if (optiune == 8) {
 				std::string numar;
@@ -214,7 +211,7 @@ int main() {
 					continue;
 				}
 
-				if (p->getBilet() && p->getBilet()->isWindowSeat()) {
+				if (p->areBilet()) {
 					std::cout << "DA, este loc la geam!\n";
 				} else {
 					std::cout << "NU, nu este loc la geam!\n";
@@ -230,14 +227,7 @@ int main() {
 					continue;
 				}
 
-				if (z->isFull()) {
-					std::cout	<< "Zborul este PLIN (" << z->getLocuriOcupate()
-								<< "/" << z->getCapacitateMaxima() << ")\n";
-				} else {
-					int disponibile = z->getCapacitateMaxima() - z->getLocuriOcupate();
-					std::cout << "Zborul are " << disponibile << " locuri ramase ("
-							 << z->getLocuriOcupate() << "/" << z->getCapacitateMaxima() << ")\n";
-				}
+				z->afiseazaDetaliiCapacitate();
 			}
 			if (optiune == 11) {
 				std::string numar, nume;
@@ -252,9 +242,9 @@ int main() {
 				std::cout << "Nume pasager: "; std::getline(std::cin, nume);
 
 				const Pasager* p = z->cautaPasagerDupaNume(nume);
-				if (p && p->getBilet()) {
+				if (p && p->areBilet()) {
 					std::cout << "\n--- BILET CURENT ---\n";
-					std::cout << *(p->getBilet()) << "\n";
+					std::cout << *p << "\n";
 					std::cout << "--------------------------------------\n";
 				}
 
@@ -266,8 +256,8 @@ int main() {
 					if (z->upgradeBiletPasager(nume)) {
 						std::cout << "\n--- BILET ACTUALIZAT ---\n";
 						const Pasager* pNou = z->cautaPasagerDupaNume(nume);
-						if (pNou && pNou->getBilet()) {
-							std::cout << *(pNou->getBilet()) << "\n";
+						if (pNou && pNou->areBilet()) {
+							std::cout << *pNou << "\n";
 						}
 						std::cout << "-----------------------------------\n";
 					}

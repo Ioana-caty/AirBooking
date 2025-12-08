@@ -1,5 +1,6 @@
 #include "../headers/Pasager.h"
 #include "../headers/CompanieAeriana.h"
+#include "../headers/Exceptii.h"
 #include <iostream>
 
 int Pasager::counterID = 0;
@@ -41,15 +42,39 @@ Pasager &Pasager::operator=(const Pasager &other) {
 }
 
 
-const Bilet *Pasager::getBilet() const { return this->bilet; }
+bool Pasager::corespundeNumelui(const std::string& numeVerificat) const {
+	return toUpperCase(nume) == toUpperCase(numeVerificat);
+}
 
-void Pasager::setBilet(const Bilet *biletNou) {
+
+void Pasager::modificaLoc(const std::string& locNou) {
+	if (bilet == nullptr) {
+		throw ExceptieOperatie("Pasagerul nu are bilet!");
+	}
+
+	Bilet* biletNou = bilet->clone();
+	if (!biletNou->setLoc(locNou)) {
+		delete biletNou;
+		throw ExceptieValidare("Format loc invalid: "+ locNou);
+	}
+	delete this->bilet;
+	this->bilet = biletNou;
+
+}
+
+void Pasager::actualizeazaBilet(const Bilet *biletNou) {
 	if (biletNou != nullptr) {
 		delete this->bilet;
 		this->bilet = biletNou->clone();
 	} else {
 		delete this->bilet;
 		this->bilet = nullptr;
+	}
+}
+
+void Pasager::incasari(double& total) const {
+	if (bilet != nullptr) {
+		total += bilet->getPretFinal();
 	}
 }
 
