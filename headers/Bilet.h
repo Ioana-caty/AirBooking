@@ -24,7 +24,6 @@ public:
 	Bilet& operator=(const Bilet& other);
 
     bool setLoc(const std::string& nouLoc);
-    bool isWindowSeat() const;
 
 	virtual double getPretFinal() const = 0;
 	virtual std::string getTipClasa() const = 0;

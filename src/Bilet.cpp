@@ -78,14 +78,6 @@ bool Bilet::setLoc(const std::string &nouLoc) {
 	}
 }
 
-bool Bilet::isWindowSeat() const {
-	if (this->loc == "N/A") {
-		return false ;
-	} else {
-		char litera = this->loc.back();
-		return toupper(litera) == 'A' || toupper(litera) == 'F';
-	}
-}
 
 std::ostream & operator<<(std::ostream &COUT, const Bilet &b) {
 	COUT	<< "Bilet [ID: " << b.biletID

@@ -26,9 +26,7 @@ public:
 
     const std::string& getNumarZbor() const { return numarZbor; }
     int getLocuriOcupate() const {return listaPasageri.size(); }
-    size_t getCapacitateMaxima() const {return capacitateMaxima; }
 
-	const std::string& getDestinatie() const { return destinatie; }
 	const std::string& getPoarta() const { return poarta; }
 	const std::vector<Pasager>& getPasageri() const { return listaPasageri; }
 
