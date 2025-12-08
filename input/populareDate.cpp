@@ -40,6 +40,7 @@ void populareDate(CompanieAeriana &companie) {
 				double pretBaza, discount;
 
 				std::getline(fin, nume);
+				nume = toUpperCase(nume);
 				std::getline(fin, email);
 				fin >> loc >> tipClasa >> pretBaza >> discount;
 				fin.ignore();
