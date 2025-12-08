@@ -1,5 +1,6 @@
 #include "../headers/Bilet.h"
 #include "../headers/CompanieAeriana.h"
+#include "../headers/Exceptii.h"
 #include <iomanip>
 #include <iostream>
 #include <cctype>
@@ -18,18 +19,17 @@ Bilet::Bilet() : biletID(counterID++), loc("N/A"), pretBaza(0.0), discountProcen
 Bilet::Bilet(const std::string &Loc, double pretBaza, int discountProcent)
 				: biletID(counterID++), loc(Loc), pretBaza(pretBaza >= 0 ? pretBaza : 0.0), discountProcent (discountProcent) {
 
-	// validare pentru discount
 	if (this->discountProcent < 0 || this->discountProcent > 80) {
-		this->discountProcent = 0;
+		throw ExceptieValidare("Discount invalid: " + std::to_string(discountProcent) + "% (permis: 0-80%)");
 	}
 
-	// validare si setarea locului
-	if (esteLocValid(Loc)) {
-		this->loc = Loc;
-	} else {
-		std::cerr	<< "\nEROARE: Locul: " << Loc << " este invalid!\n"
-					<< "Format: cifre (1-2) + litera mare (ex: 12A, 5F)\n";
-		this->loc = "N/A";
+	if (!esteLocValid(Loc)) {
+		throw ExceptieValidare("Loc invalid: " + Loc + " (format: 1-2 cifre + litera, ex: 12A)");
+	}
+	this->loc = Loc;
+
+	if (pretBaza < 0) {
+		throw ExceptieValidare("Pret invalid: " + std::to_string(pretBaza) + " EUR (trebuie >= 0)");
 	}
 }
 

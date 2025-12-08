@@ -1,5 +1,6 @@
 #include "../headers/Zbor.h"
 #include "../headers/CompanieAeriana.h"
+#include "../headers/Exceptii.h"
 #include <iostream>
 #include <iomanip>
 
@@ -9,6 +10,10 @@ Zbor::Zbor()
 Zbor::Zbor(const std::string& nrz, const std::string& d, const std::string& p, int c)
 	: destinatie(d), capacitateMaxima(c) {
 
+	if (c <= 0) {
+		throw ExceptieValidare("Capacitate invalida: " + std::to_string(c) + " (trebuie > 0)");
+	}
+
 	// validare si conversie pentru nrz
 	std::string nrzUpper = toUpperCase(nrz);
 	this->numarZbor = nrzUpper;
@@ -16,7 +21,7 @@ Zbor::Zbor(const std::string& nrz, const std::string& d, const std::string& p, i
 	// validare poarta
 	std::string poartaUpper = toUpperCase(p);
 	if (!estePoartaValida(poartaUpper)) {
-		std::cerr << "\n!!!Eroare. Poarta " << poartaUpper <<" este invalida!\n";
+		throw ExceptieValidare("Poarta invalida: " + poartaUpper + " (format: litera + cifre, ex: A12)");
 	}
 	this->poarta = poartaUpper;
 }
@@ -65,31 +70,23 @@ bool Zbor::isFull() const {
 }
 bool Zbor::adaugaPasager(const Pasager& p) {
 	// verificare zbor este full
-    if (this->isFull()) {
-        std::cerr   << "\n!!! EROARE: Zborul " << this->numarZbor << " este PLIN("
-                    << this->getLocuriOcupate() << "/" << this->capacitateMaxima
-                    <<").\n";
-        return false;
-    }
+	if (this->isFull()) {
+		throw ExceptieCapacitate("Zborul " + this->numarZbor + " este plin");
+	}
 	// verificam daca pasagerul exista deja
 	if (this->exitaPasager(p.getNume())) {
-		std::cerr	<< "\n!!! EROARE: Pasagerul '" << p.getNume()
-					<< "' a fost deja inregistrat.\n";
-		return false;
+		throw ExceptieOperatie("Pasagerul " + p.getNume() + " este deja pe zborul " + this->numarZbor);
 	}
-	// daca am ajuns pana aici, numele pasagerului clar nu mai exista
-	// ne ramane sa verificam daca locul este disponibil
+	// verificam daca locul este disponibil
 	if (p.getBilet() != nullptr) {
 		std::string loc = p.getBilet()->getLoc();
 		if (esteLocOcupat(loc, "")) {
-			std::cerr	<< "\nEROARE: Locul: " << p.getBilet()->getLoc()
-						<< " este ocupat!\n";
-			return false;
+			throw ExceptieOperatie("Locul " + loc + " este ocupat pe zborul " + this->numarZbor);
 		}
 	}
 
-    this->listaPasageri.push_back(p);
-    return true;
+	this->listaPasageri.push_back(p);
+	return true;
 }
 double Zbor::calculeazaIncasariTotale()const {
     double total = 0.0;

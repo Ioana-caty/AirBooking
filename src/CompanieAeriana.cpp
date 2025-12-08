@@ -1,4 +1,5 @@
 #include "../headers/CompanieAeriana.h"
+#include "../headers/Exceptii.h"
 #include <iostream>
 #include <iomanip>
 #include <cctype>
@@ -19,13 +20,11 @@ bool CompanieAeriana::esteZborDuplicat(const std::string& numarZbor) const {
 }
 
 bool CompanieAeriana::adaugaZbor(const Zbor& z) {
-    if (!this->esteZborDuplicat(z.getNumarZbor())) {
-        this->flotaZboruri.push_back(z);
-    	return true;
-    } else {
-        std::cerr << "\n !!!EROARE: Zborul " << z.getNumarZbor() << " exista deja!\n";
-    	return false;
-    }
+	if (this->esteZborDuplicat(z.getNumarZbor())) {
+		throw ExceptieOperatie("Zborul " + z.getNumarZbor() + " exista deja");
+	}
+	this->flotaZboruri.push_back(z);
+	return true;
 }
 // nu e void pt ca vreau sa am detaliile zborului ca sa-l pot adauga
 Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {

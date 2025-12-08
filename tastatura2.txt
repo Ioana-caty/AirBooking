@@ -1,4 +1,4 @@
-3
+6
 RO123 Paris A12 5
 2
 Iustina Caramida
@@ -14,3 +14,18 @@ ana.m@gmail.com
 22C Economic 120.6 0
 RO789 Berlin C20 3
 0
+RO12345 praga D12 1
+1
+caramida IoAnA
+caramida@cti.ro
+12S Business 1234 73
+RO123456789 berlin F12 2
+0
+RO1234 polonia D4 4
+2
+caramida IuStina
+iustina@cti.ro
+12A FirstClass 654 20
+iustina caramida
+iustina
+13D Business 123 14
