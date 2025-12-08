@@ -2,8 +2,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <cctype>
 #include "../headers/Pasager.h"
 
 class CompanieAeriana;
@@ -20,7 +18,6 @@ private:
 	bool existaPasager(const std::string& nume) const;
 
 public:
-
     Zbor();
     Zbor(const std::string& numarZbor, const std::string& destinatie, const std::string& poarta, int capacitateMaxima);
 
@@ -44,7 +41,6 @@ public:
 	Pasager* cautaPasagerDupaNume(const std::string &nume);
 
 	~Zbor();
-
 
     friend std::ostream& operator<<(std::ostream& COUT, const Zbor& z);
 	friend void saveData(const CompanieAeriana& companie, const std::string& nameFile);

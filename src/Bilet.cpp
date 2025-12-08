@@ -1,11 +1,9 @@
 #include "../headers/Bilet.h"
 #include "../headers/CompanieAeriana.h"
 #include "../headers/Exceptii.h"
+#include "../headers/Utils.h"
 #include <iomanip>
 #include <iostream>
-#include <cctype>
-#include <algorithm>
-
 
 int Bilet::counterID = 1000; // se incepe de la 1000
 const double Bilet::TAXA_AEROPORT = 15.75;
@@ -49,24 +47,8 @@ Bilet & Bilet::operator=(const Bilet &other) {
 	return *this;
 }
 
-
 bool Bilet::esteLocValid(const std::string &Loc) {
-	// trebuie sa aiba 2-3 caractere
-	if (Loc.length() < 2 || Loc.length() > 3) {
-		return false;
-	}
-	// ultima litera trebuia sa fie majuscula
-	char ultimaLitera = Loc.back();
-	if (!std::isupper(ultimaLitera)) {
-		return false;
-	}
-	// toate caracterele inainte de ultima litera trebuie sa fie cifre
-	for (size_t i = 0; i < Loc.length() - 1; i++) {
-		if (!std::isdigit(Loc[i])) {
-			return false;
-		}
-	}
-	return true;
+	return esteFormatValid(Loc, true);
 }
 
 bool Bilet::setLoc(const std::string &nouLoc) {
@@ -77,7 +59,6 @@ bool Bilet::setLoc(const std::string &nouLoc) {
 		return false;
 	}
 }
-
 
 std::ostream & operator<<(std::ostream &COUT, const Bilet &b) {
 	COUT	<< "Bilet [ID: " << b.biletID
@@ -113,7 +94,6 @@ std::string BiletEconomic::getTipClasa() const { return "Economic"; }
 Bilet* BiletEconomic::clone() const { return new BiletEconomic(*this); }
 BiletEconomic::~BiletEconomic() {}
 
-
 // BUSINESS:
 BiletBusiness::BiletBusiness() :
 	Bilet(), accesLounge(true) {}
@@ -138,7 +118,6 @@ Bilet * BiletBusiness::clone() const { return new BiletBusiness(*this); }
 BiletBusiness::~BiletBusiness() {}
 
 // FIRST CLASS:
-
 BiletFirstClass::BiletFirstClass() :
 	Bilet(), servireMasa(true), prioritateImbracare(true) {}
 BiletFirstClass::BiletFirstClass(const std::string &Loc, double pretBaza, int discountProcent, bool servireMasa, bool prioritateImbarcare) :

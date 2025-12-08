@@ -59,10 +59,11 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         headers/CompanieAeriana.h
         src/CompanieAeriana.cpp
         Pattern/BiletFactory.h
-        input/populareDate.cpp
+        src/populareDate.cpp
         input/populareDate.h
         input/saveData.h
         headers/Exceptii.h
+        headers/Utils.h
 )
 
 target_include_directories(${MAIN_EXECUTABLE_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/inc)

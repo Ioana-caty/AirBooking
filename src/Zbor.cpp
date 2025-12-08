@@ -1,6 +1,7 @@
 #include "../headers/Zbor.h"
 #include "../headers/CompanieAeriana.h"
 #include "../headers/Exceptii.h"
+#include "../headers/Utils.h"
 #include <iostream>
 #include <iomanip>
 
@@ -27,21 +28,7 @@ Zbor::Zbor(const std::string& nrz, const std::string& d, const std::string& p, i
 }
 
 bool Zbor::estePoartaValida(const std::string& poartaNoua) const {
-	// trebuie sa aiba 2-3 caractere
-    if (poartaNoua.length() < 2 || poartaNoua.length() > 3) {
-        return false;
-    }
-	// primul caracter trebuie sa fie litera mare
-    if (!std::isupper(poartaNoua[0])) {
-	    return false;
-    }
-	// toate celelalte caractere sunt cifre
-    for (size_t i = 1; i < poartaNoua.length(); i++) {
-        if (!isdigit(poartaNoua[i])) {
-            return false;
-        }
-    }
-    return true;
+	return esteFormatValid(poartaNoua, false);
 }
 
 bool Zbor::existaPasager(const std::string& nume) const {
@@ -53,9 +40,6 @@ bool Zbor::existaPasager(const std::string& nume) const {
 	return false;
 }
 
-
-
-
 bool Zbor::setPoarta(const std:: string& nouaPoarta) {
 
     if (this-> estePoartaValida(toUpperCase(nouaPoarta))) {
@@ -65,9 +49,11 @@ bool Zbor::setPoarta(const std:: string& nouaPoarta) {
     	return false;
     }
 }
+
 bool Zbor::isFull() const {
     return this->listaPasageri.size() >= this->capacitateMaxima;
 }
+
 bool Zbor::adaugaPasager(const Pasager& p) {
 	// verificare zbor este full
 	if (this->isFull()) {
@@ -96,6 +82,7 @@ double Zbor::calculeazaIncasariTotale()const {
     }
     return total;
 }
+
 Pasager* Zbor::cautaPasagerDupaNume(const std::string& nume){
 	for (auto& pasager : this->listaPasageri) {
 	   if (pasager.corespundeNumelui(nume)) {

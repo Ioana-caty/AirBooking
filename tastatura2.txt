@@ -1,16 +1,23 @@
-3
+5
 RO123 Paris A12 5
-2
+3
 IUSTINA CARAMIDA
 i.caramida@gmail.com
 14A Economic 150 0
 COSTIN SIN
 c.sin@gmail.com
 1F Business 350.5 10
+MARA
+mara
+13B Economic 123 12
 RO456 Londra B5 4
 1
 ANA MARIA
 ana.m@gmail.com
 22C Economic 120.6 0
 RO789 Berlin C20 3
+0
+RO12345 praga D12 1
+0
+RO123456 madrid D12 12
 0

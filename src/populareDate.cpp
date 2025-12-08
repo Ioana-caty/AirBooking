@@ -2,7 +2,7 @@
 #include "../headers/Bilet.h"
 #include "../headers/Zbor.h"
 #include "../headers/Exceptii.h"
-#include "populareDate.h"
+#include "../input/populareDate.h"
 #include <iostream>
 #include <fstream>
 #include <string>

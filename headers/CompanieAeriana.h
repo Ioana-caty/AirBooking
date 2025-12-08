@@ -3,14 +3,7 @@
 #include <string>
 #include <vector>
 #include "Zbor.h"
-
-inline std::string toUpperCase(const std::string& s) {
-	std::string result = s;
-	std::transform(result.begin(), result.end(), result.begin(),
-				   [](unsigned char c){ return std::toupper(c); });
-	return result;
-}
-
+#include "Utils.h"
 
 class CompanieAeriana {
 private:

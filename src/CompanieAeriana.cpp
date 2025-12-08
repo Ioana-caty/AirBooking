@@ -2,8 +2,6 @@
 #include "../headers/Exceptii.h"
 #include <iostream>
 #include <iomanip>
-#include <cctype>
-#include <algorithm>
 
 CompanieAeriana::CompanieAeriana() : numeCompanie("Companie Anonima") {
 }
@@ -26,6 +24,7 @@ bool CompanieAeriana::adaugaZbor(const Zbor& z) {
 	this->flotaZboruri.push_back(z);
 	return true;
 }
+
 // nu e void pt ca vreau sa am detaliile zborului ca sa-l pot adauga
 Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {
     for (auto& zbor : flotaZboruri) {
@@ -37,7 +36,6 @@ Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {
 }
 
 std::ostream& operator<<(std::ostream& COUT, const CompanieAeriana& c) {
-
 	COUT << "==============================================================================================\n";
     COUT << "COMPANIE: " << c.numeCompanie << "\n";
     COUT << "FLOTA DE ZBORURI (" << c.flotaZboruri.size() << "):\n";
