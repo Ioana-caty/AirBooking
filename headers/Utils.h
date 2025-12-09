@@ -55,11 +55,6 @@ namespace Formatare {
 		return oss.str();
 	}
 
-	inline std::string formatareProcent(double procent) {
-		std::ostringstream oss;
-		oss << std::fixed << std::setprecision(1) << procent << "%";
-		return oss.str();
-	}
 }
 
 namespace UI {
@@ -97,8 +92,8 @@ namespace UI {
 
 		std::cout << "[";
 		for (int i = 0; i < lungime; ++i) {
-			if (i < pozitie) std::cout << "█";
-			else std::cout << "░";
+			if (i < pozitie) std::cout << "||";
+			else std::cout << "*";
 		}
 		std::cout << "] " << (int)(progres * 100.0) << "%\r";
 		std::cout.flush();

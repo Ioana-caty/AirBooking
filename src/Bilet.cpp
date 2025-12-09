@@ -68,7 +68,7 @@ std::ostream & operator<<(std::ostream &COUT, const Bilet &b) {
 	if (b.pretBaza <= 0) {
 		std::cout << "N/A";
 	} else {
-		COUT << std::fixed << std::setprecision(2) << b.getPretFinal() << " EUR]";
+		COUT << Formatare::formatareMoneda(b.getPretFinal());
 	}
 
 	return COUT;

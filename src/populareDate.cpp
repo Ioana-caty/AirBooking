@@ -3,9 +3,11 @@
 #include "../headers/Zbor.h"
 #include "../headers/Exceptii.h"
 #include "../input/populareDate.h"
+#include <windows.h>
 #include <iostream>
 #include <fstream>
 #include <string>
+
 
 void populareDate(CompanieAeriana &companie) {
 	UI::subtitlu("POPULARE DATE");
@@ -17,6 +19,7 @@ void populareDate(CompanieAeriana &companie) {
 		mesajEroare("Nu s-a putut deschide fisierul 'tastatura.txt'");
 		return;
 	}
+
 	int numarzboruri;
 	fin >> numarzboruri;
 	fin.ignore();
@@ -65,13 +68,22 @@ void populareDate(CompanieAeriana &companie) {
 					mesajEroare("Pasager " + nume + ": " + e.what());
 				}
 			}
+
 			companie.adaugaZbor(zbor);
 		}
 		catch (const ExceptieZboruri& e) {
 			mesajEroare("Zbor " + codZbor + ": " + e.what());
 		}
+
+		UI::baraProgres(i + 1, numarzboruri);
+		// Folosește un tip de durată generic pentru a ocoli potentialele probleme de namespace
+		// CORECT: Schimbați 'std::thread' cu 'std::this_thread'
+		Sleep(2500);
 	}
+
+	UI::baraProgres(numarzboruri, numarzboruri);
+	std::cout << "\n";
+
 	fin.close();
 	mesajSucces("Date implementate din fisier!");
 }
-

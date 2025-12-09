@@ -113,7 +113,7 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 
 	if (economic != nullptr) {
 		std::cout << "\n=== UPGRADE: Economic -> Business ===\n";
-		std::cout << "Pret actual: " << economic->getPretFinal() << " EUR\n";
+		std::cout << "Pret actual: " << Formatare::formatareMoneda(economic->getPretFinal())<< "\n";
 
 		bool accesLounge;
 		std::cout << "Acces lounge (1-DA/0-NU):";
@@ -126,11 +126,11 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 			accesLounge
 		);
 
-		std::cout << "Pret nou: " << biletNou->getPretFinal() << " EUR\n";
-		std::cout << "Diferenta: +" << (biletNou->getPretFinal() - economic->getPretFinal()) << " EUR\n";
+		std::cout << "Pret nou: " << Formatare::formatareMoneda(biletNou->getPretFinal()) << "\n";
+		std::cout << "Diferenta: +" << Formatare::formatareMoneda((biletNou->getPretFinal() - economic->getPretFinal())) << "\n";
 	} else if (business != nullptr) {
 		std::cout << "\n=== UPGRADE: Business -> First Class ===\n";
-		std::cout << "Pret actual: " << business->getPretFinal() << " EUR\n";
+		std::cout << "Pret actual: " << Formatare::formatareMoneda(business->getPretFinal()) << "\n";
 
 		bool servireMasa, prioritate;
 		std::cout << "Servire masa (1-DA/0-NU):";
@@ -146,8 +146,8 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 			prioritate
 		);
 
-		std::cout << "Pret nou: " << biletNou->getPretFinal() << " EUR\n";
-		std::cout << "Diferenta: +" << (biletNou->getPretFinal() - business->getPretFinal()) << " EUR\n";
+		std::cout << "Pret nou: " << Formatare::formatareMoneda(biletNou->getPretFinal()) << "\n";
+		std::cout << "Diferenta: +" << Formatare::formatareMoneda(biletNou->getPretFinal() - business->getPretFinal()) << "\n";
 	} else if (firstclass != nullptr) {
 		std::cout << "\n[INFO] Biletul este deja First Class - nivel maxim!\n";
 		std::cout << "Nu este posibil un upgrade ulterior.\n";
@@ -157,7 +157,7 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 	if (biletNou != nullptr) {
 		pasager->actualizeazaBilet(biletNou);
 		delete biletNou;
-		std::cout << "Upgrade realizat cu succes!\n";
+		UI::mesajSucces("Upgrade realizat cu succes!");
 		return true;
 	}
 	return true;
@@ -227,8 +227,7 @@ void Zbor::afisareFaraPasageri(bool afiseazaIncasari = false) const {
 			  << " | LOCURI: " << getLocuriOcupate() << "/" << capacitateMaxima;
 
 	if (afiseazaIncasari) {
-		std::cout << " | INCASARI: " << std::fixed << std::setprecision(2)
-				  << calculeazaIncasariTotale() << " EUR";
+		std::cout << " | INCASARI: " << Formatare::formatareMoneda(calculeazaIncasariTotale());
 	}
 
 	std::cout << "\n";
