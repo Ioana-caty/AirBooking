@@ -6,19 +6,19 @@
 #include "input/populareDate.h"
 #include "input/saveData.h"
 #include "Pattern/BiletFactory.h"
-#include <iostream>
-#include <iomanip>
-#include <fstream>
+#include "headers/Utils.h"
+
 
 int main() {
 	CompanieAeriana companie("Wizz");
+	UI::titlu("SISTEM MANAGEMENT ZBORURI - WIZZ AIR");
 
 	// Populare date cu gestionare exceptii
 	try {
 		populareDate(companie);
 	}
 	catch (const ExceptieZboruri& e) {
-		std::cerr << "EROARE la populare: " << e.what() << "\n";
+		mesajEroare(std::string("La populare: ") + e.what());
 	}
 
 	int optiune ;
@@ -37,11 +37,12 @@ int main() {
 		std::cout << "11. Upgrade bilet pasager\n";
 		std::cout << "12. Sorteaza zboruri\n";
 		std::cout << "13. Filtreaza zboruri\n";
-		std::cout <<"0. Optiune: ";
-		std::cin >> optiune;
+		std::cout <<"0. Salveeaza si iesi:\n";
 
+		std::cin >> optiune;
 		if (optiune == 0) {
 			const std::string FISIER_DATE = "tastatura2.txt";
+			UI::subtitlu("SALVARE DATE");
 			saveData(companie, FISIER_DATE);
 			break;
 		}
@@ -51,6 +52,8 @@ int main() {
 				std::cout << "\n" << companie << "\n";
 			}
 			if (optiune == 2) {
+				UI::subtitlu("ADAUGARE ZBOR");
+
 				std::string numar, destinatie, poarta;
 				int capacitateMax;
 				std::cout << "Numar zbor: "; std::cin >> numar;
@@ -61,10 +64,12 @@ int main() {
 				Zbor zbor(numar, destinatie, poarta, capacitateMax);
 				if (zbor.setPoarta(poarta)) {
 					companie.adaugaZbor(zbor);
-					std::cout << "\nZbor adaugat cu succes!\n";
+					mesajSucces("Zbor adaugat cu succes!");
 				}
 			}
 			if (optiune == 3) {
+				UI::subtitlu("CAUTARE ZBOR");
+
 				std::string numar;
 				std::cout << "Numar zbor: "; std::cin >> numar;
 
@@ -72,10 +77,12 @@ int main() {
 				if (z) {
 					std::cout << "\n" << *z << "\n";
 				} else {
-					std::cerr << "\nZbor negasit!\n";
+					mesajEroare("Zbor negasit!");
 				}
 			}
 			if (optiune == 4) {
+				UI::subtitlu("ADAUGARE PASAGER");
+
 				std::string numar, email, loc, clasa, nume;
 				double pret;
 				int discount;
@@ -86,7 +93,7 @@ int main() {
 
 				Zbor* z = companie.cautaZborDupaNumar(numar);
 				if (!z) {
-					std::cerr << "Zbor negasit!\n";
+					mesajEroare("Zbor negasit!");
 					continue;
 				}
 
@@ -102,16 +109,18 @@ int main() {
 				Bilet* bilet = BiletFactory::creeazaBilet(clasa, loc, pret, discount);
 				Pasager p(nume, email, bilet);
 				z->adaugaPasager(p);
-				std::cout << "\nPasager adaugat cu succes!\n";
+				mesajSucces("Pasager adaugat cu succes!");
 			}
 			if (optiune == 5) {
+				UI::subtitlu("CAUTARE PASAGER");
+
 				std::string numar, nume;
 				std::cout << "Numar zbor: "; std::cin>>numar;
 				std::cin.ignore();
 
 				Zbor *z = companie.cautaZborDupaNumar(numar);
 				if (!z) {
-					std::cerr << "\nZbor negasit!\n";
+					mesajEroare("Zbor negasit!");
 					continue;
 				}
 				std::cout << "Nume: "; std::getline(std::cin, nume);
@@ -119,76 +128,82 @@ int main() {
 				if (p) {
 					std::cout << "\n" << *p << "\n";
 				} else {
-					std::cerr << "\nPasager negasit!\n";
+					mesajEroare("Pasager negasit!");
 				}
 			}
 			if (optiune == 6) {
+				UI::subtitlu("MODIFICARE POARTA");
+
 				std::string numar, poarta;
 				std::cout << "Numar zbor: "; std::cin >> numar;
 
 				Zbor* z = companie.cautaZborDupaNumar(numar);
 				if (!z) {
-					std::cerr << "Zbor negasit!\n";
+					mesajEroare("Zbor negasit!");
 					continue;
 				}
 
-				std::cout << "----------------------------------------\n";
+				UI::Linie('-', 40);
 				std::cout << "Poarta veche: " << z->getPoarta() << "\n";
 				std::cout << "Poarta noua: "; std::cin >> poarta;
 				if (z->setPoarta(poarta)) {
-					std::cout << "\n Poarta schimbata cu succes!\n";
+					mesajSucces("Poarta schimbata cu succes!");
 				} else {
-					std::cout << "\nPoarta a ramas aceeasi!\n";
+					mesajInfo("Poarta a ramas aceeasi!");
 				}
 			}
 			if (optiune == 7) {
+				UI::subtitlu("MODIFICARE LOC BILET");
+
 				std::string numar, nume, locNou;
 				std::cout << "Numar zbor: "; std::cin >> numar;
 				std::cin.ignore();
 
 				Zbor* z = companie.cautaZborDupaNumar(numar);
 				if (!z) {
-					std::cerr << "Zbor negasit!\n";
+					mesajEroare("Zbor negasit!");
 					continue;
 				}
 
 				std::cout << "Nume: "; std::getline(std::cin, nume);
 				Pasager* p = z->cautaPasagerDupaNume(nume);
 				if (!p) {
-					std::cerr << "Pasager negasit!\n";
+					mesajEroare("Pasager negasit!");
 					continue;
 				}
 
 				if (!p->areBilet()) {
-					std::cerr << "\nPasagerul nu are bilet inregistrat!\n";
+					mesajEroare("Pasagerul nu are bilet inregistrat!");
 					continue;
 				}
 
-				std::cout << "----------------------------------------\n";
+				UI::Linie('-', 40);
 				std::cout << "Bilet curent:\n " << *p << "\n";
 				std::cout << "Loc nou: "; std::cin >> locNou;
 
 				std::string locUpper = toUpperCase(locNou);
 				if (z->esteLocOcupat(locUpper, nume)) {
-					std::cerr << "!!!EROARE: Locul " << locUpper << " este deja ocupat de alt pasager!\n";
+					mesajEroare("Locul " + locUpper + " este deja ocupat de alt pasager!");
 					continue;
 				}
 
 				try {
 					p->modificaLoc(locUpper);
-					std::cout << "Locul modificat cu succes!";
+					mesajSucces("Locul modificat cu succes!");
 				}
 				catch (const ExceptieZboruri& e) {
-					std::cerr << "[EROARE] " << e.what() << "\n";
+					mesajEroare(e.what());
 				}
 			}
 			if (optiune == 8) {
+				UI::subtitlu("CALCUL INCASARI");
+
 				std::string numar;
 				std::cout << "Numar zbor: "; std::cin >> numar;
 
 				const Zbor *z = companie.cautaZborDupaNumar(numar);
 				if (!z) {
-					std::cerr << "Zbor negasit!\n";
+					mesajEroare("Zbor negasit!");
 					continue;
 				}
 
@@ -196,58 +211,64 @@ int main() {
 							<< z->calculeazaIncasariTotale() << " EUR\n";
 			}
 			if (optiune == 9) {
+				UI::subtitlu("VERIFICARE LOC GEAM");
+
 				std::string numar, nume;
 				std::cout << "Numar zbor: "; std::cin >> numar;
 				std::cin.ignore();
 
 				Zbor* z = companie.cautaZborDupaNumar(numar);
 				if (!z) {
-					std::cerr <<"Zbor negasit!\n";
+					mesajEroare("Zbor negasit!");
 					continue;
 				}
 
 				std::cout << "Nume: "; std::getline(std::cin, nume);
 				const Pasager* p = z->cautaPasagerDupaNume(nume);
 				if (!p) {
-					std::cerr << "Pasager negasit!\n";
+					mesajEroare("Pasager negasit!");
 					continue;
 				}
 
 				if (p->areBilet()) {
-					std::cout << "DA, este loc la geam!\n";
+					mesajSucces("DA, este loc la geam!");
 				} else {
-					std::cout << "NU, nu este loc la geam!\n";
+					mesajInfo("NU, nu este loc la geam!");
 				}
 			}
 			if (optiune == 10) {
+				UI::subtitlu("VERIFICARE ZBOR PLIN");
+
 				std::string numar;
 				std::cout << "Numar zbor: "; std::cin >> numar;
 
 				const Zbor* z = companie.cautaZborDupaNumar(numar);
 				if (!z) {
-					std::cerr << "Zbor negasit!\n";
+					mesajEroare("Zbor negasit!");
 					continue;
 				}
 
 				z->afiseazaDetaliiCapacitate();
 			}
 			if (optiune == 11) {
+				UI::subtitlu("UPGRADE BILET PASAGER");
+
 				std::string numar, nume;
 				std::cout << "Numar zbor: "; std::cin >> numar;
 				std::cin.ignore();
 
 				Zbor* z = companie.cautaZborDupaNumar(numar);
 				if (!z) {
-					std::cerr << "Zbor negasit!\n";
+					mesajEroare("Zbor negasit!");
 					continue;
 				}
 				std::cout << "Nume pasager: "; std::getline(std::cin, nume);
 
 				const Pasager* p = z->cautaPasagerDupaNume(nume);
 				if (p && p->areBilet()) {
-					std::cout << "\n--- BILET CURENT ---\n";
+					UI::Linie('-', 40);
 					std::cout << *p << "\n";
-					std::cout << "--------------------------------------\n";
+					UI::Linie('-', 40);
 				}
 
 				char confirm;
@@ -256,22 +277,22 @@ int main() {
 
 				if (confirm == 'y' || confirm == 'Y') {
 					if (z->upgradeBiletPasager(nume)) {
-						std::cout << "\n--- BILET ACTUALIZAT ---\n";
+						mesajSucces("Upgrade realizat cu succes!");
 						const Pasager* pNou = z->cautaPasagerDupaNume(nume);
 						if (pNou && pNou->areBilet()) {
+							std::cout <<"\nBILET ACTUALIZAT:\n";
 							std::cout << *pNou << "\n";
 						}
-						std::cout << "-----------------------------------\n";
 					}
 				} else {
-					std::cout << "Upgrade anulat.\n";
+					mesajInfo("Upgrade anulat.");
 				}
 			}
 			if (optiune == 12) {
+				UI::subtitlu("SORTARE ZBORURI");
 
 				int subOptiune;
 				while (true) {
-					std::cout << "\n--- SORTEAZA ZBORURI ---\n";
 					std::cout << "1. Dupa incasari (descrescator)\n";
 					std::cout << "2. Dupa ocupare (descrescator)\n";
 					std::cout << "3. Dupa destinatie (alfabetic)\n";
@@ -299,8 +320,9 @@ int main() {
 			}
 
 			if (optiune == 13) {
+				UI::subtitlu("FILTRARE ZBORURI");
+
 				while (true) {
-					std::cout << "\n--- FILTREAZA ZBORURI ---\n";
 					std::cout << "1. Zboruri pline\n";
 					std::cout << "2. Zboruri goale\n";
 					std::cout << "3. Cauta dupa destinatie\n";
@@ -330,21 +352,20 @@ int main() {
 					}
 
 					if (zboruri.empty()) {
-						std::cout << "\nNu exista zboruri care sa indeplineasca criteriul.\n";
+						mesajInfo("Nu exista zboruri care sa indeplineasca criteriul.");
 					} else {
-						std::cout << "\n==============================================================================================\n";
+						UI::Linie('=', 90);
 						for (const auto* z : zboruri) {
 							z->afisareFaraPasageri(false);
 						}
-						std::cout << "==============================================================================================\n";
 					}
 				}
 			}
 		}
 		catch (const ExceptieZboruri& e) {
-			std::cerr << "\nEROARE: " << e.what() << "\n";
+			mesajEroare(e.what());
 		}
 	}
-	std::cout << "\nLA REVEDERE! SA AVETI O ZI BUNA!\n";
+	mesajInfo("La revedere! Sa aveti o zi buna!");
 	return 0;
 }

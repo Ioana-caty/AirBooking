@@ -48,6 +48,6 @@ void saveData(const CompanieAeriana& companie, const std::string& nameFile) {
 	}
 
 	fout.close();
-	std::cout << "\n[SUCCES] Datele au fost salavte in fisierul '" << nameFile << "'\n";
-	std::cout << "[INFO] S-au salvat " << zboruri.size() << " zboruri.\n";
+	mesajSucces("Datele au fost salvate in fisierul '" + nameFile + "'");
+	mesajInfo("S-au salvat " + std::to_string(zboruri.size()) + " zboruri.");
 }

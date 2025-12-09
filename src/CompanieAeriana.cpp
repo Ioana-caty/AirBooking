@@ -39,7 +39,7 @@ void CompanieAeriana::sorteazaZboruriDupaDestinatie() {
 	std::sort(flotaZboruri.begin(), flotaZboruri.end(), [](const Zbor& a, const Zbor& b) {
 		return toUpperCase(a.destinatie) < toUpperCase(b.destinatie);
 	});
-	std::cout << "[INFO] Zborurile au fost sortate dupa destinatie (alfabetic)\n";
+	mesajSucces("Zboruri sortate alfabetic dupa destinatie");
 }
 
 void CompanieAeriana::sorteazaZboruriDupaOcupare() {
@@ -49,7 +49,7 @@ void CompanieAeriana::sorteazaZboruriDupaOcupare() {
 				  double B = (double)b.getLocuriOcupate() / b.capacitateMaxima;
 				  return A > B;
 			  });
-	std::cout << "[INFO] Zborurile au fost sortate dupa grad de ocupare (descrescator)\n";
+	mesajSucces("Zboruri sortate dupa rata de ocupare (descrescator)");
 }
 
 void CompanieAeriana::sorteazaZboruriDupaIncasari() {
@@ -57,7 +57,7 @@ void CompanieAeriana::sorteazaZboruriDupaIncasari() {
 			  [](const Zbor& a, const Zbor& b) {
 				  return a.calculeazaIncasariTotale() > b.calculeazaIncasariTotale();
 			  });
-	std::cout << "[INFO] Zborurile au fost sortate dupa incasari (descrescator)\n";
+	mesajSucces("Zboruri sortate dupa incasari (descrescator)");
 }
 
 std::vector<Zbor*> CompanieAeriana::filtreazaZboruriPline() {

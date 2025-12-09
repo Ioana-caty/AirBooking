@@ -8,13 +8,13 @@
 #include <string>
 
 void populareDate(CompanieAeriana &companie) {
-	std::cout << "---POPULARE DATE---\n";
+	UI::subtitlu("POPULARE DATE");
 
 	const std::string FISIER_DATE = "tastatura.txt";
 	std::ifstream fin(FISIER_DATE);
 
 	if (!fin.is_open()) {
-		std::cerr << "EROARE: Nu s-a putut deschide fisierul 'tastatura.txt'\n";
+		mesajEroare("Nu s-a putut deschide fisierul 'tastatura.txt'");
 		return;
 	}
 	int numarzboruri;
@@ -62,15 +62,16 @@ void populareDate(CompanieAeriana &companie) {
 					zbor.adaugaPasager(pasager);
 				}
 				catch (const ExceptieZboruri& e) {
-					std::cerr << "[EROARE] pasager " << nume << ": " << e.what() << "\n";
+					mesajEroare("Pasager " + nume + ": " + e.what());
 				}
 			}
 			companie.adaugaZbor(zbor);
 		}
 		catch (const ExceptieZboruri& e) {
-			std::cerr << "[EROARE] zbor " << codZbor << ": " << e.what() << "\n";
+			mesajEroare("Zbor " + codZbor + ": " + e.what());
 		}
 	}
 	fin.close();
-	std::cout << "S-au implementat datele din fisier!\n";
+	mesajSucces("Date implementate din fisier!");
 }
+
