@@ -24,7 +24,7 @@ public:
 	Bilet& operator=(const Bilet& other);
 
     bool setLoc(const std::string& nouLoc);
-	const std::string getLoc() const { return loc; }
+	const std::string& getLoc() const { return loc; }
 
 	virtual double getPretFinal() const = 0;
 	virtual std::string getTipClasa() const = 0;
