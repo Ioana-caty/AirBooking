@@ -46,4 +46,8 @@ public:
     friend std::ostream& operator<<(std::ostream& COUT, const Zbor& z);
 	void afisareFaraPasageri(bool afiseazaincasari) const;
 	friend void saveData(const CompanieAeriana& companie, const std::string& nameFile);
+
+	bool operator<(const Zbor& other) const;
+	bool operator>(const Zbor& other) const;
+
 };

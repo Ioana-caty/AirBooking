@@ -232,3 +232,16 @@ void Zbor::afisareFaraPasageri(bool afiseazaIncasari = false) const {
 
 	std::cout << "\n";
 }
+
+
+bool Zbor::operator<(const Zbor& other) const {
+	// rdupa rata de ocupare
+	double rataMea = (double)getLocuriOcupate() / capacitateMaxima;
+	double rataLui = (double)other.getLocuriOcupate() / other.capacitateMaxima;
+	return rataMea < rataLui;
+}
+
+bool Zbor::operator>(const Zbor& other) const {
+	// dupa incasari
+	return calculeazaIncasariTotale() > other.calculeazaIncasariTotale();
+}
