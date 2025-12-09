@@ -219,3 +219,17 @@ std::ostream& operator<<(std::ostream& COUT, const Zbor& z) {
     }
     return COUT;
 }
+
+void Zbor::afisareFaraPasageri(bool afiseazaIncasari = false) const {
+	std::cout << "ZBOR: " << numarZbor
+			  << " | DESTINATIE: " << destinatie
+			  << " | POARTA: " << poarta
+			  << " | LOCURI: " << getLocuriOcupate() << "/" << capacitateMaxima;
+
+	if (afiseazaIncasari) {
+		std::cout << " | INCASARI: " << std::fixed << std::setprecision(2)
+				  << calculeazaIncasariTotale() << " EUR";
+	}
+
+	std::cout << "\n";
+}

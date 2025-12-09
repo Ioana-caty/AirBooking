@@ -19,6 +19,14 @@ public:
     bool adaugaZbor(const Zbor& z);
     Zbor *cautaZborDupaNumar(const std::string& numarZbor);
 
+	void sorteazaZboruriDupaDestinatie();
+	void sorteazaZboruriDupaOcupare();
+	void sorteazaZboruriDupaIncasari();
+	std::vector<Zbor*> filtreazaZboruriPline();
+	std::vector<Zbor*> filtreazaZboruriGoale();
+	std::vector<Zbor*> cautaZboruriDupaDestinatie(const std::string& dest);
+
     friend std::ostream& operator<<(std::ostream& COUT, const CompanieAeriana& c);
+	void afisareFaraPasageri(bool incasari) const;
 	friend void saveData(const CompanieAeriana& companie, const std::string& numeFisier);
 };

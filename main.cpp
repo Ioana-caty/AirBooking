@@ -35,6 +35,8 @@ int main() {
 		std::cout << "9. Verifica loc geam\n";
 		std::cout << "10. Verifica daca zborul este plin\n";
 		std::cout << "11. Upgrade bilet pasager\n";
+		std::cout << "12. Sorteaza zboruri\n";
+		std::cout << "13. Filtreaza zboruri\n";
 		std::cout <<"0. Optiune: ";
 		std::cin >> optiune;
 
@@ -263,6 +265,79 @@ int main() {
 					}
 				} else {
 					std::cout << "Upgrade anulat.\n";
+				}
+			}
+			if (optiune == 12) {
+
+				int subOptiune;
+				while (true) {
+					std::cout << "\n--- SORTEAZA ZBORURI ---\n";
+					std::cout << "1. Dupa incasari (descrescator)\n";
+					std::cout << "2. Dupa ocupare (descrescator)\n";
+					std::cout << "3. Dupa destinatie (alfabetic)\n";
+					std::cout << "0. Meniu Princial\n";
+					std::cout << "Optiune: ";
+
+					std::cin >> subOptiune;
+
+					if (subOptiune == 0) {
+						break;
+					}
+					if (subOptiune == 1) {
+						companie.sorteazaZboruriDupaIncasari();
+						companie.afisareFaraPasageri(true);   // cu incasari
+					}
+					if (subOptiune == 2) {
+						companie.sorteazaZboruriDupaOcupare();
+						companie.afisareFaraPasageri(false); // fara incasari
+					}
+					if (subOptiune == 3) {
+						companie.sorteazaZboruriDupaDestinatie();
+						companie.afisareFaraPasageri(false);
+					}
+				}
+			}
+
+			if (optiune == 13) {
+				while (true) {
+					std::cout << "\n--- FILTREAZA ZBORURI ---\n";
+					std::cout << "1. Zboruri pline\n";
+					std::cout << "2. Zboruri goale\n";
+					std::cout << "3. Cauta dupa destinatie\n";
+					std::cout << "0. Meniu Principal\n";
+					std::cout << "Optiune: ";
+
+					int subOptiune;
+					std::cin >> subOptiune;
+
+					if (subOptiune == 0) {
+						break;
+					}
+
+					std::vector<Zbor*> zboruri;
+
+					if (subOptiune == 1) {
+						zboruri = companie.filtreazaZboruriPline();
+					}
+					if (subOptiune == 2) {
+						zboruri = companie.filtreazaZboruriGoale();
+					}
+					if (subOptiune == 3) {
+						std::string dest;
+						std::cout << "Destinatie: ";
+						std::cin >> dest;
+						zboruri = companie.cautaZboruriDupaDestinatie(dest);
+					}
+
+					if (zboruri.empty()) {
+						std::cout << "\nNu exista zboruri care sa indeplineasca criteriul.\n";
+					} else {
+						std::cout << "\n==============================================================================================\n";
+						for (const auto* z : zboruri) {
+							z->afisareFaraPasageri(false);
+						}
+						std::cout << "==============================================================================================\n";
+					}
 				}
 			}
 		}

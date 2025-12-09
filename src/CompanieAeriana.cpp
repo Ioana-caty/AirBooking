@@ -35,6 +35,68 @@ Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {
     return nullptr;
 }
 
+void CompanieAeriana::sorteazaZboruriDupaDestinatie() {
+	std::sort(flotaZboruri.begin(), flotaZboruri.end(), [](const Zbor& a, const Zbor& b) {
+		return toUpperCase(a.destinatie) < toUpperCase(b.destinatie);
+	});
+	std::cout << "[INFO] Zborurile au fost sortate dupa destinatie (alfabetic)\n";
+}
+
+void CompanieAeriana::sorteazaZboruriDupaOcupare() {
+	std::sort(flotaZboruri.begin(), flotaZboruri.end(),
+			  [](const Zbor& a, const Zbor& b) {
+				  double A = (double)a.getLocuriOcupate() / a.capacitateMaxima;
+				  double B = (double)b.getLocuriOcupate() / b.capacitateMaxima;
+				  return A > B;
+			  });
+	std::cout << "[INFO] Zborurile au fost sortate dupa grad de ocupare (descrescator)\n";
+}
+
+void CompanieAeriana::sorteazaZboruriDupaIncasari() {
+	std::sort(flotaZboruri.begin(), flotaZboruri.end(),
+			  [](const Zbor& a, const Zbor& b) {
+				  return a.calculeazaIncasariTotale() > b.calculeazaIncasariTotale();
+			  });
+	std::cout << "[INFO] Zborurile au fost sortate dupa incasari (descrescator)\n";
+}
+
+std::vector<Zbor*> CompanieAeriana::filtreazaZboruriPline() {
+	std::vector<Zbor*> rezultat;
+
+	for (auto& zbor : flotaZboruri) {
+		if (zbor.isFull()) {
+			rezultat.push_back(&zbor);
+		}
+	}
+
+	return rezultat;
+}
+
+std::vector<Zbor*> CompanieAeriana::filtreazaZboruriGoale() {
+	std::vector<Zbor*> rezultat;
+
+	for (auto& zbor : flotaZboruri) {
+		if (zbor.getLocuriOcupate() == 0) {
+			rezultat.push_back(&zbor);
+		}
+	}
+
+	return rezultat;
+}
+
+std::vector<Zbor*> CompanieAeriana::cautaZboruriDupaDestinatie(const std::string& dest) {
+	std::vector<Zbor*> rezultat;
+
+	std::string destUpper = toUpperCase(dest);
+
+	for (auto& zbor : flotaZboruri) {
+		if (toUpperCase(zbor.destinatie) == destUpper) {
+			rezultat.push_back(&zbor);
+		}
+	}
+	return rezultat;
+}
+
 std::ostream& operator<<(std::ostream& COUT, const CompanieAeriana& c) {
 	COUT << "==============================================================================================\n";
     COUT << "COMPANIE: " << c.numeCompanie << "\n";
@@ -49,4 +111,12 @@ std::ostream& operator<<(std::ostream& COUT, const CompanieAeriana& c) {
         }
     }
     return COUT;
+}
+
+void CompanieAeriana::afisareFaraPasageri(bool incasari) const {
+	std::cout << "\n==============================================================================================\n";
+	for (const auto& zbor : flotaZboruri) {
+		zbor.afisareFaraPasageri(incasari);
+	}
+	std::cout << "==============================================================================================\n";
 }
