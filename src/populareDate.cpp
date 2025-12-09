@@ -3,7 +3,7 @@
 #include "../headers/Zbor.h"
 #include "../headers/Exceptii.h"
 #include "../input/populareDate.h"
-#include <windows.h>
+// #include <windows.h>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -76,9 +76,7 @@ void populareDate(CompanieAeriana &companie) {
 		}
 
 		UI::baraProgres(i + 1, numarzboruri);
-		// Folosește un tip de durată generic pentru a ocoli potentialele probleme de namespace
-		// CORECT: Schimbați 'std::thread' cu 'std::this_thread'
-		Sleep(2500);
+		// Sleep(2500);
 	}
 
 	UI::baraProgres(numarzboruri, numarzboruri);
