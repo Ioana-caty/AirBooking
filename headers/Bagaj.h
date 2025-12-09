@@ -17,7 +17,7 @@ public:
 	Bagaj();
 	Bagaj(TipBagaj tip, double greutate);
 
-	TipBagaj getTip() const { return tip; }
+
 	double getGreutate() const { return greutate; }
 
 	bool esteSupraponderal() const;

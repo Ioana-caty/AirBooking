@@ -14,7 +14,6 @@ public:
 	CheckIn(const std::string& pasager, const std::string& zbor, const std::string& loc);
 
 	void adaugaBagaj(const Bagaj& b);
-	int getNumarBagaje() const { return bagaje.size(); }
 	double getGreutateTotala() const;
 	double getTaxeTotaleBagaje() const;
 
