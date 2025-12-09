@@ -1,9 +1,10 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "../headers/Bilet.h"
+#include "Bilet.h"
 
 class CompanieAeriana;
+class CheckIn;
 
 class Pasager {
 private:
@@ -13,6 +14,7 @@ private:
 	static int counterID;
 
 	Bilet* bilet;
+	CheckIn* checkIn;
 
 public:
 	Pasager(const std::string& nume, const std::string& Email, Bilet* biletNou);
@@ -26,6 +28,10 @@ public:
 	void modificaLoc(const std::string& locNou);
 	void actualizeazaBilet(const Bilet* biletNou);
 	void incasari(double& total) const;
+
+	bool areCheckIn() const { return checkIn != nullptr; }
+	CheckIn* getCheckIn() { return checkIn; }
+	void efectueazaCheckIn(const std::string& numarZbor);
 
 	~Pasager();
 

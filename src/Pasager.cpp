@@ -2,17 +2,21 @@
 #include "../headers/CompanieAeriana.h"
 #include "../headers/Exceptii.h"
 #include "../headers/Utils.h"
+#include "../headers/CheckIn.h"
 #include <iostream>
 
 int Pasager::counterID = 0;
 
 Pasager::Pasager(const std::string &nume, const std::string &Email, Bilet *biletNou)
-	: nume(toUpperCase(nume)), email(Email), pasagerID(counterID++), bilet(biletNou) {
-}
-Pasager::Pasager() : nume("not_specified"), email("none@gmail.com"), pasagerID(counterID++), bilet(nullptr) {
+	: nume(toUpperCase(nume)), email(Email), pasagerID(counterID++), bilet(biletNou), checkIn(nullptr) {
 }
 
-Pasager::Pasager(const Pasager &other) : nume(other.nume), email(other.email), pasagerID(other.pasagerID) {
+Pasager::Pasager()
+	: nume("not_specified"), email("none@gmail.com"), pasagerID(counterID++), bilet(nullptr), checkIn(nullptr) {
+}
+
+Pasager::Pasager(const Pasager &other)
+	: nume(other.nume), email(other.email), pasagerID(other.pasagerID), checkIn(nullptr) {
 	if (other.bilet != nullptr) {
 		bilet = other.bilet->clone();
 	} else {
@@ -29,13 +33,14 @@ Pasager &Pasager::operator=(const Pasager &other) {
 	this->email = other.email;
 	this->pasagerID = other.pasagerID;
 
-	delete this->bilet; // stergem biletul vechi
-	this->bilet = nullptr; // pentru siguranta
+	delete this->bilet;
+	this->bilet = nullptr;
+
+	delete this->checkIn;
+	this->checkIn = nullptr;
 
 	if (other.bilet != nullptr) {
 		this->bilet = other.bilet->clone();
-	} else {
-		this->bilet = nullptr;
 	}
 
 	return *this;
@@ -57,7 +62,6 @@ void Pasager::modificaLoc(const std::string& locNou) {
 	}
 	delete this->bilet;
 	this->bilet = biletNou;
-
 }
 
 void Pasager::actualizeazaBilet(const Bilet *biletNou) {
@@ -76,9 +80,26 @@ void Pasager::incasari(double& total) const {
 	}
 }
 
+void Pasager::efectueazaCheckIn(const std::string& numarZbor) {
+	if (bilet == nullptr) {
+		mesajEroare("Pasagerul nu are bilet! Nu se poate face check-in.");
+		return;
+	}
+
+	if (checkIn != nullptr) {
+		mesajInfo("Check-in deja efectuat pentru acest pasager!");
+		return;
+	}
+
+	checkIn = new CheckIn(nume, numarZbor, bilet->getLoc());
+}
+
 Pasager::~Pasager() {
-	delete bilet; // fara el, atunci cand se sterge PAsagerul, biletul ramane
+	delete bilet;
 	bilet = nullptr;
+
+	delete checkIn;
+	checkIn = nullptr;
 }
 
 std::ostream &operator<<(std::ostream &COUT, const Pasager &p) {

@@ -2,6 +2,8 @@
 #include "headers/Pasager.h"
 #include "headers/Zbor.h"
 #include "headers/CompanieAeriana.h"
+#include "headers/Bagaj.h"
+#include "headers/CheckIn.h"
 #include "headers/Exceptii.h"
 #include "input/populareDate.h"
 #include "input/saveData.h"
@@ -37,7 +39,10 @@ int main() {
 		std::cout << "11. Upgrade bilet pasager\n";
 		std::cout << "12. Sorteaza zboruri\n";
 		std::cout << "13. Filtreaza zboruri\n";
-		std::cout <<"0. Salveeaza si iesi:\n";
+		std::cout << "14. Check-in pasager\n";
+		std::cout << "15. Adauga bagaj la check-in\n";
+		std::cout << "16. Afiseaza detalii check-in\n";
+		std::cout <<"0. Salveaza si iesi:\n";
 
 		std::cin >> optiune;
 		if (optiune == 0) {
@@ -360,6 +365,134 @@ int main() {
 						}
 					}
 				}
+			}
+			if (optiune == 14) {
+				UI::subtitlu("CHECK-IN PASAGER");
+
+				std::string numar, nume;
+				std::cout << "Numar zbor: ";
+				std::cin >> numar;
+				std::cin.ignore();
+
+				Zbor* z = companie.cautaZborDupaNumar(numar);
+				if (!z) {
+					mesajEroare("Zbor negasit!");
+					continue;
+				}
+
+				std::cout << "Nume pasager: ";
+				std::getline(std::cin, nume);
+
+				Pasager* p = z->cautaPasagerDupaNume(nume);
+				if (!p) {
+					mesajEroare("Pasager negasit!");
+					continue;
+				}
+
+				if (!p->areBilet()) {
+					mesajEroare("Pasagerul nu are bilet!");
+					continue;
+				}
+
+				p->efectueazaCheckIn(numar);
+			}
+
+			if (optiune == 15) {
+				UI::subtitlu("ADAUGARE BAGAJ");
+
+				std::string numar, nume;
+				std::cout << "Numar zbor: ";
+				std::cin >> numar;
+				std::cin.ignore();
+
+				Zbor* z = companie.cautaZborDupaNumar(numar);
+				if (!z) {
+					mesajEroare("Zbor negasit!");
+					continue;
+				}
+
+				std::cout << "Nume pasager: ";
+				std::getline(std::cin, nume);
+
+				Pasager* p = z->cautaPasagerDupaNume(nume);
+				if (!p) {
+					mesajEroare("Pasager negasit!");
+					continue;
+				}
+
+				if (!p->areCheckIn()) {
+					mesajEroare("Pasagerul nu are check-in efectuat!");
+					continue;
+				}
+
+				std::cout << "\nTipuri bagaj:\n";
+				std::cout << "1. De mana (10kg, gratis)\n";
+				std::cout << "2. Cabina (10kg, 20 EUR)\n";
+				std::cout << "3. Cala mic (23kg, 35 EUR)\n";
+				std::cout << "4. Cala mare (32kg, 50 EUR)\n";
+
+				int tipBagaj;
+				double greutate;
+
+				std::cout << "Tip bagaj: ";
+				std::cin >> tipBagaj;
+				std::cout << "Greutate (kg): ";
+				std::cin >> greutate;
+
+				TipBagaj tip;
+				switch(tipBagaj) {
+					case 1: tip = TipBagaj::DE_MANA; break;
+					case 2: tip = TipBagaj::CABINA; break;
+					case 3: tip = TipBagaj::CALA_MIC; break;
+					case 4: tip = TipBagaj::CALA_MARE; break;
+					default:
+						mesajEroare("Tip invalid!");
+						continue;
+				}
+
+				Bagaj bagaj(tip, greutate);
+				std::cout << "\n" << bagaj << "\n";
+
+				char confirma;
+				std::cout << "\nAdaugi bagajul? (y/n): ";
+				std::cin >> confirma;
+
+				if (confirma == 'y' || confirma == 'Y') {
+					p->getCheckIn()->adaugaBagaj(bagaj);
+				} else {
+					mesajInfo("Bagaj neadaugat.");
+				}
+			}
+
+			if (optiune == 16) {
+				UI::subtitlu("DETALII CHECK-IN");
+
+				std::string numar, nume;
+				std::cout << "Numar zbor: ";
+				std::cin >> numar;
+				std::cin.ignore();
+
+				Zbor* z = companie.cautaZborDupaNumar(numar);
+				if (!z) {
+					mesajEroare("Zbor negasit!");
+					continue;
+				}
+
+				std::cout << "Nume pasager: ";
+				std::getline(std::cin, nume);
+
+				Pasager* p = z->cautaPasagerDupaNume(nume);
+				if (!p) {
+					mesajEroare("Pasager negasit!");
+					continue;
+				}
+
+				if (!p->areCheckIn()) {
+					mesajEroare("Pasagerul nu are check-in efectuat!");
+					continue;
+				}
+
+				std::cout << *(p->getCheckIn()) << "\n";
 			}
 		}
 		catch (const ExceptieZboruri& e) {

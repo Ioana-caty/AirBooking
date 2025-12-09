@@ -64,6 +64,10 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         input/saveData.h
         headers/Exceptii.h
         headers/Utils.h
+        headers/Bagaj.h
+        src/Bagaj.cpp
+        headers/CheckIn.h
+        src/CheckIn.cpp
 )
 
 target_include_directories(${MAIN_EXECUTABLE_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/inc)
