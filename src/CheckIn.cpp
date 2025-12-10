@@ -15,9 +15,8 @@ CheckIn::CheckIn(const std::string& pasager, const std::string& zbor, const std:
 void CheckIn::adaugaBagaj(const Bagaj& b) {
     bagaje.push_back(b);
 
-	double taxaBagaj = b.getTaxaBagaj() + b.getTaxaExtra();
-
 	if (biletPasager != nullptr) {
+		double taxaBagaj = b.getTaxaBagaj() + b.getTaxaExtra();
 		biletPasager->pretBaza += taxaBagaj;
 		mesajSucces("Bagaj adaugat: " + b.getTipString());
 		mesajInfo("Pret bilet actualizat: +" + Formatare::formatareMoneda(taxaBagaj));
