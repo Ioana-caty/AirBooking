@@ -1,20 +1,28 @@
 #include "../headers/CheckIn.h"
+#include "../headers/Bilet.h"
 #include "../headers/Utils.h"
 #include <iostream>
 
-CheckIn::CheckIn(const std::string& pasager, const std::string& zbor, const std::string& loc)
+CheckIn::CheckIn(const std::string& pasager, const std::string& zbor, const std::string& loc, Bilet* bilet)
     : numePasager(toUpperCase(pasager)),
       numarZbor(toUpperCase(zbor)),
-      loc(toUpperCase(loc)) {
+      loc(toUpperCase(loc)),
+	  biletPasager(bilet) {
 
     mesajSucces("Check-in creat pentru " + numePasager);
 }
 
 void CheckIn::adaugaBagaj(const Bagaj& b) {
     bagaje.push_back(b);
-    mesajSucces("Bagaj adaugat: " + b.getTipString());
 
-    // Afișăm dacă e supraponderal
+	double taxaBagaj = b.getTaxaBagaj() + b.getTaxaExtra();
+
+	if (biletPasager != nullptr) {
+		biletPasager->pretBaza += taxaBagaj;
+		mesajSucces("Bagaj adaugat: " + b.getTipString());
+		mesajInfo("Pret bilet actualizat: +" + Formatare::formatareMoneda(taxaBagaj));
+	}
+
     if (b.esteSupraponderal()) {
         mesajInfo("ATENTIE: Bagaj supraponderal! Taxa extra: " +
                   Formatare::formatareMoneda(b.getTaxaExtra()));
@@ -67,6 +75,11 @@ std::ostream& operator<<(std::ostream& os, const CheckIn& c) {
     } else {
         os << "\nNiciun bagaj inregistrat.\n";
     }
+
+	if (c.biletPasager != nullptr) {
+		os << "\n>>> PRET BILET ACTUALIZAT: "
+		   << Formatare::formatareMoneda(c.biletPasager->getPretFinal()) << " <<<\n";
+	}
 
     UI::Linie('=', 60);
 

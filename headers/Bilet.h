@@ -35,7 +35,7 @@ public:
 	// functii friend pt a accesa direct in loc de getteri
 
 	friend class Zbor;
-	// friend class BiletFactory;
+	friend class CheckIn;
     friend std::ostream& operator<<(std::ostream& COUT, const Bilet& b);
 	friend void saveData(const CompanieAeriana& companie, const std::string& nameFile);
 };

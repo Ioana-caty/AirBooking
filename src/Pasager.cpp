@@ -91,7 +91,7 @@ void Pasager::efectueazaCheckIn(const std::string& numarZbor) {
 		return;
 	}
 
-	checkIn = new CheckIn(nume, numarZbor, bilet->getLoc());
+	checkIn = new CheckIn(nume, numarZbor, bilet->getLoc(), bilet);
 }
 
 Pasager::~Pasager() {

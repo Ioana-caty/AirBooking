@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include "Bagaj.h"
+#include "../headers/Bilet.h"
+
 
 class CheckIn {
 private:
@@ -10,8 +12,10 @@ private:
 	std::string loc;
 	std::vector<Bagaj> bagaje;
 
+	Bilet* biletPasager;
+
 public:
-	CheckIn(const std::string& pasager, const std::string& zbor, const std::string& loc);
+	CheckIn(const std::string& pasager, const std::string& zbor, const std::string& loc, Bilet* bilet);
 
 	void adaugaBagaj(const Bagaj& b);
 	double getGreutateTotala() const;
