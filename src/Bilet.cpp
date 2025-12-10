@@ -142,3 +142,31 @@ std::string BiletFirstClass::getTipClasa() const { return "FirstClass"; }
 Bilet * BiletFirstClass::clone() const { return new BiletFirstClass(*this); }
 
 BiletFirstClass::~BiletFirstClass() {}
+
+// BILET PREMIUM:
+const double BiletPremium::TAXA_PREMIUM = 45.0;
+
+BiletPremium::BiletPremium() : Bilet(), bautura(true), prioritate(true) {}
+
+BiletPremium::BiletPremium(const std::string& Loc, double pretBaza, int discountProcent, bool bautura, bool prioritate):
+	Bilet(Loc, pretBaza, discountProcent), bautura(bautura), prioritate(prioritate) {}
+
+double BiletPremium::getPretFinal() const {
+	double pretCuTaxe = this->pretBaza + Bilet::TAXA_AEROPORT + BiletPremium::TAXA_PREMIUM;
+	if (this->bautura) {
+		pretCuTaxe += 10.0;
+	}
+	if (this->prioritate) {
+		pretCuTaxe += 14.0;
+	}
+	double discount = 0.0;
+	if (this->discountProcent > 0) {
+		discount = pretCuTaxe * (static_cast<double>(this->discountProcent) / 100.0);
+	}
+	return pretCuTaxe - discount;
+}
+
+std::string BiletPremium::getTipClasa() const { return "Premium"; }
+Bilet* BiletPremium::clone() const { return new BiletPremium(*this); }
+
+BiletPremium::~BiletPremium() {}

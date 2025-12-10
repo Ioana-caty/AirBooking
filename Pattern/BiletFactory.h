@@ -21,6 +21,13 @@ public:
 			std::cout << "Prioritate imbarcare (1-DA/0-NU): ";
 			std::cin >> prioritate;
 			return new BiletFirstClass(Loc, pretBaza, discountProcent, servireMasa, prioritate);
+		} else if (tip == "premium") {  // ADAUGĂ ASTA
+			bool bautura, prioritate;
+			std::cout << "Bautura gratuita (1-DA/0-NU): ";
+			std::cin >> bautura;
+			std::cout << "Prioritate imbarcare (1-DA/0-NU): ";
+			std::cin >> prioritate;
+			return new BiletPremium(Loc, pretBaza, discountProcent, bautura, prioritate);
 		} else {
 			std::cerr << "Clasa necunoscuta: " << tipClasa << ", se foloseste Economic\n";
 			return new BiletEconomic(Loc, pretBaza, discountProcent);

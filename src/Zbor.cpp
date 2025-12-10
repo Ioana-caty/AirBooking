@@ -107,27 +107,50 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 
 	const BiletEconomic* economic = dynamic_cast<const BiletEconomic*>(biletVechi);
 	const BiletBusiness* business = dynamic_cast<const BiletBusiness*>(biletVechi);
+	const BiletPremium* premium = dynamic_cast<const BiletPremium*>(biletVechi);
 	const BiletFirstClass* firstclass = dynamic_cast<const BiletFirstClass*>(biletVechi);
 
 	Bilet* biletNou = nullptr;
 
 	if (economic != nullptr) {
-		std::cout << "\n=== UPGRADE: Economic -> Business ===\n";
+		std::cout << "\n=== UPGRADE: Economic -> Premium ===\n";
 		std::cout << "Pret actual: " << Formatare::formatareMoneda(economic->getPretFinal())<< "\n";
 
+		bool bautura, prioritate;
+		std::cout << "Bautura gratuita (1-DA/0-NU): ";
+		std::cin >> bautura;
+		std::cout << "Prioritate imbarcare (1-DA/0-NU): ";
+		std::cin >> prioritate;
+
+		biletNou = new BiletPremium(
+			biletVechi->loc,
+			biletVechi->pretBaza + 40.0,
+			biletVechi->discountProcent,
+			bautura,
+			prioritate
+		);
+
+		std::cout << "Pret nou: " << Formatare::formatareMoneda(biletNou->getPretFinal()) << "\n";
+		std::cout << "Diferenta: +" << Formatare::formatareMoneda((biletNou->getPretFinal() - economic->getPretFinal())) << "\n";
+
+	} else if (premium != nullptr) {
+		std::cout << "\n=== UPGRADE: Premium -> Business ===\n";
+		std::cout << "Pret actual: " << Formatare::formatareMoneda(premium->getPretFinal()) << "\n";
+
 		bool accesLounge;
-		std::cout << "Acces lounge (1-DA/0-NU):";
+		std::cout << "Acces lounge (1-DA/0-NU): ";
 		std::cin >> accesLounge;
 
 		biletNou = new BiletBusiness(
-			biletVechi->loc,
-			biletVechi->pretBaza + 50.0,
+			biletVechi->getLoc(),
+			biletVechi->pretBaza + 30.0,
 			biletVechi->discountProcent,
 			accesLounge
 		);
 
 		std::cout << "Pret nou: " << Formatare::formatareMoneda(biletNou->getPretFinal()) << "\n";
-		std::cout << "Diferenta: +" << Formatare::formatareMoneda((biletNou->getPretFinal() - economic->getPretFinal())) << "\n";
+		std::cout << "Diferenta: +" << Formatare::formatareMoneda(biletNou->getPretFinal() - premium->getPretFinal()) << "\n";
+
 	} else if (business != nullptr) {
 		std::cout << "\n=== UPGRADE: Business -> First Class ===\n";
 		std::cout << "Pret actual: " << Formatare::formatareMoneda(business->getPretFinal()) << "\n";
@@ -139,7 +162,7 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 		std::cin >> prioritate;
 
 		biletNou = new BiletFirstClass(
-			biletVechi->loc,
+			biletVechi->getLoc(),
 			biletVechi->pretBaza + 100.0,
 			biletVechi->discountProcent,
 			servireMasa,
@@ -148,6 +171,7 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 
 		std::cout << "Pret nou: " << Formatare::formatareMoneda(biletNou->getPretFinal()) << "\n";
 		std::cout << "Diferenta: +" << Formatare::formatareMoneda(biletNou->getPretFinal() - business->getPretFinal()) << "\n";
+
 	} else if (firstclass != nullptr) {
 		std::cout << "\n[INFO] Biletul este deja First Class - nivel maxim!\n";
 		std::cout << "Nu este posibil un upgrade ulterior.\n";

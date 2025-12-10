@@ -71,7 +71,7 @@ public:
 	~BiletBusiness() override;
 };
 
-
+// DERIVATA3: BILET FIRST CLASS
 class BiletFirstClass : public Bilet {
 private:
 	static const double TAXA_LUXURY;
@@ -87,4 +87,23 @@ public:
 	Bilet* clone() const override;
 
 	~BiletFirstClass() override;
+};
+
+// DERIVATA4: PREMIUM
+class BiletPremium : public Bilet {
+private:
+	static const double TAXA_PREMIUM;
+	bool bautura;
+	bool prioritate;
+
+public:
+	BiletPremium();
+	BiletPremium(const std::string& Loc, double pretBaza, int discountProcent,
+				 bool bautura = true, bool prioritate = true);
+
+	double getPretFinal() const override;
+	std::string getTipClasa() const override;
+	Bilet* clone() const override;
+
+	~BiletPremium() override;
 };
