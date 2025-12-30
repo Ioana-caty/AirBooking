@@ -14,7 +14,7 @@ private:
     std::vector<Pasager> listaPasageri;
     size_t capacitateMaxima;
 
-    bool estePoartaValida(const std::string& poartaNoua) const;
+	bool estePoartaValida(const std::string& poartaNoua) const;
 	bool existaPasager(const std::string& nume) const;
 
 public:
@@ -27,6 +27,7 @@ public:
 	const std::string& getPoarta() const { return poarta; }
 	const std::vector<Pasager>& getPasageri() const { return listaPasageri; }
 	const std::string& getDestinatie() const {return destinatie; }
+	size_t getCapacitateMaxima() const { return capacitateMaxima; }
 
     bool setPoarta(const std::string& nouaPoarta);
     bool adaugaPasager(const Pasager& p);
@@ -47,8 +48,4 @@ public:
     friend std::ostream& operator<<(std::ostream& COUT, const Zbor& z);
 	void afisareFaraPasageri(bool afiseazaincasari) const;
 	friend void saveData(const CompanieAeriana& companie, const std::string& nameFile);
-
-	bool operator<(const Zbor& other) const;
-	bool operator>(const Zbor& other) const;
-
 };

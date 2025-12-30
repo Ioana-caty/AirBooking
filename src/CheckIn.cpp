@@ -1,7 +1,6 @@
 #include "../headers/CheckIn.h"
 #include "../headers/Bilet.h"
 #include "../headers/Utils.h"
-#include <iostream>
 
 CheckIn::CheckIn(const std::string& pasager, const std::string& zbor, const std::string& loc, Bilet* bilet)
     : numePasager(toUpperCase(pasager)),
@@ -12,19 +11,19 @@ CheckIn::CheckIn(const std::string& pasager, const std::string& zbor, const std:
     mesajSucces("Check-in creat pentru " + numePasager);
 }
 
-void CheckIn::adaugaBagaj(const Bagaj& b) {
-    bagaje.push_back(b);
+void CheckIn::adaugaBagaj(const Bagaj& bagaj) {
+    bagaje.push_back(bagaj);
 
 	if (biletPasager != nullptr) {
-		double taxaBagaj = b.getTaxaBagaj() + b.getTaxaExtra();
-		biletPasager->setPretBaza(biletPasager->getPretBaza() + taxaBagaj);
-		mesajSucces("Bagaj adaugat: " + b.getTipString());
+		const double taxaBagaj = bagaj.getTaxaBagaj() + bagaj.getTaxaExtra();
+		biletPasager->addTaxaBagaj(taxaBagaj);
+		mesajSucces("Bagaj adaugat: " + bagaj.getTipString());
 		mesajInfo("Pret bilet actualizat: +" + Formatare::formatareMoneda(taxaBagaj));
 	}
 
-    if (b.esteSupraponderal()) {
+    if (bagaj.esteSupraponderal()) {
         mesajInfo("ATENTIE: Bagaj supraponderal! Taxa extra: " +
-                  Formatare::formatareMoneda(b.getTaxaExtra()));
+                  Formatare::formatareMoneda(bagaj.getTaxaExtra()));
     }
 }
 

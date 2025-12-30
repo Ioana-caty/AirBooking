@@ -44,7 +44,10 @@ void CompanieAeriana::sorteazaZboruriDupaDestinatie() {
 void CompanieAeriana::sorteazaZboruriDupaOcupare() {
 	std::sort(flotaZboruri.begin(), flotaZboruri.end(),
 			  [](const Zbor& a, const Zbor& b) {
-				  return b < a;
+			  	double rataA = (double)a.getLocuriOcupate() / a.getCapacitateMaxima();
+				double rataB = (double)b.getLocuriOcupate() / b.getCapacitateMaxima();
+
+				return rataA > rataB;
 			  });
 	mesajSucces("Zboruri sortate dupa rata de ocupare (descrescator)");
 }
@@ -52,7 +55,7 @@ void CompanieAeriana::sorteazaZboruriDupaOcupare() {
 void CompanieAeriana::sorteazaZboruriDupaIncasari() {
 	std::sort(flotaZboruri.begin(), flotaZboruri.end(),
 			  [](const Zbor& a, const Zbor& b) {
-				  return a > b;
+			  	return a.calculeazaIncasariTotale() > b.calculeazaIncasariTotale();
 			  });
 	mesajSucces("Zboruri sortate dupa incasari (descrescator)");
 }

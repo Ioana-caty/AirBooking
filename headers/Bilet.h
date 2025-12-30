@@ -28,7 +28,7 @@ public:
 	double getPretBaza() const { return pretBaza; }
 	int getDiscountProcent() const { return discountProcent; }
 
-	void setPretBaza(double value) {pretBaza = value; }
+	void addTaxaBagaj(const double taxa) {pretBaza += taxa; }
 
 	virtual double getPretFinal() const = 0;
 	virtual std::string getTipClasa() const = 0;
