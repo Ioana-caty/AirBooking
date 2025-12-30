@@ -23,7 +23,7 @@ public:
 	Pasager(const Pasager& another);
 	Pasager& operator=(const Pasager& another);
 
-	const std::string getNume() const { return nume; }
+	const std::string& getNume() const { return nume; }
 	const Bilet* getBilet() const { return bilet; }
 
 	bool areBilet() const { return bilet != nullptr; }
@@ -33,7 +33,7 @@ public:
 	void incasari(double& total) const;
 
 	bool areCheckIn() const { return checkIn != nullptr; }
-	CheckIn* getCheckIn() { return checkIn; }
+	CheckIn* getCheckIn() const { return checkIn; }
 	void efectueazaCheckIn(const std::string& numarZbor);
 
 	~Pasager();
