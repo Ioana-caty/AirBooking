@@ -36,7 +36,7 @@ Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {
 
 void CompanieAeriana::sorteazaZboruriDupaDestinatie() {
 	std::sort(flotaZboruri.begin(), flotaZboruri.end(), [](const Zbor& a, const Zbor& b) {
-		return toUpperCase(a.destinatie) < toUpperCase(b.destinatie);
+		return toUpperCase(a.getDestinatie()) < toUpperCase(b.getDestinatie());
 	});
 	mesajSucces("Zboruri sortate alfabetic dupa destinatie");
 }
@@ -87,7 +87,7 @@ std::vector<Zbor*> CompanieAeriana::cautaZboruriDupaDestinatie(const std::string
 	std::string destUpper = toUpperCase(dest);
 
 	for (auto& zbor : flotaZboruri) {
-		if (toUpperCase(zbor.destinatie) == destUpper) {
+		if (toUpperCase(zbor.getDestinatie()) == destUpper) {
 			rezultat.push_back(&zbor);
 		}
 	}

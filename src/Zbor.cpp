@@ -60,12 +60,12 @@ bool Zbor::adaugaPasager(const Pasager& p) {
 		throw ExceptieCapacitate("Zborul " + this->numarZbor + " este plin");
 	}
 	// verificam daca pasagerul exista deja
-	if (this->existaPasager(p.nume)) {
-		throw ExceptieOperatie("Pasagerul " + p.nume + " este deja pe zborul " + this->numarZbor);
+	if (this->existaPasager(p.getNume())) {
+		throw ExceptieOperatie("Pasagerul " + p.getNume() + " este deja pe zborul " + this->numarZbor);
 	}
 	// verificam daca locul este disponibil
-	if (p.bilet != nullptr) {
-		std::string loc = p.bilet->loc;
+	if (p.getBilet() != nullptr) {
+		std::string loc = p.getBilet()->getLoc();
 		if (esteLocOcupat(loc, "")) {
 			throw ExceptieOperatie("Locul " + loc + " este ocupat pe zborul " + this->numarZbor);
 		}
@@ -99,7 +99,7 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 		return false;
 	}
 
-	const Bilet* biletVechi = pasager->bilet;
+	const Bilet* biletVechi = pasager->getBilet();
 	if (biletVechi == nullptr) {
 		std::cerr << "Pasagerul nu are bilet!\n";
 		return false;
@@ -123,9 +123,9 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 		std::cin >> prioritate;
 
 		biletNou = new BiletPremium(
-			biletVechi->loc,
-			biletVechi->pretBaza + 40.0,
-			biletVechi->discountProcent,
+			biletVechi->getLoc(),
+			biletVechi->getPretBaza() + 40.0,
+			biletVechi->getDiscountProcent(),
 			bautura,
 			prioritate
 		);
@@ -142,9 +142,9 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 		std::cin >> accesLounge;
 
 		biletNou = new BiletBusiness(
-			biletVechi->loc,
-			biletVechi->pretBaza + 30.0,
-			biletVechi->discountProcent,
+			biletVechi->getLoc(),
+			biletVechi->getPretBaza() + 30.0,
+			biletVechi->getDiscountProcent(),
 			accesLounge
 		);
 
@@ -162,9 +162,9 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 		std::cin >> prioritate;
 
 		biletNou = new BiletFirstClass(
-			biletVechi->loc,
-			biletVechi->pretBaza + 100.0,
-			biletVechi->discountProcent,
+			biletVechi->getLoc(),
+			biletVechi->getPretBaza() + 100.0,
+			biletVechi->getDiscountProcent(),
 			servireMasa,
 			prioritate
 		);
@@ -190,8 +190,8 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 void Zbor::afiseazaLocuriOcupate() const {
 	std::cout << "----Locuri Ocupate---- ";
 	for (const auto& pasager: this->listaPasageri) {
-		if (pasager.bilet != nullptr) {
-			std::cout << pasager.bilet->loc << " ";
+		if (pasager.getBilet() != nullptr) {
+			std::cout << pasager.getBilet()->getLoc() << " ";
 		}
 	}
 	std::cout << "\n";
@@ -199,10 +199,10 @@ void Zbor::afiseazaLocuriOcupate() const {
 
 bool Zbor::esteLocOcupat(const std::string& loc, const std::string& numeDeExclus) const {
 	for (const auto& pasager : this->listaPasageri) {
-		if (pasager.nume == toUpperCase(numeDeExclus)) {
+		if (pasager.getNume() == toUpperCase(numeDeExclus)) {
 			continue;
 		}
-		if (pasager.bilet != nullptr && pasager.bilet->loc == loc) {
+		if (pasager.getBilet() != nullptr && pasager.getBilet()->getLoc() == loc) {
 			return true;
 		}
 	}

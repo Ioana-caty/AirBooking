@@ -26,6 +26,7 @@ public:
 
 	const std::string& getPoarta() const { return poarta; }
 	const std::vector<Pasager>& getPasageri() const { return listaPasageri; }
+	const std::string& getDestinatie() const {return destinatie; }
 
     bool setPoarta(const std::string& nouaPoarta);
     bool adaugaPasager(const Pasager& p);

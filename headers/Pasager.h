@@ -23,6 +23,9 @@ public:
 	Pasager(const Pasager& another);
 	Pasager& operator=(const Pasager& another);
 
+	const std::string getNume() const { return nume; }
+	const Bilet* getBilet() const { return bilet; }
+
 	bool areBilet() const { return bilet != nullptr; }
 	bool corespundeNumelui(const std::string& numeVerificat) const;
 	void modificaLoc(const std::string& locNou);
@@ -35,7 +38,6 @@ public:
 
 	~Pasager();
 
-	friend class Zbor;
 	friend std::ostream& operator<<(std::ostream&os, const Pasager& p);
 	friend void saveData(const CompanieAeriana& companie, const std::string& nameFile);
 };

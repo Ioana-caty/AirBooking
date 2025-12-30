@@ -26,14 +26,17 @@ public:
     bool setLoc(const std::string& nouLoc);
 	const std::string& getLoc() const { return loc; }
 
+	const double getPretBaza() const { return pretBaza; }
+	const int getDiscountProcent() const { return discountProcent; }
+
+	void setPretBaza(double value) {pretBaza = value; }
+
 	virtual double getPretFinal() const = 0;
 	virtual std::string getTipClasa() const = 0;
 	virtual Bilet* clone() const = 0;
 
 	virtual ~Bilet();
 
-	friend class Zbor;
-	friend class CheckIn;
     friend std::ostream& operator<<(std::ostream& COUT, const Bilet& b);
 	friend void saveData(const CompanieAeriana& companie, const std::string& nameFile);
 };

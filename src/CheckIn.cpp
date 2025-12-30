@@ -17,7 +17,7 @@ void CheckIn::adaugaBagaj(const Bagaj& b) {
 
 	if (biletPasager != nullptr) {
 		double taxaBagaj = b.getTaxaBagaj() + b.getTaxaExtra();
-		biletPasager->pretBaza += taxaBagaj;
+		biletPasager->setPretBaza(biletPasager->getPretBaza() + taxaBagaj);
 		mesajSucces("Bagaj adaugat: " + b.getTipString());
 		mesajInfo("Pret bilet actualizat: +" + Formatare::formatareMoneda(taxaBagaj));
 	}
