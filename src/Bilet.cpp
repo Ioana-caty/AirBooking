@@ -92,8 +92,17 @@ double BiletEconomic::getPretFinal() const {
 
 std::string BiletEconomic::getTipClasa() const { return "Economic"; }
 Bilet* BiletEconomic::clone() const { return new BiletEconomic(*this); }
-BiletEconomic::~BiletEconomic() {}
 
+Bilet* BiletEconomic::creeazaUpgrade() const {
+	bool bautura, prioritate;
+	std::cout << "\nConfigurare Upgrade la PREMIUM:\n";
+	std::cout << "Bautura gratuita (1-DA/0-NU): "; std::cin >> bautura;
+	std::cout << "Prioritate imbarcare (1-DA/0-NU): "; std::cin >> prioritate;
+
+	// Crestem pretul de baza cu 40.0 pentru acest salt
+	return new BiletPremium(this->loc, this->pretBaza + 40.0, this->discountProcent, bautura, prioritate);
+}
+BiletEconomic::~BiletEconomic() {}
 // BUSINESS:
 BiletBusiness::BiletBusiness() :
 	Bilet(), accesLounge(true) {}
@@ -115,6 +124,14 @@ double BiletBusiness::getPretFinal() const {
 
 std::string BiletBusiness::getTipClasa() const { return "Business"; }
 Bilet * BiletBusiness::clone() const { return new BiletBusiness(*this); }
+Bilet* BiletBusiness::creeazaUpgrade() const {
+	bool servireMasa, prioritateFC;
+	std::cout << "\nConfigurare Upgrade la FIRST CLASS:\n";
+	std::cout << "Servire masa (1-DA/0-NU): "; std::cin >> servireMasa;
+	std::cout << "Prioritate (1-DA/0-NU): "; std::cin >> prioritateFC;
+
+	return new BiletFirstClass(this->loc, this->pretBaza + 100.0, this->discountProcent, servireMasa, prioritateFC);
+}
 BiletBusiness::~BiletBusiness() {}
 
 // FIRST CLASS:
@@ -140,7 +157,9 @@ double BiletFirstClass::getPretFinal() const {
 
 std::string BiletFirstClass::getTipClasa() const { return "FirstClass"; }
 Bilet * BiletFirstClass::clone() const { return new BiletFirstClass(*this); }
-
+Bilet* BiletFirstClass::creeazaUpgrade() const {
+	return nullptr;
+}
 BiletFirstClass::~BiletFirstClass() {}
 
 // BILET PREMIUM:
@@ -168,5 +187,11 @@ double BiletPremium::getPretFinal() const {
 
 std::string BiletPremium::getTipClasa() const { return "Premium"; }
 Bilet* BiletPremium::clone() const { return new BiletPremium(*this); }
+Bilet* BiletPremium::creeazaUpgrade() const {
+	bool accesLounge;
+	std::cout << "\nConfigurare Upgrade la BUSINESS:\n";
+	std::cout << "Acces lounge (1-DA/0-NU): "; std::cin >> accesLounge;
 
+	return new BiletBusiness(this->loc, this->pretBaza + 30.0, this->discountProcent, accesLounge);
+}
 BiletPremium::~BiletPremium() {}

@@ -33,6 +33,7 @@ public:
 	virtual double getPretFinal() const = 0;
 	virtual std::string getTipClasa() const = 0;
 	virtual Bilet* clone() const = 0;
+	virtual Bilet* creeazaUpgrade() const = 0;
 
 	virtual ~Bilet();
 
@@ -51,6 +52,7 @@ public:
 	double getPretFinal() const override;
 	std::string getTipClasa() const override;
 	Bilet* clone() const override;
+	Bilet* creeazaUpgrade() const override;
 
 	~BiletEconomic() override;
 };
@@ -67,6 +69,7 @@ public:
 	double getPretFinal() const override;
 	std::string getTipClasa() const override;
 	Bilet* clone() const override;
+	Bilet* creeazaUpgrade() const override;
 
 	~BiletBusiness() override;
 };
@@ -85,6 +88,7 @@ public:
 	double getPretFinal() const override;
 	std::string getTipClasa() const override;
 	Bilet* clone() const override;
+	Bilet* creeazaUpgrade() const override;
 
 	~BiletFirstClass() override;
 };
@@ -104,6 +108,7 @@ public:
 	double getPretFinal() const override;
 	std::string getTipClasa() const override;
 	Bilet* clone() const override;
+	Bilet* creeazaUpgrade() const override;
 
 	~BiletPremium() override;
 };
