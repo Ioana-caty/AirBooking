@@ -414,7 +414,7 @@ int main() {
 				std::cout << "Nume pasager: ";
 				std::getline(std::cin, nume);
 
-				Pasager* p = z->cautaPasagerDupaNume(nume);
+				const Pasager* p = z->cautaPasagerDupaNume(nume);
 				if (!p) {
 					mesajEroare("Pasager negasit!");
 					continue;
@@ -481,7 +481,7 @@ int main() {
 				std::cout << "Nume pasager: ";
 				std::getline(std::cin, nume);
 
-				Pasager* p = z->cautaPasagerDupaNume(nume);
+				const Pasager* p = z->cautaPasagerDupaNume(nume);
 				if (!p) {
 					mesajEroare("Pasager negasit!");
 					continue;
