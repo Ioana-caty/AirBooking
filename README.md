@@ -1,42 +1,116 @@
-# Airbooking ✈️ 
+# ✈️ AirBooking - Airline Management System
+Sistem complet de management pentru companii aeriene dezvoltat în C++, care simulează operațiunile zilnice ale unei companii aeriene moderne (ex: Wizz Air). Aplicația oferă gestionare avansată a zborurilor, pasagerilor, biletelor și serviciilor auxiliare, cu date pre-configurate și funcționalitate de salvare automată.
 
-Această aplicație simulează un sistem de management pentru o companie aeriană (de exemplu, Wizz), permițând administrarea completă a zborurilor, a pasagerilor înregistrați și a biletelor acestora. Sistemul este pre-populat cu date inițiale (zboruri, pasageri, bilete) și oferă un meniu interactiv pentru a gestiona operațiunile zilnice. (datele se găsesc atât în opțiunea 1 din aplicație, cât și în fișierul "tasatura.txt"
+## 1. Date și Utilizare:
 
-### Funcționalități Principale
----
-Aplicația permite utilizatorului să execute următoarele acțiuni:
+### Date Inițiale:
+La pornire, aplicația încarcă automat date din `date.txt`:
+- 3+ zboruri pre-configurate
+- Pasageri înregistrați cu bilete
+- Diverse clase și configurații
+### Date finale:
+- Salvare automată la ieșire în `date2.txt`
+- Format text structurat pentru editare manuală
+- Încărcare rapidă la pornire
+  
+## 2. Validări Complete:
+- Format loc: `[1-99][A-Z]` (ex: 12A, 5B)
+- Format poartă: `[A-Z][1-99]` (ex: A12, B5)
+- Discount: 0-80%
+- Capacitate zbor > 0
+  
+## 3. Funcționalități
+### 🛫 Gestiunea Zborurilor
+- **Adăugare zbor** - Înregistrare zboruri noi (număr, destinație, poartă, capacitate)
+- **Căutare zbor** - Vizualizare detalii complete inclusiv lista pasagerilor
+- **Modificare poartă** - Actualizare poartă de îmbarcare
+- **Sortare zboruri** - După încasări, ocupare sau destinație
+- **Filtrare zboruri** - Zboruri pline, goale sau după destinație
 
-* **Gestiunea Zborurilor:**
-    * **Adaugă zbor:** Înregistrează un nou zbor în sistem (număr zbor, destinație, poartă, capacitate).
-    * **Caută zbor:** Găsește și afișează detaliile complete ale unui zbor, inclusiv lista de pasageri.
-    * **Modifică poarta:** Actualizează poarta de îmbarcare pentru un zbor existent.
+### 👥 Gestiunea Pasagerilor
+- **Adăugare pasager** - Înregistrare pasageri noi cu alocare bilet
+- **Căutare pasager** - Găsire rapidă după nume
+- **Modificare loc** - Schimbare loc cu validare disponibilitate
+- **Check-in online** - Sistem de check-in cu gestionare bagaje
+- **Upgrade bilet** - Promovare între clase (Economic → Premium → Business → First Class)
+  
+### 📊 Rapoarte și Analiză
+- **Calcul încasări** - Venit total pe zbor (bilete + bagaje)
+- **Verificare capacitate** - Status locuri disponibile
+- **Statistici ocupare** - Rata de umplere a zborurilor
+- **Afișare optimizată** - Cu/fără detalii pasageri
 
-* **Gestiunea Pasagerilor și Biletelor:**
-    * **Adaugă pasager:** Înrolează un nou pasager pe un zbor specific, asignându-i un bilet (loc, clasă, preț).
-    * **Caută pasager:** Găsește și afișează detaliile unui pasager anume de pe un zbor.
-    * **Aplică discount:** Aplică o reducere procentuală biletului unui pasager.
-    * **Modifică loc bilet:** Schimbă locul alocat unui pasager.
+## 4. Caracteristici:
+### 🧳 Sistemul de Bagaje
 
-* **Rapoarte și Verificări:**
-    * **Calculează încasări:** Afișează venitul total generat pentru un anumit zbor.
-    * **Verifică loc geam:** Confirmă dacă biletul unui pasager este la geam.
-    * **Verifică dacă zborul este plin:** Afișează statusul locurilor (disponibile sau zbor complet).
-      
----
+Gestionare completă bagaje cu calcul automat taxe:
 
-### ⚙️ Reguli de Business și Detalii de Implementare:
+| Tip Bagaj | Greutate Max | Taxă |
+|-----------|--------------|------|
+| De mână | 10 kg | Gratis |
+| Cabină | 10 kg | 20 EUR |
+| Cală Mic | 23 kg | 35 EUR |
+| Cală Mare | 32 kg | 50 EUR |
 
-Pentru a reflecta un scenariu real, aplicația funcționează pe baza următoarelor reguli:
+### 🎫 Sistemul de Bilete
 
-1.  **Calculul Încasărilor:**
-    Prețul final al unui bilet nu este doar prețul de bază. Pentru fiecare bilet se adaugă o **TAXĂ fixă** (aceeași pentru toate zborurile), peste care se poate aplica (sau nu) un discount.
+Aplicația suportă **4 clase de bilete**:
 
-2.  **Aplicarea Discounturilor:**
-    Sistemul permite aplicarea unor discounturi flexibile. La solicitarea aplicării unui discount, utilizatorul poate introduce o valoare procentuală cuprinsă între **0% și 80%**.
+| Clasă | Taxa Bază | Beneficii |
+|-------|-----------|-----------|
+| Economic | 30.00 EUR | Standard |
+| Premium | 55.00 EUR | Băutură + Prioritate îmbarcare |
+| Business | 35.50 EUR | Acces lounge + Confort extra |
+| First Class | 74.75 EUR | Masă + Prioritate + Luxury |
 
-3.  **Validarea Locului la Geam:**
-    Aplicația determină automat dacă un loc este la geam. Un loc este considerat "la geam" dacă indicativul său (ex: "14A", "22F") se termină cu litera **'A'** sau **'F'**.
+**Funcționalități:**
+- Detectare automată bagaje supraponderale
+- Taxă extra: **15 EUR/kg** peste limită
+- Actualizare dinamică a prețului de bilet atunci când se adăugă un bagaj
 
+## 5. Ierarhie Excepții: 
+Ierarhie excepții derivate din `std::exception`:
+```cpp
+ExceptieZboruri (baza)
+  ├─ ExceptieValidare    # Date invalide (loc, poarta, discount)
+  ├─ ExceptieCapacitate  # Zbor plin
+  └─ ExceptieOperatie    # Operatii invalide (pasager duplicat,..)
+```
+### 6. Interfață Utilizator
+- Meniu intuitiv cu opțiuni numerotate
+- Bară de progres pentru încărcare date
+- Formatare automată prețuri (ex: 125.50 EUR)
+- Afișare tabelară organizată
+
+## 7. Structura Proiectului
+```
+AirBooking/
+├── headers/
+│   ├── Bilet.h              # Ierarhie clase bilete (abstract + 4 derivate)
+│   ├── Pasager.h            # Gestiune pasageri
+│   ├── Zbor.h               # Gestiune zboruri
+│   ├── CompanieAeriana.h    # Container zboruri + operații
+│   ├── Bagaj.h              # Sistem bagaje
+│   ├── CheckIn.h            # Sistem check-in
+│   ├── Exceptii.h           # Ierarhie exceptii custom
+│   └── Utils.h              # Functii utilitate (formatare, validare, UI)
+├── Pattern/
+│   └── BiletFactory.h       # Factory Pattern pentru creare bilete
+├── input/
+│   ├── populareDate.h/cpp   # Incarcare date din fisier
+│   └── saveData.h           # Salvare date in fisier
+├── src/
+│   ├── Bilet.cpp
+│   ├── Pasager.cpp
+│   ├── Zbor.cpp
+│   ├── CompanieAeriana.cpp
+│   ├── Bagaj.cpp
+│   └── CheckIn.cpp
+├── main.cpp                 # Meniu interactiv
+└── date.txt            # Date intiale
+└── date2.txt           # Salvare date dupa ce se inchide terminalul
+```
+-----
 ### Folosiți template-ul corespunzător grupei voastre!
 
 | Laborant  | Link template                                |
@@ -82,7 +156,7 @@ O cerință nu se consideră îndeplinită dacă este realizată doar prin cod g
   - nu doar citiri/afișări sau adăugat/șters elemente într-un/dintr-un vector
 - [ ] scenariu de utilizare **cu sens** a claselor definite:
   - crearea de obiecte și apelarea tuturor funcțiilor membru publice în main
-  - vor fi adăugate în fișierul `tastatura.txt` DOAR exemple de date de intrare de la tastatură (dacă există); dacă aveți nevoie de date din fișiere, creați alte fișiere separat
+  - vor fi adăugate în fișierul `date.txt` DOAR exemple de date de intrare de la tastatură (dacă există); dacă aveți nevoie de date din fișiere, creați alte fișiere separat
 - [ ] minim 50-55% din codul propriu să fie C++, `.gitattributes` configurat corect
 - [ ] tag de `git`: de exemplu `v0.1`
 - [ ] serviciu de integrare continuă (CI) cu **toate bifele**; exemplu: GitHub Actions
@@ -198,7 +272,7 @@ Există mai multe variante:
 
 3. Rularea programului folosind Valgrind se poate face executând script-ul `./scripts/run_valgrind.sh` din rădăcina proiectului. Pe Windows acest script se poate rula folosind WSL (Windows Subsystem for Linux). Valgrind se poate rula în modul interactiv folosind: `RUN_INTERACTIVE=true ./scripts/run_valgrind.sh`
 
-Implicit, nu se rulează interactiv, iar datele pentru `std::cin` sunt preluate din fișierul `tastatura.txt`.
+Implicit, nu se rulează interactiv, iar datele pentru `std::cin` sunt preluate din fișierul `date.txt`.
 
 ```sh
 RUN_INTERACTIVE=true ./scripts/run_valgrind.sh
