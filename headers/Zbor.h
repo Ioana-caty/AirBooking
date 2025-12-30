@@ -42,7 +42,7 @@ public:
 
 	~Zbor();
 
-	friend class CompanieAeriana;
+	// friend class CompanieAeriana;
     friend std::ostream& operator<<(std::ostream& COUT, const Zbor& z);
 	void afisareFaraPasageri(bool afiseazaincasari) const;
 	friend void saveData(const CompanieAeriana& companie, const std::string& nameFile);

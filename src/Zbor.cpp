@@ -142,7 +142,7 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 		std::cin >> accesLounge;
 
 		biletNou = new BiletBusiness(
-			biletVechi->getLoc(),
+			biletVechi->loc,
 			biletVechi->pretBaza + 30.0,
 			biletVechi->discountProcent,
 			accesLounge
@@ -162,7 +162,7 @@ bool Zbor::upgradeBiletPasager(const std::string& nume) {
 		std::cin >> prioritate;
 
 		biletNou = new BiletFirstClass(
-			biletVechi->getLoc(),
+			biletVechi->loc,
 			biletVechi->pretBaza + 100.0,
 			biletVechi->discountProcent,
 			servireMasa,
