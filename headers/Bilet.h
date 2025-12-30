@@ -31,8 +31,6 @@ public:
 	virtual Bilet* clone() const = 0;
 
 	virtual ~Bilet();
-	// clasele primesc acces la membrii privati si protected ai clasei Bilet
-	// functii friend pt a accesa direct in loc de getteri
 
 	friend class Zbor;
 	friend class CheckIn;

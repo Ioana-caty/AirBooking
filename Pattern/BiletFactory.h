@@ -21,7 +21,7 @@ public:
 			std::cout << "Prioritate imbarcare (1-DA/0-NU): ";
 			std::cin >> prioritate;
 			return new BiletFirstClass(Loc, pretBaza, discountProcent, servireMasa, prioritate);
-		} else if (tip == "premium") {  // ADAUGĂ ASTA
+		} else if (tip == "premium") {
 			bool bautura, prioritate;
 			std::cout << "Bautura gratuita (1-DA/0-NU): ";
 			std::cin >> bautura;

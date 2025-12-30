@@ -8,7 +8,7 @@
 class CompanieAeriana {
 private:
     std::string numeCompanie;
-    std::vector<Zbor> flotaZboruri; // stocam toate obiectele zbor care apartin companiei
+    std::vector<Zbor> flotaZboruri;
 
     bool esteZborDuplicat(const std::string& numarZbor) const;
 

@@ -25,7 +25,6 @@ bool CompanieAeriana::adaugaZbor(const Zbor& z) {
 	return true;
 }
 
-// nu e void pt ca vreau sa am detaliile zborului ca sa-l pot adauga
 Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {
     for (auto& zbor : flotaZboruri) {
         if (zbor.corespundeNumarului(numarZbor)) {

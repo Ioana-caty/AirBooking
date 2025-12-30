@@ -76,7 +76,6 @@ void populareDate(CompanieAeriana &companie) {
 		}
 
 		UI::baraProgres(i + 1, numarzboruri);
-		// Sleep(2500);
 	}
 
 	UI::baraProgres(numarzboruri, numarzboruri);
