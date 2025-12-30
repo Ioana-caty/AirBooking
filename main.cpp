@@ -46,7 +46,7 @@ int main() {
 
 		std::cin >> optiune;
 		if (optiune == 0) {
-			const std::string FISIER_DATE = "tastatura2.txt";
+			const std::string FISIER_DATE = "date2.txt";
 			UI::subtitlu("SALVARE DATE");
 			saveData(companie, FISIER_DATE);
 			break;

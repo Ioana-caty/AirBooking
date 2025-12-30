@@ -12,11 +12,11 @@
 void populareDate(CompanieAeriana &companie) {
 	UI::subtitlu("POPULARE DATE");
 
-	const std::string FISIER_DATE = "tastatura.txt";
+	const std::string FISIER_DATE = "date.txt";
 	std::ifstream fin(FISIER_DATE);
 
 	if (!fin.is_open()) {
-		mesajEroare("Nu s-a putut deschide fisierul 'tastatura.txt'");
+		mesajEroare("Nu s-a putut deschide fisierul 'date.txt'");
 		return;
 	}
 
