@@ -25,9 +25,8 @@ public:
 
     bool setLoc(const std::string& nouLoc);
 	const std::string& getLoc() const { return loc; }
-
-	const double getPretBaza() const { return pretBaza; }
-	const int getDiscountProcent() const { return discountProcent; }
+	double getPretBaza() const { return pretBaza; }
+	int getDiscountProcent() const { return discountProcent; }
 
 	void setPretBaza(double value) {pretBaza = value; }
 
