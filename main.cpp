@@ -21,6 +21,7 @@ int main() {
 	}
 	catch (const ExceptieZboruri& e) {
 		mesajEroare(std::string("La populare: ") + e.what());
+		return 0;
 	}
 
 	int optiune ;

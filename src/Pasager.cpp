@@ -65,11 +65,10 @@ void Pasager::modificaLoc(const std::string& locNou) {
 }
 
 void Pasager::actualizeazaBilet(const Bilet *biletNou) {
+	delete this->bilet;
 	if (biletNou != nullptr) {
-		delete this->bilet;
 		this->bilet = biletNou->clone();
 	} else {
-		delete this->bilet;
 		this->bilet = nullptr;
 	}
 }

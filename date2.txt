@@ -1,21 +1,16 @@
-4
-RO789 Berlin C20 3
-0
-RO456 Londra B5 4
-1
-ANA MARIA
-ana.m@gmail.com
-22C Economic 120.6 0
-RO1234567 madrid B12 1
-0
-RO123 Paris B13 5
 3
+RO123 Paris A12 5
+2
 IUSTINA CARAMIDA
 i.caramida@gmail.com
 14A Economic 150 0
 COSTIN SIN
 c.sin@gmail.com
 1F Business 350.5 10
-MADA
-mada
-1A FirstClass 223 1
+RO456 Londra B5 4
+1
+ANA MARIA
+ana.m@gmail.com
+22C Economic 120.6 0
+RO789 Berlin C20 3
+0
