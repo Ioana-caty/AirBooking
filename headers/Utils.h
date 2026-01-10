@@ -5,6 +5,7 @@
 #include <iomanip>		// setprecision()
 #include <sstream>		// std::ostringstream
 #include <iostream>
+#include "Pasager.h"
 
 namespace Validari {
 	//cifreIntai = true => Format: "12A"
@@ -58,14 +59,20 @@ namespace Formatare {
 }
 
 namespace UI {
-	inline void Linie(char caracter = '=', int lungime = 70) {
-		std::cout << std::string(lungime, caracter) << "\n";
+	inline void Linie(std::ostream& file, char caracter = '=', int lungime = 70) {
+		file << std::string(lungime, caracter) << "\n";
 	}
 
-	inline void titlu(const std::string& text) {
-		Linie('=', 70);
-		std::cout << " " << text << "\n";
-		Linie('=', 70);
+	inline void titlu(std::ostream& file, const std::string& text, char character = '=', int lungime = 70) {
+		Linie(file, character, lungime);
+		file << " " << text << "\n";
+		Linie(file, character, lungime);
+	}
+
+	inline void PrintPasager(std::ostream& file, const Pasager& p, char character = '=', int lungime = 70) {
+		Linie(file, character, lungime);
+		file << p << "\n";
+		Linie(file, character, lungime);
 	}
 
 	inline void subtitlu(const std::string& text) {

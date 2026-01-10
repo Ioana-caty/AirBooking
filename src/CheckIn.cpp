@@ -1,6 +1,9 @@
 #include "../headers/CheckIn.h"
 #include "../headers/Bilet.h"
 #include "../headers/Utils.h"
+#include <string.h>
+#include <cstring>
+
 
 CheckIn::CheckIn(const std::string& pasager, const std::string& zbor, const std::string& loc, Bilet* bilet)
     : numePasager(toUpperCase(pasager)),
@@ -45,15 +48,13 @@ double CheckIn::getTaxeTotaleBagaje() const {
 
 std::ostream& operator<<(std::ostream& os, const CheckIn& c) {
     os << "\n";
-    UI::Linie('=', 60);
-    os << "CHECK-IN PASAGER: " << c.numePasager << "\n";
-    UI::Linie('=', 60);
+	UI::titlu(os, strcat("CHECK-IN PASAGER: ", c.numePasager.c_str()), '=', 60);
     os << "Zbor: " << c.numarZbor << " | Loc: " << c.loc << "\n";
     os << "Numar bagaje: " << c.bagaje.size() << "\n";
 
     if (!c.bagaje.empty()) {
         os << "\nBagaje inregistrate:\n";
-        UI::Linie('-', 60);
+        UI::Linie(std::cout, '-', 60);
 
         for (size_t i = 0; i < c.bagaje.size(); i++) {
             os << (i+1) << ". " << c.bagaje[i].getTipString()
@@ -67,7 +68,7 @@ std::ostream& operator<<(std::ostream& os, const CheckIn& c) {
                 c.bagaje[i].getTaxaBagaj() + c.bagaje[i].getTaxaExtra()) << "\n";
         }
 
-        UI::Linie('-', 60);
+        UI::Linie(std::cout,'-', 60);
         os << "Greutate totala: " << c.getGreutateTotala() << " kg\n";
         os << "Taxe totale bagaje: " << Formatare::formatareMoneda(c.getTaxeTotaleBagaje()) << "\n";
     } else {
@@ -79,7 +80,7 @@ std::ostream& operator<<(std::ostream& os, const CheckIn& c) {
 		   << Formatare::formatareMoneda(c.biletPasager->getPretFinal()) << " <<<\n";
 	}
 
-    UI::Linie('=', 60);
+    UI::Linie(std::cout, '=', 60);
 
     return os;
 }

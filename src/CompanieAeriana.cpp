@@ -98,10 +98,11 @@ std::vector<Zbor*> CompanieAeriana::cautaZboruriDupaDestinatie(const std::string
 }
 
 std::ostream& operator<<(std::ostream& COUT, const CompanieAeriana& c) {
-	COUT << "==============================================================================================\n";
+
+	UI::Linie(COUT, '=', 94);
     COUT << "COMPANIE: " << c.numeCompanie << "\n";
     COUT << "FLOTA DE ZBORURI (" << c.flotaZboruri.size() << "):\n";
-	COUT << "==============================================================================================\n";
+	UI::Linie(COUT, '=', 94);
 
     if (c.flotaZboruri.empty() == true) {
         COUT << "Niciun zbor inregistrat\n";
@@ -114,9 +115,9 @@ std::ostream& operator<<(std::ostream& COUT, const CompanieAeriana& c) {
 }
 
 void CompanieAeriana::afisareFaraPasageri(bool incasari) const {
-	std::cout << "\n==============================================================================================\n";
+	UI::Linie(std::cout, '=', 94);
 	for (const auto& zbor : flotaZboruri) {
 		zbor.afisareFaraPasageri(incasari);
 	}
-	std::cout << "==============================================================================================\n";
+	UI::Linie(std::cout, '=', 94);
 }

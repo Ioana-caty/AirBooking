@@ -59,7 +59,6 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         headers/CompanieAeriana.h
         src/CompanieAeriana.cpp
         Pattern/BiletFactory.h
-        src/populareDate.cpp
         input/populareDate.h
         input/saveData.h
         headers/Exceptii.h

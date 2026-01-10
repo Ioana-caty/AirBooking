@@ -9,7 +9,7 @@ La pornire, aplicația încarcă automat date din `date.txt`:
 - Pasageri înregistrați cu bilete
 - Diverse clase și configurații
 ### Date finale:
-- Salvare automată la ieșire în `date2.txt`
+- Salvare automată la ieșire în `date.txt`
 - Format text structurat pentru editare manuală
 - Încărcare rapidă la pornire
   
@@ -97,7 +97,7 @@ AirBooking/
 ├── Pattern/
 │   └── BiletFactory.h       # Factory Pattern pentru creare bilete
 ├── input/
-│   ├── populareDate.h/cpp   # Incarcare date din fisier
+│   ├── populareDate.h       # Incarcare date din fisier
 │   └── saveData.h           # Salvare date in fisier
 ├── src/
 │   ├── Bilet.cpp
@@ -107,8 +107,7 @@ AirBooking/
 │   ├── Bagaj.cpp
 │   └── CheckIn.cpp
 ├── main.cpp                 # Meniu interactiv
-└── date.txt            # Date intiale
-└── date2.txt           # Salvare date dupa ce se inchide terminalul
+└── date.txt                 # Date intiale & Salvare    
 ```
 -----
 ### Folosiți template-ul corespunzător grupei voastre!
