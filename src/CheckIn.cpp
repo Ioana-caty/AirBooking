@@ -48,8 +48,7 @@ double CheckIn::getTaxeTotaleBagaje() const {
 
 std::ostream& operator<<(std::ostream& os, const CheckIn& c) {
     os << "\n";
-	const std::string titlu = "CHECK-IN PASAGER: " + c.numePasager;
-	UI::titlu(os, titlu.c_str(), '=', 60);
+	UI::titlu(os, "CHECK-IN PASAGER: " + c.numePasager, '=', 60);
     os << "Zbor: " << c.numarZbor << " | Loc: " << c.loc << "\n";
     os << "Numar bagaje: " << c.bagaje.size() << "\n";
 
