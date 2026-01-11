@@ -1,11 +1,19 @@
+<<<<<<< HEAD
 2
 RO1234 barcelona A14 12
 1
 MADALINA
 madalina@yahoo.com
 14A Economic 198.4 10
+=======
+1
+>>>>>>> 13698fa6c63441a19a2709e2e305214b27ad2541
 RO123 Paris A12 3
 1
 IUSTINA CARAMIDA
 i.caramida@gmail.com
+<<<<<<< HEAD
 14A Economic 150 0
+=======
+14A Economic 150 0 
+>>>>>>> 13698fa6c63441a19a2709e2e305214b27ad2541
