@@ -266,6 +266,10 @@ bool upgradeBilet(CompanieAeriana& companie) {
 void sorteazaZboruri(CompanieAeriana& companie) {
 	UI::subtitlu("SORTARE ZBORURI");
 
+	auto sortInc = std::make_shared<SortByIncasari>();
+	auto sortOcup = std::make_shared<SortByOcupare>();
+	auto sortDest = std::make_shared<SortByDestinatie>();
+
 	int subOptiune;
 	while (true) {
 		std::cout << "1. Dupa incasari (descrescator)\n";
@@ -275,20 +279,26 @@ void sorteazaZboruri(CompanieAeriana& companie) {
 		std::cout << "Optiune: ";
 
 		std::cin >> subOptiune;
-
-		if (subOptiune == 0) break;
-
-		if (subOptiune == 1) {
-			companie.sorteazaZboruriDupaIncasari();
-			companie.afisareFaraPasageri(true);
-		}
-		else if (subOptiune == 2) {
-			companie.sorteazaZboruriDupaOcupare();
-			companie.afisareFaraPasageri(false);
-		}
-		else if (subOptiune == 3) {
-			companie.sorteazaZboruriDupaDestinatie();
-			companie.afisareFaraPasageri(false);
+		switch (subOptiune) {
+			case 0:
+				return;
+			case 1:
+				companie.setSortStrategy(sortInc);
+				companie.sorteazaZboruri();
+				companie.afisareFaraPasageri(true);
+				break;
+			case 2:
+				companie.setSortStrategy(sortOcup);
+				companie.sorteazaZboruri();
+				companie.afisareFaraPasageri(false);
+				break;
+			case 3:
+				companie.setSortStrategy(sortDest);
+				companie.sorteazaZboruri();
+				companie.afisareFaraPasageri(false);
+				break;
+			default:
+				mesajEroare("Optiune invalida!");
 		}
 	}
 }

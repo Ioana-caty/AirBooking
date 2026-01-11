@@ -67,6 +67,7 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         src/Bagaj.cpp
         headers/CheckIn.h
         src/CheckIn.cpp
+        headers/SortStrategy.h
 )
 
 target_include_directories(${MAIN_EXECUTABLE_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/inc)

@@ -1,3 +1,4 @@
+#include "../headers/SortStrategy.h"
 #include "../headers/CompanieAeriana.h"
 #include "../headers/Exceptii.h"
 #include <iostream>
@@ -34,31 +35,45 @@ Zbor *CompanieAeriana::cautaZborDupaNumar(const std::string& numarZbor) {
     return nullptr;
 }
 
-void CompanieAeriana::sorteazaZboruriDupaDestinatie() {
-	std::sort(flotaZboruri.begin(), flotaZboruri.end(), [](const Zbor& a, const Zbor& b) {
-		return toUpperCase(a.getDestinatie()) < toUpperCase(b.getDestinatie());
-	});
-	mesajSucces("Zboruri sortate alfabetic dupa destinatie");
+void CompanieAeriana::setSortStrategy(std::shared_ptr<SortStrategy> s) {
+	sortStrategy = s;
 }
 
-void CompanieAeriana::sorteazaZboruriDupaOcupare() {
-	std::sort(flotaZboruri.begin(), flotaZboruri.end(),
-			  [](const Zbor& a, const Zbor& b) {
-			  	double rataA = (double)a.getLocuriOcupate() / a.getCapacitateMaxima();
-				double rataB = (double)b.getLocuriOcupate() / b.getCapacitateMaxima();
-
-				return rataA > rataB;
-			  });
-	mesajSucces("Zboruri sortate dupa rata de ocupare (descrescator)");
+void CompanieAeriana::sorteazaZboruri() {
+	if (sortStrategy == nullptr) {
+		mesajEroare("Nu este setata nicio strategie de sortare!");
+		return;
+	}
+	sortStrategy->sorteaza(flotaZboruri);
+	mesajSucces(sortStrategy->getNume());
 }
 
-void CompanieAeriana::sorteazaZboruriDupaIncasari() {
-	std::sort(flotaZboruri.begin(), flotaZboruri.end(),
-			  [](const Zbor& a, const Zbor& b) {
-			  	return a.calculeazaIncasariTotale() > b.calculeazaIncasariTotale();
-			  });
-	mesajSucces("Zboruri sortate dupa incasari (descrescator)");
-}
+
+// void CompanieAeriana::sorteazaZboruriDupaDestinatie() {
+// 	std::sort(flotaZboruri.begin(), flotaZboruri.end(), [](const Zbor& a, const Zbor& b) {
+// 		return toUpperCase(a.getDestinatie()) < toUpperCase(b.getDestinatie());
+// 	});
+// 	mesajSucces("Zboruri sortate alfabetic dupa destinatie");
+// }
+//
+// void CompanieAeriana::sorteazaZboruriDupaOcupare() {
+// 	std::sort(flotaZboruri.begin(), flotaZboruri.end(),
+// 			  [](const Zbor& a, const Zbor& b) {
+// 			  	double rataA = (double)a.getLocuriOcupate() / a.getCapacitateMaxima();
+// 				double rataB = (double)b.getLocuriOcupate() / b.getCapacitateMaxima();
+//
+// 				return rataA > rataB;
+// 			  });
+// 	mesajSucces("Zboruri sortate dupa rata de ocupare (descrescator)");
+// }
+//
+// void CompanieAeriana::sorteazaZboruriDupaIncasari() {
+// 	std::sort(flotaZboruri.begin(), flotaZboruri.end(),
+// 			  [](const Zbor& a, const Zbor& b) {
+// 			  	return a.calculeazaIncasariTotale() > b.calculeazaIncasariTotale();
+// 			  });
+// 	mesajSucces("Zboruri sortate dupa incasari (descrescator)");
+// }
 
 std::vector<Zbor*> CompanieAeriana::filtreazaZboruriPline() {
 	std::vector<Zbor*> rezultat;
