@@ -1,1 +1,16 @@
+3
+RO123 praga C12 1
+1
+IUSTINA CARAMIDA
+caramida@yahoo.com
+12C FirstClass 225.6 12
+RO124 roma D5 5
 0
+RO456 paris D1 2
+2
+COSTIN SIN
+costin@yahoo.com
+14A Economic 123 12
+ADRIAN 
+adrian@yahoo.com
+13C Business 159 1

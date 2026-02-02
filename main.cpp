@@ -492,7 +492,7 @@ void demoTemplateuri() {
 	repoZboruri.adauga(z2);
 	repoZboruri.adauga(z3);
 
-	std::cout << "Total zboruri in Repository<Zbor>: " << repoZboruri.size() << "\n";
+	std::cout << "Total zboruri: " << repoZboruri.size() << "\n";
 
 	std::cout << "\nCautare zbor 'DEMO02' dupa cheie:\n";
 	const Zbor* zborGasit = repoZboruri.cautaDupaCheie("DEMO02");
@@ -509,7 +509,7 @@ void demoTemplateuri() {
 	}
 
 
-	UI::subtitlu("INSTANTIERE 2: Repository<Pasager>");
+	UI::subtitlu("INSTANTIERE (pasageri) :");
 
 	Repository<Pasager> repoPasageri;
 
