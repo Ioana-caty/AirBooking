@@ -68,6 +68,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         headers/CheckIn.h
         src/CheckIn.cpp
         headers/SortStrategy.h
+        headers/Rezultat.h
+        headers/Repository.h
 )
 
 target_include_directories(${MAIN_EXECUTABLE_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/inc)

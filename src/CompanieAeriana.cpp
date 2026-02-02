@@ -48,7 +48,6 @@ void CompanieAeriana::sorteazaZboruri() {
 	mesajSucces(sortStrategy->getNume());
 }
 
-
 // void CompanieAeriana::sorteazaZboruriDupaDestinatie() {
 // 	std::sort(flotaZboruri.begin(), flotaZboruri.end(), [](const Zbor& a, const Zbor& b) {
 // 		return toUpperCase(a.getDestinatie()) < toUpperCase(b.getDestinatie());

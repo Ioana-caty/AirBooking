@@ -5,10 +5,12 @@
 #include "headers/Bagaj.h"
 #include "headers/CheckIn.h"
 #include "headers/Exceptii.h"
+#include "headers/Repository.h"
 #include "input/populareDate.h"
 #include "input/saveData.h"
 #include "Pattern/BiletFactory.h"
 #include "headers/Utils.h"
+
 
 void adaugaZbor(CompanieAeriana& companie) {
 	UI::subtitlu("ADAUGARE ZBOR");
@@ -476,6 +478,98 @@ bool afiseazaDetaliiCheckIn(CompanieAeriana& companie) {
 	return true;
 }
 
+void demoTemplateuri() {
+	UI::titlu(std::cout, "Demo Template", '=', 70);
+	UI::subtitlu("INSTANTIERE 1: Repository<Zbor>");
+
+	Repository<Zbor> repoZboruri;
+
+	Zbor z1("DEMO01", "Paris", "A1", 180);
+	Zbor z2("DEMO02", "Londra", "B2", 200);
+	Zbor z3("DEMO03", "Berlin", "C3", 150);
+
+	repoZboruri.adauga(z1);
+	repoZboruri.adauga(z2);
+	repoZboruri.adauga(z3);
+
+	std::cout << "Total zboruri in Repository<Zbor>: " << repoZboruri.size() << "\n";
+
+	std::cout << "\nCautare zbor 'DEMO02' dupa cheie:\n";
+	Zbor* zborGasit = repoZboruri.cautaDupaCheie("DEMO02");
+	if (zborGasit) {
+		zborGasit->afisareFaraPasageri(false);
+	}
+
+	std::cout << "\nFiltrare zboruri cu capacitate > 160:\n";
+	auto zboruriMari = repoZboruri.filtreaza([](const Zbor& z) {
+		return z.getCapacitateMaxima() > 160;
+	});
+	for (auto* z : zboruriMari) {
+		z->afisareFaraPasageri(false);
+	}
+
+
+	UI::subtitlu("INSTANTIERE 2: Repository<Pasager>");
+
+	Repository<Pasager> repoPasageri;
+
+	BiletEconomic* b1 = new BiletEconomic("10A", 100.0, 0);
+	BiletBusiness* b2 = new BiletBusiness("1A", 250.0, 5);
+	BiletFirstClass* b3 = new BiletFirstClass("2A", 400.0, 10);
+
+	Pasager p1("ION POPESCU", "ion@email.com", b1);
+	Pasager p2("MARIA IONESCU", "maria@email.com", b2);
+	Pasager p3("ANDREI VASILE", "andrei@email.com", b3);
+
+	repoPasageri.adauga(p1);
+	repoPasageri.adauga(p2);
+	repoPasageri.adauga(p3);
+
+	std::cout << "Total pasageri in Repository<Pasager>: " << repoPasageri.size() << "\n";
+
+	std::cout << "\nCautare pasager 'MARIA IONESCU' dupa cheie:\n";
+	Pasager* pasagerGasit = repoPasageri.cautaDupaCheie("MARIA IONESCU");
+	if (pasagerGasit) {
+		std::cout << *pasagerGasit << "\n";
+	}
+
+
+	UI::subtitlu("FUNCTIE SABLON: gasestePrimulCare<Zbor>");
+
+	std::cout << "Gaseste primul zbor cu capacitate >= 180:\n";
+	Zbor* primulZborMare = gasestePrimulCare<Zbor>(repoZboruri, [](const Zbor& z) {
+		return z.getCapacitateMaxima() >= 180;
+	});
+	if (primulZborMare) {
+		primulZborMare->afisareFaraPasageri(false);
+	}
+
+	UI::subtitlu("FUNCTIE SABLON: gasestePrimulCare<Pasager>");
+
+	std::cout << "Gaseste primul pasager cu bilet Business sau FirstClass:\n";
+	Pasager* pasagerPremium = gasestePrimulCare<Pasager>(repoPasageri, [](const Pasager& p) {
+		if (!p.areBilet()) return false;
+		std::string clasa = p.getBilet()->getTipClasa();
+		return clasa == "Business" || clasa == "FirstClass";
+	});
+	if (pasagerPremium) {
+		std::cout << *pasagerPremium << "\n";
+	}
+
+	UI::subtitlu("FUNCTIE SABLON: numaraElementeCare<T>");
+
+	size_t nrZboruriMari = numaraElementeCare<Zbor>(repoZboruri, [](const Zbor& z) {
+		return z.getCapacitateMaxima() >= 180;
+	});
+	std::cout << "Numar zboruri cu capacitate >= 180: " << nrZboruriMari << "\n";
+
+	size_t nrPasageriBusiness = numaraElementeCare<Pasager>(repoPasageri, [](const Pasager& p) {
+		return p.areBilet() && p.getBilet()->getTipClasa() == "Business";
+	});
+	std::cout << "Numar pasageri cu bilet Business: " << nrPasageriBusiness << "\n";
+
+}
+
 void PrintMeniu () {
 	std::cout << "\n---MENIU---\n";
 	std::cout << "1. Afiseaza date companie\n";
@@ -570,6 +664,9 @@ int main() {
 					break;
 				case 16:
 					afiseazaDetaliiCheckIn(companie);
+					break;
+				case 17:
+					demoTemplateuri();
 					break;
 
 				default:

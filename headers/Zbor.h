@@ -29,6 +29,8 @@ public:
 	const std::string& getDestinatie() const {return destinatie; }
 	size_t getCapacitateMaxima() const { return capacitateMaxima; }
 
+	std::string getCheie() const { return numarZbor; }
+
     bool setPoarta(const std::string& nouaPoarta);
     bool adaugaPasager(const Pasager& p);
 	bool isFull() const;
