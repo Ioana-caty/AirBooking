@@ -82,10 +82,10 @@ BiletEconomic::BiletEconomic(const std::string &Loc, double pretBaza, int discou
 	Bilet(Loc, pretBaza, discountProcent) {}
 
 double BiletEconomic::getPretFinal() const {
-	const double pretCuTaxe = this->pretBaza + Bilet::TAXA_AEROPORT + BiletEconomic::TAXA_EXTRA;
+	const double pretCuTaxe = getPretBaza() + Bilet::TAXA_AEROPORT + BiletEconomic::TAXA_EXTRA;
 	double discount = 0.0;
-	if (this->discountProcent > 0) {
-		discount = pretCuTaxe * (static_cast<double>(this->discountProcent) / 100.0);
+	if (getDiscountProcent() > 0) {
+		discount = pretCuTaxe * (static_cast<double>(getDiscountProcent()) / 100.0);
 	}
 	return pretCuTaxe - discount;
 }
@@ -99,8 +99,7 @@ Bilet* BiletEconomic::creeazaUpgrade() const {
 	std::cout << "Bautura gratuita (1-DA/0-NU): "; std::cin >> bautura;
 	std::cout << "Prioritate imbarcare (1-DA/0-NU): "; std::cin >> prioritate;
 
-	// Crestem pretul de baza cu 40.0 pentru acest salt
-	return new BiletPremium(this->loc, this->pretBaza + 40.0, this->discountProcent, bautura, prioritate);
+	return new BiletPremium(getLoc(), getPretBaza() + 40.0, getDiscountProcent(), bautura, prioritate);
 }
 BiletEconomic::~BiletEconomic() {}
 // BUSINESS:
@@ -111,13 +110,13 @@ BiletBusiness::BiletBusiness(const std::string &Loc, double pretBaza, int discou
 	Bilet(Loc, pretBaza, discountProcent), accesLounge(accesLounge) {}
 
 double BiletBusiness::getPretFinal() const {
-	double pretCuTaxe = this->pretBaza + Bilet::TAXA_AEROPORT + BiletBusiness::TAXA_CONFORT;
+	double pretCuTaxe = getPretBaza() + Bilet::TAXA_AEROPORT + BiletBusiness::TAXA_CONFORT;
 	if (this->accesLounge) {
 		pretCuTaxe += 20.0;
 	}
 	double discount = 0.0;
-	if (this->discountProcent > 0) {
-		discount = pretCuTaxe * (static_cast<double>(this->discountProcent) / 100.0);
+	if (getDiscountProcent() > 0) {
+		discount = pretCuTaxe * (static_cast<double>(getDiscountProcent()) / 100.0);
 	}
 	return pretCuTaxe - discount;
 }
@@ -130,7 +129,7 @@ Bilet* BiletBusiness::creeazaUpgrade() const {
 	std::cout << "Servire masa (1-DA/0-NU): "; std::cin >> servireMasa;
 	std::cout << "Prioritate (1-DA/0-NU): "; std::cin >> prioritateFC;
 
-	return new BiletFirstClass(this->loc, this->pretBaza + 100.0, this->discountProcent, servireMasa, prioritateFC);
+	return new BiletFirstClass(getLoc(), getPretBaza() + 100.0, getDiscountProcent(), servireMasa, prioritateFC);
 }
 BiletBusiness::~BiletBusiness() {}
 
@@ -141,7 +140,7 @@ BiletFirstClass::BiletFirstClass(const std::string &Loc, double pretBaza, int di
 	Bilet(Loc, pretBaza, discountProcent), servireMasa(servireMasa), prioritateImbracare(prioritateImbarcare) {}
 
 double BiletFirstClass::getPretFinal() const {
-	double pretCuTaxe = this->pretBaza + Bilet::TAXA_AEROPORT + BiletFirstClass::TAXA_LUXURY;
+	double pretCuTaxe = getPretBaza() + Bilet::TAXA_AEROPORT + BiletFirstClass::TAXA_LUXURY;
 	if (this->servireMasa) {
 		pretCuTaxe += 45.0;
 	}
@@ -149,8 +148,8 @@ double BiletFirstClass::getPretFinal() const {
 		pretCuTaxe += 25.0;
 	}
 	double discount = 0.0;
-	if (this->discountProcent > 0) {
-		discount = pretCuTaxe * (static_cast<double>(this->discountProcent) / 100.0);
+	if (getDiscountProcent() > 0) {
+		discount = pretCuTaxe * (static_cast<double>(getDiscountProcent()) / 100.0);
 	}
 	return pretCuTaxe - discount;
 }
@@ -171,7 +170,7 @@ BiletPremium::BiletPremium(const std::string& Loc, double pretBaza, int discount
 	Bilet(Loc, pretBaza, discountProcent), bautura(bautura), prioritate(prioritate) {}
 
 double BiletPremium::getPretFinal() const {
-	double pretCuTaxe = this->pretBaza + Bilet::TAXA_AEROPORT + BiletPremium::TAXA_PREMIUM;
+	double pretCuTaxe = getPretBaza() + Bilet::TAXA_AEROPORT + BiletPremium::TAXA_PREMIUM;
 	if (this->bautura) {
 		pretCuTaxe += 10.0;
 	}
@@ -179,8 +178,8 @@ double BiletPremium::getPretFinal() const {
 		pretCuTaxe += 14.0;
 	}
 	double discount = 0.0;
-	if (this->discountProcent > 0) {
-		discount = pretCuTaxe * (static_cast<double>(this->discountProcent) / 100.0);
+	if (getDiscountProcent() > 0) {
+		discount = pretCuTaxe * (static_cast<double>(getDiscountProcent()) / 100.0);
 	}
 	return pretCuTaxe - discount;
 }
@@ -192,6 +191,6 @@ Bilet* BiletPremium::creeazaUpgrade() const {
 	std::cout << "\nConfigurare Upgrade la BUSINESS:\n";
 	std::cout << "Acces lounge (1-DA/0-NU): "; std::cin >> accesLounge;
 
-	return new BiletBusiness(this->loc, this->pretBaza + 30.0, this->discountProcent, accesLounge);
+	return new BiletBusiness(getLoc(), getPretBaza() + 30.0, getDiscountProcent(), accesLounge);
 }
 BiletPremium::~BiletPremium() {}
