@@ -495,7 +495,7 @@ void demoTemplateuri() {
 	std::cout << "Total zboruri in Repository<Zbor>: " << repoZboruri.size() << "\n";
 
 	std::cout << "\nCautare zbor 'DEMO02' dupa cheie:\n";
-	Zbor* zborGasit = repoZboruri.cautaDupaCheie("DEMO02");
+	const Zbor* zborGasit = repoZboruri.cautaDupaCheie("DEMO02");
 	if (zborGasit) {
 		zborGasit->afisareFaraPasageri(false);
 	}
@@ -504,7 +504,7 @@ void demoTemplateuri() {
 	auto zboruriMari = repoZboruri.filtreaza([](const Zbor& z) {
 		return z.getCapacitateMaxima() > 160;
 	});
-	for (auto* z : zboruriMari) {
+	for (const auto* z : zboruriMari) {
 		z->afisareFaraPasageri(false);
 	}
 
@@ -525,29 +525,29 @@ void demoTemplateuri() {
 	repoPasageri.adauga(p2);
 	repoPasageri.adauga(p3);
 
-	std::cout << "Total pasageri in Repository<Pasager>: " << repoPasageri.size() << "\n";
+	std::cout << "Total pasageri: " << repoPasageri.size() << "\n";
 
 	std::cout << "\nCautare pasager 'MARIA IONESCU' dupa cheie:\n";
-	Pasager* pasagerGasit = repoPasageri.cautaDupaCheie("MARIA IONESCU");
+	const Pasager* pasagerGasit = repoPasageri.cautaDupaCheie("MARIA IONESCU");
 	if (pasagerGasit) {
 		std::cout << *pasagerGasit << "\n";
 	}
 
 
-	UI::subtitlu("FUNCTIE SABLON: gasestePrimulCare<Zbor>");
+	UI::subtitlu("FUNCTIE SABLON:");
 
 	std::cout << "Gaseste primul zbor cu capacitate >= 180:\n";
-	Zbor* primulZborMare = gasestePrimulCare<Zbor>(repoZboruri, [](const Zbor& z) {
+	const Zbor* primulZborMare = gasestePrimulCare<Zbor>(repoZboruri, [](const Zbor& z) {
 		return z.getCapacitateMaxima() >= 180;
 	});
 	if (primulZborMare) {
 		primulZborMare->afisareFaraPasageri(false);
 	}
 
-	UI::subtitlu("FUNCTIE SABLON: gasestePrimulCare<Pasager>");
+	UI::subtitlu("FUNCTIE SABLON:");
 
 	std::cout << "Gaseste primul pasager cu bilet Business sau FirstClass:\n";
-	Pasager* pasagerPremium = gasestePrimulCare<Pasager>(repoPasageri, [](const Pasager& p) {
+	const Pasager* pasagerPremium = gasestePrimulCare<Pasager>(repoPasageri, [](const Pasager& p) {
 		if (!p.areBilet()) return false;
 		std::string clasa = p.getBilet()->getTipClasa();
 		return clasa == "Business" || clasa == "FirstClass";
@@ -555,8 +555,6 @@ void demoTemplateuri() {
 	if (pasagerPremium) {
 		std::cout << *pasagerPremium << "\n";
 	}
-
-	UI::subtitlu("FUNCTIE SABLON: numaraElementeCare<T>");
 
 	size_t nrZboruriMari = numaraElementeCare<Zbor>(repoZboruri, [](const Zbor& z) {
 		return z.getCapacitateMaxima() >= 180;

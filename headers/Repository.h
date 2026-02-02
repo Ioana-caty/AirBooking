@@ -19,15 +19,6 @@ public:
         elemente.push_back(elem);
     }
 
-
-    bool adaugaDacaUnic(const T& elem) {
-        if (cautaDupaCheie(elem.getCheie()) != nullptr) {
-            return false;
-        }
-        elemente.push_back(elem);
-        return true;
-    }
-
     const std::vector<T>& getAll() const {
         return elemente;
     }
@@ -40,10 +31,6 @@ public:
         return elemente.size();
     }
 
-    bool esteGol() const {
-        return elemente.empty();
-    }
-
 
     T* cautaDupaCheie(const std::string& cheie) {
         for (T& elem : elemente) {
@@ -54,7 +41,6 @@ public:
         return nullptr;
     }
 
-
     const T* cautaDupaCheie(const std::string& cheie) const {
         for (const T& elem : elemente) {
             if (elem.getCheie() == cheie) {
@@ -63,18 +49,6 @@ public:
         }
         return nullptr;
     }
-
-    bool stergeDupaCheie(const std::string& cheie) {
-        auto it = std::find_if(elemente.begin(), elemente.end(),
-            [&cheie](const T& elem) { return elem.getCheie() == cheie; });
-
-        if (it != elemente.end()) {
-            elemente.erase(it);
-            return true;
-        }
-        return false;
-    }
-
 
     std::vector<T*> filtreaza(std::function<bool(const T&)> predicat) {
         std::vector<T*> rezultat;
@@ -100,9 +74,6 @@ public:
         return elemente[index];
     }
 
-    void goleste() {
-        elemente.clear();
-    }
 };
 
 template <typename T>
@@ -126,42 +97,3 @@ size_t numaraElementeCare(const Repository<T>& repo, std::function<bool(const T&
     }
     return count;
 }
-
-
-template <typename T, typename R>
-R calculeazaTotalDin(const Repository<T>& repo, std::function<R(const T&)> extractor) {
-    R total = R();  // Inițializare default (0 pentru numere)
-    for (const T& elem : repo.getAll()) {
-        total += extractor(elem);
-    }
-    return total;
-}
-
-template <typename T>
-class RepositoryLimitat : public Repository<T> {
-private:
-    size_t capacitateMaxima;
-
-public:
-    explicit RepositoryLimitat(size_t capacitate) : capacitateMaxima(capacitate) {}
-
-    bool adauga(const T& elem) {
-        if (this->elemente.size() >= capacitateMaxima) {
-            return false; // Capacitate depășită
-        }
-        this->elemente.push_back(elem);
-        return true;
-    }
-
-    size_t getCapacitateMaxima() const {
-        return capacitateMaxima;
-    }
-
-    size_t getLocuriDisponibile() const {
-        return capacitateMaxima - this->elemente.size();
-    }
-
-    bool estePlin() const {
-        return this->elemente.size() >= capacitateMaxima;
-    }
-};

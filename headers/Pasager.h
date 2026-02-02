@@ -26,7 +26,7 @@ public:
 	const std::string& getNume() const { return nume; }
 	const Bilet* getBilet() const { return bilet; }
 
-	std::string getCheie() const { return nume; }
+	const std::string& getCheie() const { return nume; }
 
 	bool areBilet() const { return bilet != nullptr; }
 	bool corespundeNumelui(const std::string& numeVerificat) const;
