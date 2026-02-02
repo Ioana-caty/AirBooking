@@ -565,7 +565,48 @@ void demoTemplateuri() {
 		return p.areBilet() && p.getBilet()->getTipClasa() == "Business";
 	});
 	std::cout << "Numar pasageri cu bilet Business: " << nrPasageriBusiness << "\n";
+}
 
+void proceseazaAccesLounge(const Bilet* bilet) {
+	if (auto* biletCuLounge = dynamic_cast<const IAccesLounge*>(bilet)) {
+		biletCuLounge->intraInLounge();
+	} else {
+		std::string info = "Clasa " + bilet->getTipClasa() + " nu include acces la Lounge.";
+		mesajInfo(info);
+	}
+}
+
+bool verificaDreptLounge(CompanieAeriana& companie) {
+	UI::subtitlu("VERIFICARE DREPT LOUNGE");
+
+	std::string numar, nume;
+	std::cout << "Numar zbor: "; std::cin >> numar;
+	std::cin.ignore();
+
+	Zbor* z = companie.cautaZborDupaNumar(numar);
+	if (!z) {
+		mesajEroare("Zborul nu a fost gasit!");
+		return false;
+	}
+
+	std::cout << "Nume pasager: "; std::getline(std::cin, nume);
+	const Pasager* p = z->cautaPasagerDupaNume(nume);
+
+	if (!p) {
+		mesajEroare("Pasagerul nu a fost gasit pe acest zbor!");
+		return false;
+	}
+
+	if (!p->areBilet()) {
+		mesajEroare("Pasagerul nu are un bilet emis!");
+		return false;
+	}
+
+	UI::Linie(std::cout, '-', 50);
+	std::cout << "Verificare pentru: " << nume << "\n";
+	proceseazaAccesLounge(p->getBilet());
+
+	return true;
 }
 
 void PrintMeniu () {
@@ -587,6 +628,7 @@ void PrintMeniu () {
 	std::cout << "15. Adauga bagaj la check-in\n";
 	std::cout << "16. Afiseaza detalii check-in\n";
 	std::cout << "17. Demo Template-uri\n";
+	std::cout << "18. Verifica acces Lounge\n";
 	std::cout <<"0. Salveaza si iesi:\n";
 }
 
@@ -666,6 +708,9 @@ int main() {
 					break;
 				case 17:
 					demoTemplateuri();
+					break;
+				case 18:
+					verificaDreptLounge(companie);
 					break;
 
 				default:

@@ -45,7 +45,6 @@ double CheckIn::getTaxeTotaleBagaje() const {
     }
     return total;
 }
-
 std::ostream& operator<<(std::ostream& os, const CheckIn& c) {
     os << "\n";
 	UI::titlu(os, "CHECK-IN PASAGER: " + c.numePasager, '=', 60);

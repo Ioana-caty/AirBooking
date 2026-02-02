@@ -20,6 +20,6 @@ public:
 	void adaugaBagaj(const Bagaj& bagaj);
 	double getGreutateTotala() const;
 	double getTaxeTotaleBagaje() const;
-
+	
 	friend std::ostream& operator<<(std::ostream& os, const CheckIn& c);
 };

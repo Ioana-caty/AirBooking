@@ -4,6 +4,12 @@
 
 class CompanieAeriana;
 
+class IAccesLounge {
+public:
+	virtual void intraInLounge() const = 0;
+	virtual ~IAccesLounge() = default;
+};
+
 class Bilet {
 protected:
     int biletID;
@@ -58,7 +64,7 @@ public:
 };
 
 // DERIVATA2 : BILET BUSINESS
-class BiletBusiness : public Bilet {
+class BiletBusiness : public Bilet, public IAccesLounge{
 private:
 	static const double TAXA_CONFORT;
 	bool accesLounge;
@@ -71,11 +77,12 @@ public:
 	Bilet* clone() const override;
 	Bilet* creeazaUpgrade() const override;
 
+	void intraInLounge() const override;
 	~BiletBusiness() override;
 };
 
 // DERIVATA3: BILET FIRST CLASS
-class BiletFirstClass : public Bilet {
+class BiletFirstClass : public Bilet, public IAccesLounge{
 private:
 	static const double TAXA_LUXURY;
 	bool servireMasa;
@@ -90,6 +97,7 @@ public:
 	Bilet* clone() const override;
 	Bilet* creeazaUpgrade() const override;
 
+	void intraInLounge() const override;
 	~BiletFirstClass() override;
 };
 

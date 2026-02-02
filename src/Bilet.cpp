@@ -131,6 +131,14 @@ Bilet* BiletBusiness::creeazaUpgrade() const {
 
 	return new BiletFirstClass(getLoc(), getPretBaza() + 100.0, getDiscountProcent(), servireMasa, prioritateFC);
 }
+
+void BiletBusiness::intraInLounge() const {
+	if (this->accesLounge) {
+		mesajSucces("[LOUNGE BUSINESS] Acces permis! Aveti bufet suedez si Wifi.");
+	} else {
+		mesajInfo("[LOUNGE] Biletul Business este valid, dar optiunea Lounge NU a fost achizitionata.");
+	}
+}
 BiletBusiness::~BiletBusiness() {}
 
 // FIRST CLASS:
@@ -158,6 +166,9 @@ std::string BiletFirstClass::getTipClasa() const { return "FirstClass"; }
 Bilet * BiletFirstClass::clone() const { return new BiletFirstClass(*this); }
 Bilet* BiletFirstClass::creeazaUpgrade() const {
 	return nullptr;
+}
+void BiletFirstClass::intraInLounge() const {
+	std::cout << "[LOUNGE] Bun venit in VIP First Class Lounge! Sampanie si servicii incluse.\n";
 }
 BiletFirstClass::~BiletFirstClass() {}
 
