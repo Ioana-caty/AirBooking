@@ -586,6 +586,7 @@ void PrintMeniu () {
 	std::cout << "14. Check-in pasager\n";
 	std::cout << "15. Adauga bagaj la check-in\n";
 	std::cout << "16. Afiseaza detalii check-in\n";
+	std::cout << "17. Demo Template-uri\n";
 	std::cout <<"0. Salveaza si iesi:\n";
 }
 
