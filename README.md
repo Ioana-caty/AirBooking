@@ -1,208 +1,159 @@
 # ✈️ AirBooking - Airline Management System
-Sistem complet de management pentru companii aeriene dezvoltat în C++, care simulează operațiunile zilnice ale unei companii aeriene moderne (ex: Wizz Air). Aplicația oferă gestionare avansată a zborurilor, pasagerilor, biletelor și serviciilor auxiliare, cu date pre-configurate și funcționalitate de salvare automată.
+A comprehensive airline management system developed in C++ that simulates the daily operations of a modern airline (e.g., Wizz Air). The application is an academic project completed in 3 stages, progressively demonstrating advanced concepts of Object-Oriented Programming (OOP).
 
-## 1. Date și Utilizare:
+![C++](https://img.shields.io/badge/C++-11-blue.svg)
+![CMake](https://img.shields.io/badge/CMake-3.10+-green.svg)
 
-### Date Inițiale:
-La pornire, aplicația încarcă automat date din `date.txt`:
-- 3+ zboruri pre-configurate
-- Pasageri înregistrați cu bilete
-- Diverse clase și configurații
-### Date finale:
-- Salvare automată la ieșire în `date.txt`
-- Format text structurat pentru editare manuală
-- Încărcare rapidă la pornire
-  
-## 2. Validări Complete:
-- Format loc: `[1-99][A-Z]` (ex: 12A, 5B)
-- Format poartă: `[A-Z][1-99]` (ex: A12, B5)
-- Discount: 0-80%
-- Capacitate zbor > 0
-  
-## 3. Funcționalități
-### 🛫 Gestiunea Zborurilor
-- **Adăugare zbor** - Înregistrare zboruri noi (număr, destinație, poartă, capacitate)
-- **Căutare zbor** - Vizualizare detalii complete inclusiv lista pasagerilor
-- **Modificare poartă** - Actualizare poartă de îmbarcare
-- **Sortare zboruri** - După încasări, ocupare sau destinație
-- **Filtrare zboruri** - Zboruri pline, goale sau după destinație
+---
 
-### 👥 Gestiunea Pasagerilor
-- **Adăugare pasager** - Înregistrare pasageri noi cu alocare bilet
-- **Căutare pasager** - Găsire rapidă după nume
-- **Modificare loc** - Schimbare loc cu validare disponibilitate
-- **Check-in online** - Sistem de check-in cu gestionare bagaje
-- **Upgrade bilet** - Promovare între clase (Economic → Premium → Business → First Class)
-  
-### 📊 Rapoarte și Analiză
-- **Calcul încasări** - Venit total pe zbor (bilete + bagaje)
-- **Verificare capacitate** - Status locuri disponibile
-- **Statistici ocupare** - Rata de umplere a zborurilor
-- **Afișare optimizată** - Cu/fără detalii pasageri
+## 📋 Table of Contents
 
-## 4. Caracteristici:
-### 🧳 Sistemul de Bagaje
+1. [Description](#description)
+2. [Features](#features)
+3. [Technical Architecture](#architecture)
+4. [Project Structure](#structure)
+5. [Compilation and Execution](#compilation)
+6. [Academic Requirements](#requirements)
 
-Gestionare completă bagaje cu calcul automat taxe:
+---
 
-| Tip Bagaj | Greutate Max | Taxă |
-|-----------|--------------|------|
-| De mână | 10 kg | Gratis |
-| Cabină | 10 kg | 20 EUR |
-| Cală Mic | 23 kg | 35 EUR |
-| Cală Mare | 32 kg | 50 EUR |
+<a name="description"></a>
+## Description
 
-### 🎫 Sistemul de Bilete
+**AirBooking** is an airline management system that enables:
+- Flight fleet administration
+- Passenger registration and management
+- Check-in processing with baggage allocation
+- Dynamic ticket price calculation
 
-Aplicația suportă **4 clase de bilete**:
+The project was developed in **3 incremental stages**, each adding new OOP concepts:
 
-| Clasă | Taxa Bază | Beneficii |
-|-------|-----------|-----------|
-| Economic | 30.00 EUR | Standard |
-| Premium | 55.00 EUR | Băutură + Prioritate îmbarcare |
-| Business | 35.50 EUR | Acces lounge + Confort extra |
-| First Class | 74.75 EUR | Masă + Prioritate + Luxury |
+| Stage | Main Focus | Git Tag |
+|-------|------------|---------|
+| Theme 1 | Classes, constructors, operators | `v0.1` |
+| Theme 2 | Inheritance, polymorphism, exceptions | `v0.2` |
+| Theme 3 | Design patterns, templates | `v0.3` |
+| Personal | English version | `v0.4(english)` |
 
-**Funcționalități:**
-- Detectare automată bagaje supraponderale
-- Taxă extra: **15 EUR/kg** peste limită
-- Actualizare dinamică a prețului de bilet atunci când se adăugă un bagaj
+---
 
-## 5. Ierarhie Excepții: 
-Ierarhie excepții derivate din `std::exception`:
+At startup, the application executes an Auto-Load and Auto-Save procedure:
+
+- **Loading**: Data is read from `data.txt` (flights, passengers, configurations)
+- **Saving**: Any modification is automatically saved when closing the program to `data.txt`
+- **Pre-configuration**: The system comes with 3+ flights and passengers already defined for quick testing
+
+---
+
+<a name="features"></a>
+## ✨ Features
+
+### 🛫 Flight Management
+
+- Add, search, and remove flights
+- Update boarding gates and monitor capacity in real-time
+- Sort by revenue, occupancy rate, or destination
+- Filter full/available flights
+
+### 👥 Passenger Management
+
+- Passenger registration with complete validations
+- Check-in system with baggage allocation
+- Upgrade between fare classes with cost recalculation
+
+### 🎫 Ticket System
+
+Using Factory Method (`TicketFactory`), the application supports **4 ticket classes**:
+
+| Class | Base Fee | Benefits |
+|-------|----------|----------|
+| Economy | €3.00 | Standard |
+| Premium | €45.00 | Free drink, priority boarding |
+| Business | €35.50 | Lounge access, extra comfort |
+| First Class | €74.75 | Meal, VIP lounge, priority |
+
+> **Note**: Final price = Base price + Airport tax (€15.75) + Class fee + Options - Discount
+
+### 🧳 Baggage System (`Baggage`)
+
+*Usage condition*: Adding baggage is only available after completing the Check-In process. Fees are calculated and added directly to the final ticket price.
+
+| Baggage Type | Max Weight | Fee |
+|--------------|------------|-----|
+| Personal Item | 10 kg | Free |
+| Carry-on | 10 kg | €20 |
+| Checked Small | 23 kg | €35 |
+| Checked Large | 32 kg | €50 |
+
+> *Surcharge*: €15/kg for exceeding the weight limit
+
+
+---
+
+<a name="architecture"></a>
+## 🔧 Technical Architecture
+
+### 🏗️ Implemented Design Patterns
+
+| Pattern | Implementation | Purpose |
+|---------|----------------|---------|
+| **Factory Method** | `TicketFactory` | Dynamic creation of ticket types |
+| **Strategy** | `SortStrategy` | Interchangeable sorting algorithms |
+
+### ⚠️ Exception Hierarchy
+
 ```cpp
-ExceptieZboruri (baza)
-  ├─ ExceptieValidare    # Date invalide (loc, poarta, discount)
-  ├─ ExceptieCapacitate  # Zbor plin
-  └─ ExceptieOperatie    # Operatii invalide (pasager duplicat,..)
+FlightException (base)
+├── ValidationException    // Invalid input data (seat format, gate, discount)
+├── CapacityException      // Overbooking attempt (full flight)
+└── OperationException     // Invalid actions (existing passenger, occupied seat)
 ```
-### 6. Interfață Utilizator
-- Meniu intuitiv cu opțiuni numerotate
-- Bară de progres pentru încărcare date
-- Formatare automată prețuri (ex: 125.50 EUR)
-- Afișare tabelară organizată
 
-## 7. Structura Proiectului
+### 🛡️ Implemented Validations
+
+| Field | Format | Examples |
+|-------|--------|----------|
+| Seat | `[1-99][A-Z]` | 12A, 5B |
+| Gate | `[A-Z][1-99]` | A12, B5 |
+| Discount | 0% - 80% | 15, 50 |
+
+---
+
+<a name="structure"></a>
+## 📂 Project Structure
 ```
-AirBooking/
-├── headers/
-│   ├── Bilet.h              # Ierarhie clase bilete (abstract + 4 derivate)
-│   ├── Pasager.h            # Gestiune pasageri
-│   ├── Zbor.h               # Gestiune zboruri
-│   ├── CompanieAeriana.h    # Container zboruri + operații
-│   ├── Bagaj.h              # Sistem bagaje
-│   ├── CheckIn.h            # Sistem check-in
-│   ├── Exceptii.h           # Ierarhie exceptii custom
-│   └── Utils.h              # Functii utilitate (formatare, validare, UI)
+/
+├── headers/                # Class interfaces (.h)
+│   ├── Airline.h           # Central system manager
+│   ├── Flight.h            # Per-flight logic
+│   ├── Passenger.h         # Passenger entity
+│   ├── Ticket.h            # Ticket hierarchy + ILoungeAccess
+│   ├── Baggage.h           # Baggage fee logic
+│   ├── CheckIn.h           # Boarding process
+│   ├── Exceptions.h        # Custom error classes
+│   ├── Repository.h        # Generic template for collections
+│   ├── SortStrategy.h      # Strategy Pattern for sorting
+│   └── Utils.h             # Helpers (validations, UI, price formatting)
 ├── Pattern/
-│   └── BiletFactory.h       # Factory Pattern pentru creare bilete
-├── input/
-│   ├── populareDate.h       # Incarcare date din fisier
-│   └── saveData.h           # Salvare date in fisier
-├── src/
-│   ├── Bilet.cpp
-│   ├── Pasager.cpp
-│   ├── Zbor.cpp
-│   ├── CompanieAeriana.cpp
-│   ├── Bagaj.cpp
+│   └── TicketFactory.h     # Factory Design Pattern implementation
+├── src/                    # Method implementations (.cpp)
+│   ├── Airline.cpp
+│   ├── Flight.cpp
+│   ├── Passenger.cpp
+│   ├── Ticket.cpp
+│   ├── Baggage.cpp
 │   └── CheckIn.cpp
-├── main.cpp                 # Meniu interactiv
-└── date.txt                 # Date intiale & Salvare    
+├── input/                  # I/O modules
+│   ├── populateData.h      # File reading logic
+│   └── saveData.h          # File writing logic
+├── main.cpp                # Entry point (Interactive Menu)
+└── data.txt                # Text database
 ```
------
-### Folosiți template-ul corespunzător grupei voastre!
 
-| Laborant  | Link template                                |
-|-----------|----------------------------------------------|
-| Dragoș B  | https://github.com/Ionnier/oop-template      |
-| Tiberiu M | https://github.com/MaximTiberiu/oop-template |
-| Marius MC | https://github.com/mcmarius/oop-template     |
+---
 
-### Important!
-
-Aveți voie cu cod generat de modele de limbaj la care nu ați contribuit semnificativ doar dacă documentați riguros acest proces.
-Codul generat pus "ca să fie"/pe care nu îl înțelegeți se punctează doar pentru puncte bonus, doar în contextul
-în care oferă funcționalități ajutătoare și doar dacă are sens.
-
-Codul din proiect trebuie să poată fi ușor de înțeles și de modificat de către altcineva. Pentru detalii, veniți la ore.
-
-O cerință nu se consideră îndeplinită dacă este realizată doar prin cod generat.
-
-- **Fără cod de umplutură/fără sens!**
-- **Fără copy-paste!**
-- **Fără variabile globale!**
-- **Fără atribute publice!**
-- **Pentru T2 și T3, fără date în cod!** Datele vor fi citite din fișier, aveți exemple destule.
-- **Obligatoriu** fișiere cu date mai multe din care să citiți, obligatoriu cu biblioteci externe: fișiere (local sau server) sau baze de date
-- obligatoriu (TBD) să integrați cel puțin două biblioteci externe pe lângă cele pentru stocare
-
-### Tema 0
-
-- [ ] Nume proiect (poate fi schimbat ulterior)
-- [ ] Scurtă descriere a temei alese, ce v-ați propus să implementați
-
-## Tema 1
-
-#### Cerințe
-- [ ] definirea a minim **3-4 clase** folosind compunere cu clasele definite de voi; moștenirile nu se iau în considerare aici
-- [ ] constructori de inițializare cu parametri pentru fiecare clasă
-- [ ] pentru o aceeași (singură) clasă: constructor de copiere, `operator=` de copiere, destructor
-<!-- - [ ] pentru o altă clasă: constructor de mutare, `operator=` de mutare, destructor -->
-<!-- - [ ] pentru o altă clasă: toate cele 5 funcții membru speciale -->
-- [ ] `operator<<` pentru **toate** clasele pentru afișare (`std::ostream`) folosind compunere de apeluri cu `operator<<`
-- [ ] cât mai multe `const` (unde este cazul) și funcții `private`
-- [ ] implementarea a minim 3 funcții membru publice pentru funcționalități netriviale specifice temei alese, dintre care cel puțin 1-2 funcții mai complexe
-  - nu doar citiri/afișări sau adăugat/șters elemente într-un/dintr-un vector
-- [ ] scenariu de utilizare **cu sens** a claselor definite:
-  - crearea de obiecte și apelarea tuturor funcțiilor membru publice în main
-  - vor fi adăugate în fișierul `date.txt` DOAR exemple de date de intrare de la tastatură (dacă există); dacă aveți nevoie de date din fișiere, creați alte fișiere separat
-- [ ] minim 50-55% din codul propriu să fie C++, `.gitattributes` configurat corect
-- [ ] tag de `git`: de exemplu `v0.1`
-- [ ] serviciu de integrare continuă (CI) cu **toate bifele**; exemplu: GitHub Actions
-- [ ] code review #1 2 proiecte
-
-## Tema 2
-
-#### Cerințe
-- [ ] separarea codului din clase în `.h` (sau `.hpp`) și `.cpp`
-- [ ] moșteniri:
-  - minim o clasă de bază și **3 clase derivate** din aceeași ierarhie
-  - ierarhia trebuie să fie cu bază proprie, nu derivată dintr-o clasă predefinită
-  - [ ] funcții virtuale (pure) apelate prin pointeri de bază din clasa care conține atributul de tip pointer de bază
-    - minim o funcție virtuală va fi **specifică temei** (i.e. nu simple citiri/afișări sau preluate din biblioteci i.e. draw/update/render)
-    - constructori virtuali (clone): sunt necesari, dar nu se consideră funcții specifice temei
-    - afișare virtuală, interfață non-virtuală
-  - [ ] apelarea constructorului din clasa de bază din constructori din derivate
-  - [ ] clasă cu atribut de tip pointer la o clasă de bază cu derivate; aici apelați funcțiile virtuale prin pointer de bază, eventual prin interfața non-virtuală din bază
-    - [ ] suprascris cc/op= pentru copieri/atribuiri corecte, copy and swap
-    - [ ] `dynamic_cast`/`std::dynamic_pointer_cast` pentru downcast cu sens
-    - [ ] smart pointers (recomandat, opțional)
-- [ ] excepții
-  - [ ] ierarhie proprie cu baza `std::exception` sau derivată din `std::exception`; minim **3** clase pentru erori specifice distincte
-    - clasele de excepții trebuie să trateze categorii de erori distincte (exemplu de erori echivalente: citire fișiere cu diverse extensii)
-  - [ ] utilizare cu sens: de exemplu, `throw` în constructor (sau funcție care întoarce un obiect), `try`/`catch` în `main`
-  - această ierarhie va fi complet independentă de ierarhia cu funcții virtuale
-- [ ] funcții și atribute `static`
-- [ ] STL
-- [ ] cât mai multe `const`
-- [ ] funcții *de nivel înalt*, de eliminat cât mai mulți getters/setters/funcții low-level
-- [ ] minim 75-80% din codul propriu să fie C++
-- [ ] la sfârșit: commit separat cu adăugarea unei noi clase derivate fără a modifica restul codului, **pe lângă cele 3 derivate deja adăugate** din aceeași ierarhie
-  - noua derivată nu poate fi una existentă care a fost ștearsă și adăugată din nou
-  - noua derivată va fi integrată în codul existent (adică va fi folosită, nu adăugată doar ca să fie)
-- [ ] tag de `git` pe commit cu **toate bifele**: de exemplu `v0.2`
-- [ ] code review #2 2 proiecte
-
-## Tema 3
-
-#### Cerințe
-- [ ] 2 șabloane de proiectare (design patterns)
-- [ ] o clasă șablon cu sens; minim **2 instanțieri**
-  - [ ] preferabil și o funcție șablon (template) cu sens; minim 2 instanțieri
-- [ ] minim 85% din codul propriu să fie C++
-<!-- - [ ] o specializare pe funcție/clasă șablon -->
-- [ ] tag de `git` pe commit cu **toate bifele**: de exemplu `v0.3` sau `v1.0`
-- [ ] code review #3 2 proiecte
+<a name="compilation"></a>
+## ⚙️Compilation and Execution
 
 ## Instrucțiuni de compilare
 
@@ -289,6 +240,56 @@ Comanda este aceeași ca la pasul 1 sau 2. Nu merge combinat cu Valgrind.
 ./install_dir/bin/oop
 ```
 
-## Resurse
+--- 
 
-- adăugați trimiteri **detaliate** către resursele externe care v-au ajutat sau pe care le-ați folosit
+<a name ="requirements"></a>
+## Academic Requirements
+
+## 🎓 Theme 1
+#### Requirements
+- [x] definition of at least **3-4 classes** using composition with your own defined classes; inheritance is not considered here
+- [x] initialization constructors with parameters for each class
+- [x] for one (single) class: copy constructor, copy `operator=`, destructor
+<!-- - [ ] for another class: move constructor, move `operator=`, destructor -->
+<!-- - [ ] for another class: all 5 special member functions -->
+- [x] `operator<<` for **all** classes for display (`std::ostream`) using composed calls with `operator<<`
+- [x] as many `const` as possible (where applicable) and `private` functions
+- [x] implementation of at least 3 public member functions for non-trivial functionalities specific to the chosen theme, of which at least 1-2 more complex functions
+  - not just reads/displays or adding/removing elements to/from a vector
+- [x] **meaningful** usage scenario of the defined classes:
+  - creating objects and calling all public member functions in main
+  - only examples of keyboard input data will be added to the `data.txt` file (if any); if you need data from files, create separate files
+
+## Theme 2
+#### Requirements
+- [x] separation of class code into `.h` (or `.hpp`) and `.cpp`
+- [x] inheritance:
+  - at least one base class and **3 derived classes** from the same hierarchy
+  - the hierarchy must have its own base, not derived from a predefined class
+  - [x] (pure) virtual functions called through base pointers from the class containing the base pointer type attribute
+    - at least one virtual function must be **theme-specific** (i.e. not simple reads/displays or taken from libraries i.e. draw/update/render)
+    - virtual constructors (clone): are necessary, but are not considered theme-specific functions
+    - virtual display, non-virtual interface
+  - [x] calling the base class constructor from derived constructors
+  - [x] class with pointer attribute to a base class with derivatives; here you call virtual functions through base pointer, possibly through the non-virtual interface from base
+    - [x] overridden cc/op= for correct copies/assignments, copy and swap
+    - [x] `dynamic_cast`/`std::dynamic_pointer_cast` for meaningful downcast
+    - [x] smart pointers (recommended, optional)
+- [x] exceptions
+  - [x] own hierarchy with base `std::exception` or derived from `std::exception`; at least **3** classes for distinct specific errors
+    - exception classes must handle distinct error categories (example of equivalent errors: reading files with various extensions)
+  - [x] meaningful usage: for example, `throw` in constructor (or function that returns an object), `try`/`catch` in `main`
+  - this hierarchy will be completely independent of the hierarchy with virtual functions
+- [x] `static` functions and attributes
+- [x] STL
+- [x] as many `const` as possible
+- [x] *high-level* functions, eliminate as many getters/setters/low-level functions as possible
+- [x] at the end: separate commit with adding a new derived class without modifying the rest of the code, **in addition to the 3 derivatives already added** from the same hierarchy
+  - the new derivative cannot be an existing one that was deleted and added again
+  - the new derivative will be integrated into the existing code (i.e. it will be used, not just added for the sake of it)
+
+## Theme 3
+#### Requirements
+- [x] 2 design patterns
+- [x] a meaningful template class; at least **2 instantiations**
+  - [x] preferably also a meaningful template function; at least 2 instantiations
