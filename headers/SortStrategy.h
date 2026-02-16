@@ -2,53 +2,50 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-#include "Zbor.h"
+#include "Flight.h"
 #include "Utils.h"
 
 class SortStrategy {
 public:
-	virtual void sorteaza(std::vector<Zbor>& zboruri) const = 0;
-	virtual std::string getNume() const = 0;
+	virtual void sort(std::vector<Flight>& flights) const = 0;
+	virtual std::string getName() const = 0;
 	virtual ~SortStrategy() = default;
 };
 
-class SortByDestinatie : public SortStrategy {
+class SortByDestination : public SortStrategy {
 public:
-	void sorteaza(std::vector<Zbor>& zboruri) const override {
-		std::sort(zboruri.begin(), zboruri.end(), [](const Zbor& a, const Zbor& b) {
-			return toUpperCase(a.getDestinatie()) < toUpperCase(b.getDestinatie());
+	void sort(std::vector<Flight>& flights) const override {
+		std::sort(flights.begin(), flights.end(), [](const Flight& a, const Flight& b) {
+		   return toUpperCase(a.getDestination()) < toUpperCase(b.getDestination());
 		});
 	}
-	std::string getNume() const override {
-		return "Sortare dupa destinatie (alfabetic)";
+	std::string getName() const override {
+		return "Sorting by destination (alphabetical)";
 	}
 };
 
-class SortByOcupare : public SortStrategy {
+class SortByOccupancy : public SortStrategy {
 public:
-	void sorteaza(std::vector<Zbor>& zboruri) const override {
-		std::sort(zboruri.begin(), zboruri.end(), [](const Zbor& a, const Zbor& b) {
-			double rataA = static_cast<double>(a.getLocuriOcupate()) / a.getCapacitateMaxima();
-			double rataB = static_cast<double>(b.getLocuriOcupate()) / b.getCapacitateMaxima();
-			return rataA > rataB;
+	void sort(std::vector<Flight>& flights) const override {
+		std::sort(flights.begin(), flights.end(), [](const Flight& a, const Flight& b) {
+		   double rateA = static_cast<double>(a.getOccupiedSeats()) / a.getMaxCapacity();
+		   double rateB = static_cast<double>(b.getOccupiedSeats()) / b.getMaxCapacity();
+		   return rateA > rateB;
 		});
 	}
-	std::string getNume() const override {
-		return "Sortare dupa ocupare (descrescator)";
-	}
-
-};
-
-class SortByIncasari : public SortStrategy{
-public:
-	void sorteaza(std::vector<Zbor>& zboruri) const override {
-		std::sort(zboruri.begin(), zboruri.end(), [](const Zbor& a, const Zbor& b) {
-			return a.calculeazaIncasariTotale() > b.calculeazaIncasariTotale();
-		});
-	}
-	std::string getNume() const override {
-		return "Sortare dupa incasari (descrescator)";
+	std::string getName() const override {
+		return "Sorting by occupancy rate (descending)";
 	}
 };
 
-
+class SortByRevenue : public SortStrategy {
+public:
+	void sort(std::vector<Flight>& flights) const override {
+		std::sort(flights.begin(), flights.end(), [](const Flight& a, const Flight& b) {
+		   return a.calculateTotalRevenue() > b.calculateTotalRevenue();
+		});
+	}
+	std::string getName() const override {
+		return "Sorting by revenue (descending)";
+	}
+};

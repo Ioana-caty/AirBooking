@@ -1,85 +1,85 @@
 #include "../headers/CheckIn.h"
-#include "../headers/Bilet.h"
+#include "../headers/Ticket.h"
 #include "../headers/Utils.h"
-#include <string.h>
 #include <cstring>
 
 
-CheckIn::CheckIn(const std::string& pasager, const std::string& zbor, const std::string& loc, Bilet* bilet)
-    : numePasager(toUpperCase(pasager)),
-      numarZbor(toUpperCase(zbor)),
-      loc(toUpperCase(loc)),
-	  biletPasager(bilet) {
+CheckIn::CheckIn(const std::string& passenger, const std::string& flight, const std::string& seat, Ticket* ticket)
+    : passengerName(toUpperCase(passenger)),
+      flightNumber(toUpperCase(flight)),
+      seat(toUpperCase(seat)),
+      passengerTicket(ticket) {
 
-    mesajSucces("Check-in creat pentru " + numePasager);
+    successMessage("Check-in created for " + passengerName);
 }
 
-void CheckIn::adaugaBagaj(const Bagaj& bagaj) {
-    bagaje.push_back(bagaj);
+void CheckIn::addBaggage(const Baggage& baggage) {
+    luggage.push_back(baggage);
 
-	if (biletPasager != nullptr) {
-		const double taxaBagaj = bagaj.getTaxaBagaj() + bagaj.getTaxaExtra();
-		biletPasager->addTaxaBagaj(taxaBagaj);
-		mesajSucces("Bagaj adaugat: " + bagaj.getTipString());
-		mesajInfo("Pret bilet actualizat: +" + Formatare::formatareMoneda(taxaBagaj));
-	}
+    if (passengerTicket != nullptr) {
+       const double baggageFee = baggage.getBaggageFee() + baggage.getExtraFee();
+       passengerTicket->addBaggageFee(baggageFee);
+       successMessage("Baggage added: " + baggage.getTypeString());
+       infoMessage("Updated ticket price: +" + Format::getFormattedPrice(baggageFee));
+    }
 
-    if (bagaj.esteSupraponderal()) {
-        mesajInfo("ATENTIE: Bagaj supraponderal! Taxa extra: " +
-                  Formatare::formatareMoneda(bagaj.getTaxaExtra()));
+    if (baggage.isOverweight()) {
+        infoMessage("ATTENTION: Overweight baggage! Extra fee: " +
+                  Format::getFormattedPrice(baggage.getExtraFee()));
     }
 }
 
-double CheckIn::getGreutateTotala() const {
+double CheckIn::getTotalWeight() const {
     double total = 0.0;
-    for (const auto& b : bagaje) {
-        total += b.getGreutate();
+    for (const auto& b : luggage) {
+        total += b.getWeight();
     }
     return total;
 }
 
-double CheckIn::getTaxeTotaleBagaje() const {
+double CheckIn::getTotalBaggageFees() const {
     double total = 0.0;
-    for (const auto& b : bagaje) {
-        total += b.getTaxaBagaj() + b.getTaxaExtra();
+    for (const auto& b : luggage) {
+        total += b.getBaggageFee() + b.getExtraFee();
     }
     return total;
 }
+
 std::ostream& operator<<(std::ostream& os, const CheckIn& c) {
     os << "\n";
-	UI::titlu(os, "CHECK-IN PASAGER: " + c.numePasager, '=', 60);
-    os << "Zbor: " << c.numarZbor << " | Loc: " << c.loc << "\n";
-    os << "Numar bagaje: " << c.bagaje.size() << "\n";
+    UI::titlu(os, "PASSENGER CHECK-IN: " + c.passengerName, '=', 60);
+    os << "Flight: " << c.flightNumber << " | Seat: " << c.seat << "\n";
+    os << "Number of bags: " << c.luggage.size() << "\n";
 
-    if (!c.bagaje.empty()) {
-        os << "\nBagaje inregistrate:\n";
-        UI::Linie(std::cout, '-', 60);
+    if (!c.luggage.empty()) {
+        os << "\nRegistered Baggage:\n";
+        UI::Line(std::cout, '-', 60);
 
-        for (size_t i = 0; i < c.bagaje.size(); i++) {
-            os << (i+1) << ". " << c.bagaje[i].getTipString()
-               << " - " << c.bagaje[i].getGreutate() << " kg";
+        for (size_t i = 0; i < c.luggage.size(); i++) {
+            os << (i + 1) << ". " << c.luggage[i].getTypeString()
+               << " - " << c.luggage[i].getWeight() << " kg";
 
-            if (c.bagaje[i].esteSupraponderal()) {
-                os << " [SUPRAPONDERAL]";
+            if (c.luggage[i].isOverweight()) {
+                os << " [OVERWEIGHT]";
             }
 
-            os << " - " << Formatare::formatareMoneda(
-                c.bagaje[i].getTaxaBagaj() + c.bagaje[i].getTaxaExtra()) << "\n";
+            os << " - " << Format::getFormattedPrice(
+                c.luggage[i].getBaggageFee() + c.luggage[i].getExtraFee()) << "\n";
         }
 
-        UI::Linie(std::cout,'-', 60);
-        os << "Greutate totala: " << c.getGreutateTotala() << " kg\n";
-        os << "Taxe totale bagaje: " << Formatare::formatareMoneda(c.getTaxeTotaleBagaje()) << "\n";
+        UI::Line(std::cout, '-', 60);
+        os << "Total weight: " << c.getTotalWeight() << " kg\n";
+        os << "Total baggage fees: " << Format::getFormattedPrice(c.getTotalBaggageFees()) << "\n";
     } else {
-        os << "\nNiciun bagaj inregistrat.\n";
+        os << "\nNo baggage registered.\n";
     }
 
-	if (c.biletPasager != nullptr) {
-		os << "\n>>> PRET BILET ACTUALIZAT: "
-		   << Formatare::formatareMoneda(c.biletPasager->getPretFinal()) << " <<<\n";
-	}
+    if (c.passengerTicket != nullptr) {
+       os << "\n>>> UPDATED TICKET PRICE: "
+          << Format::getFormattedPrice(c.passengerTicket->getFinalPrice()) << " <<<\n";
+    }
 
-    UI::Linie(std::cout, '=', 60);
+    UI::Line(std::cout, '=', 60);
 
     return os;
 }

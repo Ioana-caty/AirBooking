@@ -50,25 +50,24 @@ include(cmake/CopyHelper.cmake)
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${MAIN_EXECUTABLE_NAME}
     main.cpp
-        headers/Pasager.h
-        src/Pasager.cpp
-        headers/Bilet.h
-        src/Bilet.cpp
-        headers/Zbor.h
-        src/Zbor.cpp
-        headers/CompanieAeriana.h
-        src/CompanieAeriana.cpp
-        Pattern/BiletFactory.h
-        input/populareDate.h
+        headers/Passenger.h
+        src/Passenger.cpp
+        headers/Ticket.h
+        src/Ticket.cpp
+        headers/Flight.h
+        src/Flight.cpp
+        headers/Airline.h
+        src/Airline.cpp
+        Pattern/TicketFactory.h
+        input/populateData.h
         input/saveData.h
-        headers/Exceptii.h
+        headers/Exceptions.h
         headers/Utils.h
-        headers/Bagaj.h
-        src/Bagaj.cpp
+        headers/Baggage.h
+        src/Baggage.cpp
         headers/CheckIn.h
         src/CheckIn.cpp
         headers/SortStrategy.h
-        headers/Rezultat.h
         headers/Repository.h
 )
 
@@ -99,7 +98,7 @@ if(APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
 endif()
 
-copy_files(FILES date.txt COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
+copy_files(FILES data.txt COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
 copy_files(FILES input.txt COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
 # copy_files(FILES date.txt config.json DIRECTORY images sounds COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
 # copy_files(DIRECTORY images sounds COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})

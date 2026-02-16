@@ -1,25 +1,24 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "Bagaj.h"
-#include "../headers/Bilet.h"
+#include "Baggage.h"
+#include "Ticket.h"
 
 
 class CheckIn {
-private:
-	std::string numePasager;
-	std::string numarZbor;
-	std::string loc;
-	std::vector<Bagaj> bagaje;
+	std::string passengerName;
+	std::string flightNumber;
+	std::string seat;
+	std::vector<Baggage> luggage;
 
-	Bilet* biletPasager;
+	Ticket* passengerTicket;
 
 public:
-	CheckIn(const std::string& pasager, const std::string& zbor, const std::string& loc, Bilet* bilet);
+	CheckIn(const std::string& passenger, const std::string& flight, const std::string& seat, Ticket* ticket);
 
-	void adaugaBagaj(const Bagaj& bagaj);
-	double getGreutateTotala() const;
-	double getTaxeTotaleBagaje() const;
-	
+	void addBaggage(const Baggage& baggage);
+	double getTotalWeight() const;
+	double getTotalBaggageFees() const;
+
 	friend std::ostream& operator<<(std::ostream& os, const CheckIn& c);
 };

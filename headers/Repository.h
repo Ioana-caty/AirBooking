@@ -1,97 +1,94 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <algorithm>
 #include <functional>
 #include <stdexcept>
 
 template <typename T>
 class Repository {
 protected:
-    std::vector<T> elemente;
+    std::vector<T> items;
 
 public:
     Repository() = default;
 
     virtual ~Repository() = default;
 
-	virtual void adauga(const T& elem) {
-        elemente.push_back(elem);
+    virtual void add(const T& item) {
+        items.push_back(item);
     }
 
     const std::vector<T>& getAll() const {
-        return elemente;
+        return items;
     }
 
-    std::vector<T>& getAllModificabil() {
-        return elemente;
+    std::vector<T>& getAllModifiable() {
+        return items;
     }
 
     size_t size() const {
-        return elemente.size();
+        return items.size();
     }
 
-
-    T* cautaDupaCheie(const std::string& cheie) {
-        for (T& elem : elemente) {
-            if (elem.getCheie() == cheie) {
-                return &elem;
+    T* findByKey(const std::string& key) {
+        for (T& item : items) {
+            if (item.getKey() == key) {
+                return &item;
             }
         }
         return nullptr;
     }
 
-    const T* cautaDupaCheie(const std::string& cheie) const {
-        for (const T& elem : elemente) {
-            if (elem.getCheie() == cheie) {
-                return &elem;
+    const T* findByKey(const std::string& key) const {
+        for (const T& item : items) {
+            if (item.getKey() == key) {
+                return &item;
             }
         }
         return nullptr;
     }
 
-    std::vector<T*> filtreaza(std::function<bool(const T&)> predicat) {
-        std::vector<T*> rezultat;
-        for (T& elem : elemente) {
-            if (predicat(elem)) {
-                rezultat.push_back(&elem);
+    std::vector<T*> filter(std::function<bool(const T&)> predicate) {
+        std::vector<T*> result;
+        for (T& item : items) {
+            if (predicate(item)) {
+                result.push_back(&item);
             }
         }
-        return rezultat;
+        return result;
     }
 
     T& operator[](size_t index) {
-        if (index >= elemente.size()) {
-            throw std::out_of_range("Index invalid în Repository");
+        if (index >= items.size()) {
+            throw std::out_of_range("Invalid index in Repository");
         }
-        return elemente[index];
+        return items[index];
     }
 
     const T& operator[](size_t index) const {
-        if (index >= elemente.size()) {
-            throw std::out_of_range("Index invalid în Repository");
+        if (index >= items.size()) {
+            throw std::out_of_range("Invalid index in Repository");
         }
-        return elemente[index];
+        return items[index];
     }
 
 };
 
 template <typename T>
-T* gasestePrimulCare(Repository<T>& repo, std::function<bool(const T&)> predicat) {
-    for (T& elem : repo.getAllModificabil()) {
-        if (predicat(elem)) {
-            return &elem;
+T* findFirstWhere(Repository<T>& repo, std::function<bool(const T&)> predicate) {
+    for (T& item : repo.getAllModifiable()) {
+        if (predicate(item)) {
+            return &item;
         }
     }
     return nullptr;
 }
 
-
 template <typename T>
-size_t numaraElementeCare(const Repository<T>& repo, std::function<bool(const T&)> predicat) {
+size_t countWhere(const Repository<T>& repo, std::function<bool(const T&)> predicate) {
     size_t count = 0;
-    for (const T& elem : repo.getAll()) {
-        if (predicat(elem)) {
+    for (const T& item : repo.getAll()) {
+        if (predicate(item)) {
             count++;
         }
     }

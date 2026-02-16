@@ -10,7 +10,7 @@ RO456 paris D1 2
 2
 COSTIN SIN
 costin@yahoo.com
-14A Economic 123 12
-ADRIAN 
+14A Economy 123 12
+ADRIAN
 adrian@yahoo.com
 13C Business 159 1

@@ -1,727 +1,723 @@
-#include "headers/Bilet.h"
-#include "headers/Pasager.h"
-#include "headers/Zbor.h"
-#include "headers/CompanieAeriana.h"
-#include "headers/Bagaj.h"
+#include "headers/Ticket.h"
+#include "headers/Passenger.h"
+#include "headers/Flight.h"
+#include "headers/Airline.h"
+#include "headers/Baggage.h"
 #include "headers/CheckIn.h"
-#include "headers/Exceptii.h"
+#include "headers/Exceptions.h"
 #include "headers/Repository.h"
-#include "input/populareDate.h"
+#include "input/populateData.h"
 #include "input/saveData.h"
-#include "Pattern/BiletFactory.h"
+#include "Pattern/TicketFactory.h"
 #include "headers/Utils.h"
 
+void addFlight(Airline& company) {
+    UI::Subtitle("ADD FLIGHT");
 
-void adaugaZbor(CompanieAeriana& companie) {
-	UI::subtitlu("ADAUGARE ZBOR");
+    std::string number, destination, gate;
+    int maxCapacity;
+    std::cout << "Flight number: "; std::cin >> number;
+    std::cout << "Destination: "; std::cin >> destination;
+    std::cout << "Gate: "; std::cin >> gate;
+    std::cout << "Capacity: "; std::cin >> maxCapacity;
 
-	std::string numar, destinatie, poarta;
-	int capacitateMax;
-	std::cout << "Numar zbor: "; std::cin >> numar;
-	std::cout << "Destinatie: "; std::cin >> destinatie;
-	std::cout << "Poarta: "; std::cin >> poarta;
-	std::cout << "Capacitate: "; std::cin >> capacitateMax;
-
-	Zbor zbor(numar, destinatie, poarta, capacitateMax);
-	if (zbor.setPoarta(poarta)) {
-		companie.adaugaZbor(zbor);
-		mesajSucces("Zbor adaugat cu succes!");
-	}
+    Flight flight(number, destination, gate, maxCapacity);
+    if (flight.setGate(gate)) {
+       company.addFlight(flight);
+       successMessage("Flight added successfully!");
+    }
 }
 
-void cautaZbor(CompanieAeriana& companie) {
-	UI::subtitlu("CAUTARE ZBOR");
+void findFlight(Airline& company) {
+    UI::Subtitle("FIND FLIGHT");
 
-	std::string numar;
-	std::cout << "Numar zbor: "; std::cin >> numar;
+    std::string number;
+    std::cout << "Flight number: "; std::cin >> number;
 
-	const Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (z) {
-		std::cout << "\n" << *z << "\n";
-	} else {
-		mesajEroare("Zbor negasit!");
-	}
+    const Flight* f = company.findFlightByNumber(number);
+    if (f) {
+       std::cout << "\n" << *f << "\n";
+    } else {
+       errorMessage("Flight not found!");
+    }
 }
 
-bool adaugaPasager(CompanieAeriana& companie) {
-	UI::subtitlu("ADAUGARE PASAGER");
+bool addPassenger(Airline& company) {
+    UI::Subtitle("ADD PASSENGER");
 
-	std::string numar, email, loc, clasa, nume;
-	double pret;
-	int discount;
+    std::string number, email, seat, classType, name;
+    double price;
+    int discount;
 
-	std::cout << "Numar zbor: ";
-	std::cin >> numar;
-	std::cin.ignore();
+    std::cout << "Flight number: ";
+    std::cin >> number;
+    std::cin.ignore();
 
-	Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (!z) {
-		mesajEroare("Zbor negasit!");
-		return false;
-	}
+    Flight* f = company.findFlightByNumber(number);
+    if (!f) {
+       errorMessage("Flight not found!");
+       return false;
+    }
 
-	std::cout << "Nume: "; std::getline(std::cin, nume);
-	std::cout << "Email: "; std::cin >> email;
+    std::cout << "Name: "; std::getline(std::cin, name);
+    std::cout << "Email: "; std::cin >> email;
 
-	z->afiseazaLocuriOcupate();
-	std::cout << "Loc: "; std::cin >> loc;
-	std::cout << "Tip clasa: "; std::cin >> clasa;
-	std::cout << "Pret: "; std::cin >> pret;
-	std::cout << "Discount: "; std::cin >> discount;
+    f->displayOccupiedSeats();
+    std::cout << "Seat: "; std::cin >> seat;
+    std::cout << "Class type: "; std::cin >> classType;
+    std::cout << "Price: "; std::cin >> price;
+    std::cout << "Discount: "; std::cin >> discount;
 
-	Bilet* bilet = BiletFactory::creeazaBilet(clasa, loc, pret, discount);
-	Pasager p(nume, email, bilet);
-	z->adaugaPasager(p);
-	mesajSucces("Pasager adaugat cu succes!");
-	return true;
+    Ticket* ticket = TicketFactory::createTicket(classType, seat, price, discount);
+    Passenger p(name, email, ticket);
+    f->addPassenger(p);
+    successMessage("Passenger added successfully!");
+    return true;
 }
 
-bool cautaPasager(CompanieAeriana& companie) {
-	UI::subtitlu("CAUTARE PASAGER");
+bool findPassenger(Airline& company) {
+    UI::Subtitle("FIND PASSENGER");
 
-	std::string numar, nume;
-	std::cout << "Numar zbor: "; std::cin >> numar;
-	std::cin.ignore();
+    std::string number, name;
+    std::cout << "Flight number: "; std::cin >> number;
+    std::cin.ignore();
 
-	Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (!z) {
-		mesajEroare("Zbor negasit!");
-		return false;
-	}
-	std::cout << "Nume: "; std::getline(std::cin, nume);
-	const Pasager* p = z->cautaPasagerDupaNume(nume);
-	if (p) {
-		std::cout << "\n" << *p << "\n";
-	} else {
-		mesajEroare("Pasager negasit!");
-	}
-	return true;
+    Flight* f = company.findFlightByNumber(number);
+    if (!f) {
+       errorMessage("Flight not found!");
+       return false;
+    }
+    std::cout << "Name: "; std::getline(std::cin, name);
+    const Passenger* p = f->findPassengerByName(name);
+    if (p) {
+       std::cout << "\n" << *p << "\n";
+    } else {
+       errorMessage("Passenger not found!");
+    }
+    return true;
 }
 
-bool modificaPoarta(CompanieAeriana& companie) {
-	UI::subtitlu("MODIFICARE POARTA");
+bool modifyGate(Airline& company) {
+    UI::Subtitle("MODIFY GATE");
 
-	std::string numar, poarta;
-	std::cout << "Numar zbor: "; std::cin >> numar;
+    std::string number, gate;
+    std::cout << "Flight number: "; std::cin >> number;
 
-	Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (!z) {
-		mesajEroare("Zbor negasit!");
-		return false;
-	}
+    Flight* f = company.findFlightByNumber(number);
+    if (!f) {
+       errorMessage("Flight not found!");
+       return false;
+    }
 
-	UI::Linie(std::cout, '-', 40);
-	std::cout << "Poarta veche: " << z->getPoarta() << "\n";
-	std::cout << "Poarta noua: "; std::cin >> poarta;
-	if (z->setPoarta(poarta)) {
-		mesajSucces("Poarta schimbata cu succes!");
-	} else {
-		mesajInfo("Poarta a ramas aceeasi!");
-	}
-	return true;
+    UI::Line(std::cout, '-', 40);
+    std::cout << "Old gate: " << f->getGate() << "\n";
+    std::cout << "New gate: "; std::cin >> gate;
+    if (f->setGate(gate)) {
+       successMessage("Gate changed successfully!");
+    } else {
+       infoMessage("Gate remains the same!");
+    }
+    return true;
 }
 
-bool modificaLocBilet(CompanieAeriana& companie) {
-	UI::subtitlu("MODIFICARE LOC BILET");
+bool modifyTicketSeat(Airline& company) {
+    UI::Subtitle("MODIFY TICKET SEAT");
 
-	std::string numar, nume, locNou;
-	std::cout << "Numar zbor: "; std::cin >> numar;
-	std::cin.ignore();
+    std::string number, name, newSeat;
+    std::cout << "Flight number: "; std::cin >> number;
+    std::cin.ignore();
 
-	Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (!z) {
-		mesajEroare("Zbor negasit!");
-		return false;
-	}
+    Flight* f = company.findFlightByNumber(number);
+    if (!f) {
+       errorMessage("Flight not found!");
+       return false;
+    }
 
-	std::cout << "Nume: "; std::getline(std::cin, nume);
-	Pasager* p = z->cautaPasagerDupaNume(nume);
-	if (!p) {
-		mesajEroare("Pasager negasit!");
-		return false;
-	}
+    std::cout << "Name: "; std::getline(std::cin, name);
+    Passenger* p = f->findPassengerByName(name);
+    if (!p) {
+       errorMessage("Passenger not found!");
+       return false;
+    }
 
-	if (!p->areBilet()) {
-		mesajEroare("Pasagerul nu are bilet inregistrat!");
-		return false;
-	}
+    if (!p->hasTicket()) {
+       errorMessage("Passenger has no registered ticket!");
+       return false;
+    }
 
-	UI::Linie(std::cout, '-', 40);
-	std::cout << "Bilet curent:\n " << *p << "\n";
-	std::cout << "Loc nou: "; std::cin >> locNou;
+    UI::Line(std::cout, '-', 40);
+    std::cout << "Current ticket:\n " << *p << "\n";
+    std::cout << "New seat: "; std::cin >> newSeat;
 
-	std::string locUpper = toUpperCase(locNou);
-	if (z->esteLocOcupat(locUpper, nume)) {
-		mesajEroare("Locul " + locUpper + " este deja ocupat de alt pasager!");
-		return false;
-	}
+    std::string seatUpper = toUpperCase(newSeat);
+    if (f->isSeatOccupied(seatUpper, name)) {
+       errorMessage("Seat " + seatUpper + " is already occupied by another passenger!");
+       return false;
+    }
 
-	try {
-		p->modificaLoc(locUpper);
-		mesajSucces("Locul modificat cu succes!");
-	}
-	catch (const ExceptieZboruri& e) {
-		mesajEroare(e.what());
-	}
-	return true;
+    try {
+       p->modifySeat(seatUpper);
+       successMessage("Seat modified successfully!");
+    }
+    catch (const FlightException& e) {
+       errorMessage(e.what());
+    }
+    return true;
 }
 
-bool calculeazaIncasari(CompanieAeriana& companie) {
-	UI::subtitlu("CALCUL INCASARI");
+bool calculateRevenue(Airline& company) {
+    UI::Subtitle("CALCULATE REVENUE");
 
-	std::string numar;
-	std::cout << "Numar zbor: "; std::cin >> numar;
+    std::string number;
+    std::cout << "Flight number: "; std::cin >> number;
 
-	const Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (!z) {
-		mesajEroare("Zbor negasit!");
-		return false;
-	}
+    const Flight* f = company.findFlightByNumber(number);
+    if (!f) {
+       errorMessage("Flight not found!");
+       return false;
+    }
 
-	std::cout << "Incasari: " << std::fixed << std::setprecision(2)
-			  << z->calculeazaIncasariTotale() << " EUR\n";
-	return true;
+    std::cout << "Revenue: " << std::fixed << std::setprecision(2)
+            << f->calculateTotalRevenue() << " EUR\n";
+    return true;
 }
 
-bool verificaLocGeam(CompanieAeriana& companie) {
-	UI::subtitlu("VERIFICARE LOC GEAM");
+bool checkWindowSeat(Airline& company) {
+    UI::Subtitle("CHECK WINDOW SEAT");
 
-	std::string numar, nume;
-	std::cout << "Numar zbor: "; std::cin >> numar;
-	std::cin.ignore();
+    std::string number, name;
+    std::cout << "Flight number: "; std::cin >> number;
+    std::cin.ignore();
 
-	Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (!z) {
-		mesajEroare("Zbor negasit!");
-		return false;
-	}
+    Flight* f = company.findFlightByNumber(number);
+    if (!f) {
+       errorMessage("Flight not found!");
+       return false;
+    }
 
-	std::cout << "Nume: "; std::getline(std::cin, nume);
-	const Pasager* p = z->cautaPasagerDupaNume(nume);
-	if (!p) {
-		mesajEroare("Pasager negasit!");
-		return false;
-	}
+    std::cout << "Name: "; std::getline(std::cin, name);
+    const Passenger* p = f->findPassengerByName(name);
+    if (!p) {
+       errorMessage("Passenger not found!");
+       return false;
+    }
 
-	if (p->areBilet()) {
-		mesajSucces("DA, este loc la geam!");
-	} else {
-		mesajInfo("NU, nu este loc la geam!");
-	}
-	return true;
+    if (p->hasTicket()) {
+       successMessage("YES, it is a window seat!");
+    } else {
+       infoMessage("NO, it is not a window seat!");
+    }
+    return true;
 }
 
-bool verificaZborPlin(CompanieAeriana& companie) {
-	UI::subtitlu("VERIFICARE ZBOR PLIN");
+bool checkFlightFull(Airline& company) {
+    UI::Subtitle("CHECK IF FLIGHT IS FULL");
 
-	std::string numar;
-	std::cout << "Numar zbor: "; std::cin >> numar;
+    std::string number;
+    std::cout << "Flight number: "; std::cin >> number;
 
-	const Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (!z) {
-		mesajEroare("Zbor negasit!");
-		return false;
-	}
+    const Flight* f = company.findFlightByNumber(number);
+    if (!f) {
+       errorMessage("Flight not found!");
+       return false;
+    }
 
-	z->afiseazaDetaliiCapacitate();
-	return true;
+    f->displayCapacityDetails();
+    return true;
 }
 
-bool upgradeBilet(CompanieAeriana& companie) {
-	UI::subtitlu("UPGRADE BILET PASAGER");
+bool upgradeTicket(Airline& company) {
+    UI::Subtitle("UPGRADE PASSENGER TICKET");
 
-	std::string numar, nume;
-	std::cout << "Numar zbor: "; std::cin >> numar;
-	std::cin.ignore();
+    std::string number, name;
+    std::cout << "Flight number: "; std::cin >> number;
+    std::cin.ignore();
 
-	Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (!z) {
-		mesajEroare("Zbor negasit!");
-		return false;
-	}
-	std::cout << "Nume pasager: "; std::getline(std::cin, nume);
+    Flight* f = company.findFlightByNumber(number);
+    if (!f) {
+       errorMessage("Flight not found!");
+       return false;
+    }
+    std::cout << "Passenger name: "; std::getline(std::cin, name);
 
-	const Pasager* p = z->cautaPasagerDupaNume(nume);
-	if (p && p->areBilet()) {
-		UI::PrintPasager(std::cout, *p, '-', 70);
-	}
+    const Passenger* p = f->findPassengerByName(name);
+    if (p && p->hasTicket()) {
+       UI::PrintPasager(std::cout, *p, '-', 70);
+    }
 
-	char confirm;
-	std::cout << "\nConfirmati upgrade-ul? (y/n): ";
-	std::cin >> confirm;
+    char confirm;
+    std::cout << "\nConfirm upgrade? (y/n): ";
+    std::cin >> confirm;
 
-	if (confirm == 'y' || confirm == 'Y') {
-		if (z->upgradeBiletPasager(nume)) {
-			mesajSucces("Upgrade realizat cu succes!");
-			const Pasager* pNou = z->cautaPasagerDupaNume(nume);
-			if (pNou && pNou->areBilet()) {
-				std::cout << "\nBILET ACTUALIZAT:\n";
-				std::cout << *pNou << "\n";
-			}
-		}
-	} else {
-		mesajInfo("Upgrade anulat.");
-	}
-	return true;
+    if (confirm == 'y' || confirm == 'Y') {
+       if (f->upgradePassengerTicket(name)) {
+          successMessage("Upgrade completed successfully!");
+          const Passenger* newP = f->findPassengerByName(name);
+          if (newP && newP->hasTicket()) {
+             std::cout << "\nUPDATED TICKET:\n";
+             std::cout << *newP << "\n";
+          }
+       }
+    } else {
+       infoMessage("Upgrade cancelled.");
+    }
+    return true;
 }
 
-void sorteazaZboruri(CompanieAeriana& companie) {
-	UI::subtitlu("SORTARE ZBORURI");
+void sortFlights(Airline& company) {
+    UI::Subtitle("SORT FLIGHTS");
 
-	auto sortInc = std::make_shared<SortByIncasari>();
-	auto sortOcup = std::make_shared<SortByOcupare>();
-	auto sortDest = std::make_shared<SortByDestinatie>();
+    auto sortRev = std::make_shared<SortByRevenue>();
+    auto sortOcc = std::make_shared<SortByOccupancy>();
+    auto sortDest = std::make_shared<SortByDestination>();
 
-	int subOptiune;
-	while (true) {
-		std::cout << "1. Dupa incasari (descrescator)\n";
-		std::cout << "2. Dupa ocupare (descrescator)\n";
-		std::cout << "3. Dupa destinatie (alfabetic)\n";
-		std::cout << "0. Meniu Principal\n";
-		std::cout << "Optiune: ";
+    int subOption;
+    while (true) {
+       std::cout << "1. By revenue (descending)\n";
+       std::cout << "2. By occupancy (descending)\n";
+       std::cout << "3. By destination (alphabetical)\n";
+       std::cout << "0. Main Menu\n";
+       std::cout << "Option: ";
 
-		std::cin >> subOptiune;
-		switch (subOptiune) {
-			case 0:
-				return;
-			case 1:
-				companie.setSortStrategy(sortInc);
-				companie.sorteazaZboruri();
-				companie.afisareFaraPasageri(true);
-				break;
-			case 2:
-				companie.setSortStrategy(sortOcup);
-				companie.sorteazaZboruri();
-				companie.afisareFaraPasageri(false);
-				break;
-			case 3:
-				companie.setSortStrategy(sortDest);
-				companie.sorteazaZboruri();
-				companie.afisareFaraPasageri(false);
-				break;
-			default:
-				mesajEroare("Optiune invalida!");
-		}
-	}
+       std::cin >> subOption;
+       switch (subOption) {
+          case 0:
+             return;
+          case 1:
+             company.setSortStrategy(sortRev);
+             company.sortFlights();
+             company.displayWithoutPassengers(true);
+             break;
+          case 2:
+             company.setSortStrategy(sortOcc);
+             company.sortFlights();
+             company.displayWithoutPassengers(false);
+             break;
+          case 3:
+             company.setSortStrategy(sortDest);
+             company.sortFlights();
+             company.displayWithoutPassengers(false);
+             break;
+          default:
+             errorMessage("Invalid option!");
+       }
+    }
 }
 
-void filtreazaZboruri(CompanieAeriana& companie) {
-	UI::subtitlu("FILTRARE ZBORURI");
+void filterFlights(Airline& company) {
+    UI::Subtitle("FILTER FLIGHTS");
 
-	while (true) {
-		std::cout << "1. Zboruri pline\n";
-		std::cout << "2. Zboruri goale\n";
-		std::cout << "3. Cauta dupa destinatie\n";
-		std::cout << "0. Meniu Principal\n";
-		std::cout << "Optiune: ";
+    while (true) {
+       std::cout << "1. Full flights\n";
+       std::cout << "2. Empty flights\n";
+       std::cout << "3. Search by destination\n";
+       std::cout << "0. Main Menu\n";
+       std::cout << "Option: ";
 
-		int subOptiune;
-		std::cin >> subOptiune;
+       int subOption;
+       std::cin >> subOption;
 
-		if (subOptiune == 0) break;
+       if (subOption == 0) break;
 
-		std::vector<Zbor*> zboruri;
+       std::vector<Flight*> flights;
 
-		if (subOptiune == 1) {
-			zboruri = companie.filtreazaZboruriPline();
-		}
-		else if (subOptiune == 2) {
-			zboruri = companie.filtreazaZboruriGoale();
-		}
-		else if (subOptiune == 3) {
-			std::string dest;
-			std::cout << "Destinatie: ";
-			std::cin >> dest;
-			zboruri = companie.cautaZboruriDupaDestinatie(dest);
-		}
+       if (subOption == 1) {
+          flights = company.filterFullFlights();
+       }
+       else if (subOption == 2) {
+          flights = company.filterEmptyFlights();
+       }
+       else if (subOption == 3) {
+          std::string dest;
+          std::cout << "Destination: ";
+          std::cin >> dest;
+          flights = company.findFlightsByDestination(dest);
+       }
 
-		if (zboruri.empty()) {
-			mesajInfo("Nu exista zboruri care sa indeplineasca criteriul.");
-		} else {
-			UI::Linie(std::cout, '=', 90);
-			for (const auto* z : zboruri) {
-				z->afisareFaraPasageri(false);
-			}
-		}
-	}
+       if (flights.empty()) {
+          infoMessage("No flights match the criteria.");
+       } else {
+          UI::Line(std::cout, '=', 90);
+          for (const auto* f : flights) {
+             f->displayWithoutPassengers(false);
+          }
+       }
+    }
 }
 
-bool checkInPasager(CompanieAeriana& companie) {
-	UI::subtitlu("CHECK-IN PASAGER");
+bool passengerCheckIn(Airline& company) {
+    UI::Subtitle("PASSENGER CHECK-IN");
 
-	std::string numar, nume;
-	std::cout << "Numar zbor: ";
-	std::cin >> numar;
-	std::cin.ignore();
+    std::string number, name;
+    std::cout << "Flight number: ";
+    std::cin >> number;
+    std::cin.ignore();
 
-	Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (!z) {
-		mesajEroare("Zbor negasit!");
-		return false;
-	}
+    Flight* f = company.findFlightByNumber(number);
+    if (!f) {
+       errorMessage("Flight not found!");
+       return false;
+    }
 
-	std::cout << "Nume pasager: ";
-	std::getline(std::cin, nume);
+    std::cout << "Passenger name: ";
+    std::getline(std::cin, name);
 
-	Pasager* p = z->cautaPasagerDupaNume(nume);
-	if (!p) {
-		mesajEroare("Pasager negasit!");
-		return false;
-	}
+    Passenger* p = f->findPassengerByName(name);
+    if (!p) {
+       errorMessage("Passenger not found!");
+       return false;
+    }
 
-	if (!p->areBilet()) {
-		mesajEroare("Pasagerul nu are bilet!");
-		return false;
-	}
+    if (!p->hasTicket()) {
+       errorMessage("Passenger has no ticket!");
+       return false;
+    }
 
-	p->efectueazaCheckIn(numar);
-	return true;
+    p->performCheckIn(number);
+    return true;
 }
 
-bool adaugaBagaj(CompanieAeriana& companie) {
-	UI::subtitlu("ADAUGARE BAGAJ");
+bool addBaggage(Airline& company) {
+    UI::Subtitle("ADD BAGGAGE");
 
-	std::string numar, nume;
-	std::cout << "Numar zbor: ";
-	std::cin >> numar;
-	std::cin.ignore();
+    std::string number, name;
+    std::cout << "Flight number: ";
+    std::cin >> number;
+    std::cin.ignore();
 
-	Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (!z) {
-		mesajEroare("Zbor negasit!");
-		return false;
-	}
+    Flight* f = company.findFlightByNumber(number);
+    if (!f) {
+       errorMessage("Flight not found!");
+       return false;
+    }
 
-	std::cout << "Nume pasager: ";
-	std::getline(std::cin, nume);
+    std::cout << "Passenger name: ";
+    std::getline(std::cin, name);
 
-	const Pasager* p = z->cautaPasagerDupaNume(nume);
-	if (!p) {
-		mesajEroare("Pasager negasit!");
-		return false;
-	}
+    const Passenger* p = f->findPassengerByName(name);
+    if (!p) {
+       errorMessage("Passenger not found!");
+       return false;
+    }
 
-	if (!p->areCheckIn()) {
-		mesajEroare("Pasagerul nu are check-in efectuat!");
-		return false;
-	}
+    if (!p->hasCheckIn()) {
+       errorMessage("Passenger has not checked in!");
+       return false;
+    }
 
-	std::cout << "\nTipuri bagaj:\n";
-	std::cout << "1. De mana (10kg, gratis)\n";
-	std::cout << "2. Cabina (10kg, 20 EUR)\n";
-	std::cout << "3. Cala mic (23kg, 35 EUR)\n";
-	std::cout << "4. Cala mare (32kg, 50 EUR)\n";
+    std::cout << "\nBaggage types:\n";
+    std::cout << "1. Personal item (10kg, free)\n";
+    std::cout << "2. Carry-on (10kg, 20 EUR)\n";
+    std::cout << "3. Checked small (23kg, 35 EUR)\n";
+    std::cout << "4. Checked large (32kg, 50 EUR)\n";
 
-	int tipBagaj;
-	double greutate;
+    int baggageTypeOption;
+    double weight;
 
-	std::cout << "Tip bagaj: ";
-	std::cin >> tipBagaj;
-	std::cout << "Greutate (kg): ";
-	std::cin >> greutate;
+    std::cout << "Baggage type: ";
+    std::cin >> baggageTypeOption;
+    std::cout << "Weight (kg): ";
+    std::cin >> weight;
 
-	TipBagaj tip;
-	switch (tipBagaj) {
-		case 1: tip = TipBagaj::DE_MANA; break;
-		case 2: tip = TipBagaj::CABINA; break;
-		case 3: tip = TipBagaj::CALA_MIC; break;
-		case 4: tip = TipBagaj::CALA_MARE; break;
-		default:
-			mesajEroare("Tip invalid!");
-			return false;
-	}
+    BaggageType type;
+    switch (baggageTypeOption) {
+       case 1: type = BaggageType::PERSONAL_ITEM; break;
+       case 2: type = BaggageType::CARRY_ON; break;
+       case 3: type = BaggageType::CHECKED_SMALL; break;
+       case 4: type = BaggageType::CHECKED_LARGE; break;
+       default:
+          errorMessage("Invalid type!");
+          return false;
+    }
 
-	Bagaj bagaj(tip, greutate);
-	std::cout << "\n" << bagaj << "\n";
+    Baggage baggage(type, weight);
+    std::cout << "\n" << baggage << "\n";
 
-	char confirma;
-	std::cout << "\nAdaugi bagajul? (y/n): ";
-	std::cin >> confirma;
+    char confirm;
+    std::cout << "\nAdd baggage? (y/n): ";
+    std::cin >> confirm;
 
-	if (confirma == 'y' || confirma == 'Y') {
-		p->getCheckIn()->adaugaBagaj(bagaj);
-	} else {
-		mesajInfo("Bagaj neadaugat.");
-	}
-	return true;
+    if (confirm == 'y' || confirm == 'Y') {
+       p->getCheckIn()->addBaggage(baggage);
+    } else {
+       infoMessage("Baggage not added.");
+    }
+    return true;
 }
 
-bool afiseazaDetaliiCheckIn(CompanieAeriana& companie) {
-	UI::subtitlu("DETALII CHECK-IN");
+bool displayCheckInDetails(Airline& company) {
+    UI::Subtitle("CHECK-IN DETAILS");
 
-	std::string numar, nume;
-	std::cout << "Numar zbor: ";
-	std::cin >> numar;
-	std::cin.ignore();
+    std::string number, name;
+    std::cout << "Flight number: ";
+    std::cin >> number;
+    std::cin.ignore();
 
-	Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (!z) {
-		mesajEroare("Zbor negasit!");
-		return false;
-	}
+    Flight* f = company.findFlightByNumber(number);
+    if (!f) {
+       errorMessage("Flight not found!");
+       return false;
+    }
 
-	std::cout << "Nume pasager: ";
-	std::getline(std::cin, nume);
+    std::cout << "Passenger name: ";
+    std::getline(std::cin, name);
 
-	const Pasager* p = z->cautaPasagerDupaNume(nume);
-	if (!p) {
-		mesajEroare("Pasager negasit!");
-		return false;
-	}
+    const Passenger* p = f->findPassengerByName(name);
+    if (!p) {
+       errorMessage("Passenger not found!");
+       return false;
+    }
 
-	if (!p->areCheckIn()) {
-		mesajEroare("Pasagerul nu are check-in efectuat!");
-		return false;
-	}
+    if (!p->hasCheckIn()) {
+       errorMessage("Passenger has not checked in!");
+       return false;
+    }
 
-	std::cout << *(p->getCheckIn()) << "\n";
-	return true;
+    std::cout << *(p->getCheckIn()) << "\n";
+    return true;
 }
 
-void demoTemplateuri() {
-	UI::titlu(std::cout, "Demo Template", '=', 70);
-	UI::subtitlu("INSTANTIERE 1: Repository<Zbor>");
+void demoTemplates() {
+    UI::titlu(std::cout, "Template Demo", '=', 70);
+    UI::Subtitle("INSTANTIATION 1: Repository<Flight>");
 
-	Repository<Zbor> repoZboruri;
+    Repository<Flight> flightRepo;
 
-	Zbor z1("DEMO01", "Paris", "A1", 180);
-	Zbor z2("DEMO02", "Londra", "B2", 200);
-	Zbor z3("DEMO03", "Berlin", "C3", 150);
+    Flight f1("DEMO01", "Paris", "A1", 180);
+    Flight f2("DEMO02", "London", "B2", 200);
+    Flight f3("DEMO03", "Berlin", "C3", 150);
 
-	repoZboruri.adauga(z1);
-	repoZboruri.adauga(z2);
-	repoZboruri.adauga(z3);
+    flightRepo.add(f1);
+    flightRepo.add(f2);
+    flightRepo.add(f3);
 
-	std::cout << "Total zboruri: " << repoZboruri.size() << "\n";
+    std::cout << "Total flights: " << flightRepo.size() << "\n";
 
-	std::cout << "\nCautare zbor 'DEMO02' dupa cheie:\n";
-	const Zbor* zborGasit = repoZboruri.cautaDupaCheie("DEMO02");
-	if (zborGasit) {
-		zborGasit->afisareFaraPasageri(false);
-	}
+    std::cout << "\nSearch flight 'DEMO02' by key:\n";
+    const Flight* foundFlight = flightRepo.findByKey("DEMO02");
+    if (foundFlight) {
+       foundFlight->displayWithoutPassengers(false);
+    }
 
-	std::cout << "\nFiltrare zboruri cu capacitate > 160:\n";
-	auto zboruriMari = repoZboruri.filtreaza([](const Zbor& z) {
-		return z.getCapacitateMaxima() > 160;
-	});
-	for (const auto* z : zboruriMari) {
-		z->afisareFaraPasageri(false);
-	}
+    std::cout << "\nFilter flights with capacity > 160:\n";
+    auto largeFlights = flightRepo.filter([](const Flight& f) {
+       return f.getMaxCapacity() > 160;
+    });
+    for (const auto* f : largeFlights) {
+       f->displayWithoutPassengers(false);
+    }
 
+    UI::Subtitle("INSTANTIATION 2: Repository<Passenger>");
 
-	UI::subtitlu("INSTANTIERE (pasageri) :");
+    Repository<Passenger> passengerRepo;
 
-	Repository<Pasager> repoPasageri;
+    EconomyTicket* t1 = new EconomyTicket("10A", 100.0, 0);
+    BusinessTicket* t2 = new BusinessTicket("1A", 250.0, 5);
+    FirstClassTicket* t3 = new FirstClassTicket("2A", 400.0, 10);
 
-	BiletEconomic* b1 = new BiletEconomic("10A", 100.0, 0);
-	BiletBusiness* b2 = new BiletBusiness("1A", 250.0, 5);
-	BiletFirstClass* b3 = new BiletFirstClass("2A", 400.0, 10);
+    Passenger p1("JOHN DOE", "john@email.com", t1);
+    Passenger p2("MARY SMITH", "mary@email.com", t2);
+    Passenger p3("ANDREW WILSON", "andrew@email.com", t3);
 
-	Pasager p1("ION POPESCU", "ion@email.com", b1);
-	Pasager p2("MARIA IONESCU", "maria@email.com", b2);
-	Pasager p3("ANDREI VASILE", "andrei@email.com", b3);
+    passengerRepo.add(p1);
+    passengerRepo.add(p2);
+    passengerRepo.add(p3);
 
-	repoPasageri.adauga(p1);
-	repoPasageri.adauga(p2);
-	repoPasageri.adauga(p3);
+    std::cout << "Total passengers: " << passengerRepo.size() << "\n";
 
-	std::cout << "Total pasageri: " << repoPasageri.size() << "\n";
+    std::cout << "\nSearch passenger 'MARY SMITH' by key:\n";
+    const Passenger* foundPassenger = passengerRepo.findByKey("MARY SMITH");
+    if (foundPassenger) {
+       std::cout << *foundPassenger << "\n";
+    }
 
-	std::cout << "\nCautare pasager 'MARIA IONESCU' dupa cheie:\n";
-	const Pasager* pasagerGasit = repoPasageri.cautaDupaCheie("MARIA IONESCU");
-	if (pasagerGasit) {
-		std::cout << *pasagerGasit << "\n";
-	}
+    UI::Subtitle("TEMPLATE FUNCTION:");
 
+    std::cout << "Find first flight with capacity >= 180:\n";
+    const Flight* firstLargeFlight = findFirstWhere<Flight>(flightRepo, [](const Flight& f) {
+       return f.getMaxCapacity() >= 180;
+    });
+    if (firstLargeFlight) {
+       firstLargeFlight->displayWithoutPassengers(false);
+    }
 
-	UI::subtitlu("FUNCTIE SABLON:");
+    UI::Subtitle("TEMPLATE FUNCTION:");
 
-	std::cout << "Gaseste primul zbor cu capacitate >= 180:\n";
-	const Zbor* primulZborMare = gasestePrimulCare<Zbor>(repoZboruri, [](const Zbor& z) {
-		return z.getCapacitateMaxima() >= 180;
-	});
-	if (primulZborMare) {
-		primulZborMare->afisareFaraPasageri(false);
-	}
+    std::cout << "Find first passenger with Business or FirstClass ticket:\n";
+    const Passenger* premiumPassenger = findFirstWhere<Passenger>(passengerRepo, [](const Passenger& p) {
+       if (!p.hasTicket()) return false;
+       std::string type = p.getTicket()->getClassType();
+       return type == "Business" || type == "FirstClass";
+    });
+    if (premiumPassenger) {
+       std::cout << *premiumPassenger << "\n";
+    }
 
-	UI::subtitlu("FUNCTIE SABLON:");
+    size_t largeFlightCount = countWhere<Flight>(flightRepo, [](const Flight& f) {
+       return f.getMaxCapacity() >= 180;
+    });
+    std::cout << "Number of flights with capacity >= 180: " << largeFlightCount << "\n";
 
-	std::cout << "Gaseste primul pasager cu bilet Business sau FirstClass:\n";
-	const Pasager* pasagerPremium = gasestePrimulCare<Pasager>(repoPasageri, [](const Pasager& p) {
-		if (!p.areBilet()) return false;
-		std::string clasa = p.getBilet()->getTipClasa();
-		return clasa == "Business" || clasa == "FirstClass";
-	});
-	if (pasagerPremium) {
-		std::cout << *pasagerPremium << "\n";
-	}
-
-	size_t nrZboruriMari = numaraElementeCare<Zbor>(repoZboruri, [](const Zbor& z) {
-		return z.getCapacitateMaxima() >= 180;
-	});
-	std::cout << "Numar zboruri cu capacitate >= 180: " << nrZboruriMari << "\n";
-
-	size_t nrPasageriBusiness = numaraElementeCare<Pasager>(repoPasageri, [](const Pasager& p) {
-		return p.areBilet() && p.getBilet()->getTipClasa() == "Business";
-	});
-	std::cout << "Numar pasageri cu bilet Business: " << nrPasageriBusiness << "\n";
+    size_t businessPassengerCount = countWhere<Passenger>(passengerRepo, [](const Passenger& p) {
+       return p.hasTicket() && p.getTicket()->getClassType() == "Business";
+    });
+    std::cout << "Number of passengers with Business ticket: " << businessPassengerCount << "\n";
 }
 
-void proceseazaAccesLounge(const Bilet* bilet) {
-	if (auto* biletCuLounge = dynamic_cast<const IAccesLounge*>(bilet)) {
-		biletCuLounge->intraInLounge();
-	} else {
-		std::string info = "Clasa " + bilet->getTipClasa() + " nu include acces la Lounge.";
-		mesajInfo(info);
-	}
+void processLoungeAccess(const Ticket* ticket) {
+    if (auto* loungeTicket = dynamic_cast<const ILoungeAccess*>(ticket)) {
+       loungeTicket->enterLounge();
+    } else {
+       std::string info = "Class " + ticket->getClassType() + " does not include Lounge access.";
+       infoMessage(info);
+    }
 }
 
-bool verificaDreptLounge(CompanieAeriana& companie) {
-	UI::subtitlu("VERIFICARE DREPT LOUNGE");
+bool checkLoungeAccess(Airline& company) {
+    UI::Subtitle("CHECK LOUNGE ACCESS");
 
-	std::string numar, nume;
-	std::cout << "Numar zbor: "; std::cin >> numar;
-	std::cin.ignore();
+    std::string number, name;
+    std::cout << "Flight number: "; std::cin >> number;
+    std::cin.ignore();
 
-	Zbor* z = companie.cautaZborDupaNumar(numar);
-	if (!z) {
-		mesajEroare("Zborul nu a fost gasit!");
-		return false;
-	}
+    Flight* f = company.findFlightByNumber(number);
+    if (!f) {
+       errorMessage("Flight not found!");
+       return false;
+    }
 
-	std::cout << "Nume pasager: "; std::getline(std::cin, nume);
-	const Pasager* p = z->cautaPasagerDupaNume(nume);
+    std::cout << "Passenger name: "; std::getline(std::cin, name);
+    const Passenger* p = f->findPassengerByName(name);
 
-	if (!p) {
-		mesajEroare("Pasagerul nu a fost gasit pe acest zbor!");
-		return false;
-	}
+    if (!p) {
+       errorMessage("Passenger not found on this flight!");
+       return false;
+    }
 
-	if (!p->areBilet()) {
-		mesajEroare("Pasagerul nu are un bilet emis!");
-		return false;
-	}
+    if (!p->hasTicket()) {
+       errorMessage("Passenger does not have an issued ticket!");
+       return false;
+    }
 
-	UI::Linie(std::cout, '-', 50);
-	std::cout << "Verificare pentru: " << nume << "\n";
-	proceseazaAccesLounge(p->getBilet());
+    UI::Line(std::cout, '-', 50);
+    std::cout << "Checking access for: " << name << "\n";
+    processLoungeAccess(p->getTicket());
 
-	return true;
+    return true;
 }
 
-void PrintMeniu () {
-	std::cout << "\n---MENIU---\n";
-	std::cout << "1. Afiseaza date companie\n";
-	std::cout << "2. Adauga zbor\n";
-	std::cout << "3. Cauta zbor\n";
-	std::cout << "4. Adauga pasager\n";
-	std::cout << "5. Cauta pasager (nume)\n";
-	std::cout << "6. Modifica poarta\n";
-	std::cout << "7. Modifica loc bilet\n";
-	std::cout << "8. Calculeaza incasari\n";
-	std::cout << "9. Verifica loc geam\n";
-	std::cout << "10. Verifica daca zborul este plin\n";
-	std::cout << "11. Upgrade bilet pasager\n";
-	std::cout << "12. Sorteaza zboruri\n";
-	std::cout << "13. Filtreaza zboruri\n";
-	std::cout << "14. Check-in pasager\n";
-	std::cout << "15. Adauga bagaj la check-in\n";
-	std::cout << "16. Afiseaza detalii check-in\n";
-	std::cout << "17. Demo Template-uri\n";
-	std::cout << "18. Verifica acces Lounge\n";
-	std::cout <<"0. Salveaza si iesi:\n";
+void printMenu() {
+    std::cout << "\n---MENU---\n";
+    std::cout << "1. Display airline data\n";
+    std::cout << "2. Add flight\n";
+    std::cout << "3. Find flight\n";
+    std::cout << "4. Add passenger\n";
+    std::cout << "5. Find passenger (name)\n";
+    std::cout << "6. Modify gate\n";
+    std::cout << "7. Modify ticket seat\n";
+    std::cout << "8. Calculate revenue\n";
+    std::cout << "9. Check window seat\n";
+    std::cout << "10. Check if flight is full\n";
+    std::cout << "11. Upgrade passenger ticket\n";
+    std::cout << "12. Sort flights\n";
+    std::cout << "13. Filter flights\n";
+    std::cout << "14. Passenger check-in\n";
+    std::cout << "15. Add baggage at check-in\n";
+    std::cout << "16. Display check-in details\n";
+    std::cout << "17. Template Demo\n";
+    std::cout << "18. Check Lounge access\n";
+    std::cout << "0. Save and Exit\n";
 }
 
 int main() {
-	CompanieAeriana companie("Wizz");
-	UI::titlu(std::cout, "SISTEM MANAGEMENT ZBORURI - WIZZ AIR", '=', 70);
+    Airline company("Wizz Air");
+    UI::titlu(std::cout, "FLIGHT MANAGEMENT SYSTEM - WIZZ AIR", '=', 70);
 
-	// Populare date cu gestionare exceptii
-	try {
-		populareDate(companie);
-	}
-	catch (const ExceptieZboruri& e) {
-		mesajEroare(std::string("La populare: ") + e.what());
-		return 0;
-	}
+    try {
+       populateData(company);
+    }
+    catch (const FlightException& e) {
+       errorMessage(std::string("During population: ") + e.what());
+       return 0;
+    }
 
-	int optiune ;
-	while (true) {
-		PrintMeniu();
+    int option;
+    while (true) {
+       printMenu();
 
-		std::cin >> optiune;
-		if (optiune == 0) {
-			UI::subtitlu("SALVARE DATE");
-			saveData(companie, "date.txt");
-			break;
-		}
+       std::cin >> option;
+       if (option == 0) {
+          UI::Subtitle("SAVING DATA");
+          saveData(company, "data.txt");
+          break;
+       }
 
-		try {
-			switch (optiune) {
-				case 1:
-					std::cout << "\n" << companie << "\n";
-					break;
-				case 2:
-					adaugaZbor(companie);
-					break;
-				case 3:
-					cautaZbor(companie);
-					break;
-				case 4:
-					adaugaPasager(companie);
-					break;
-				case 5:
-					cautaPasager(companie);
-					break;
-				case 6:
-					modificaPoarta(companie);
-					break;
-				case 7:
-					modificaLocBilet(companie);
-					break;
-				case 8:
-					calculeazaIncasari(companie);
-					break;
-				case 9:
-					verificaLocGeam(companie);
-					break;
-				case 10:
-					verificaZborPlin(companie);
-					break;
-				case 11:
-					upgradeBilet(companie);
-					break;
-				case 12:
-					sorteazaZboruri(companie);
-					break;
-				case 13:
-					filtreazaZboruri(companie);
-					break;
-				case 14:
-					checkInPasager(companie);
-					break;
-				case 15:
-					adaugaBagaj(companie);
-					break;
-				case 16:
-					afiseazaDetaliiCheckIn(companie);
-					break;
-				case 17:
-					demoTemplateuri();
-					break;
-				case 18:
-					verificaDreptLounge(companie);
-					break;
+       try {
+          switch (option) {
+             case 1:
+                std::cout << "\n" << company << "\n";
+                break;
+             case 2:
+                addFlight(company);
+                break;
+             case 3:
+                findFlight(company);
+                break;
+             case 4:
+                addPassenger(company);
+                break;
+             case 5:
+                findPassenger(company);
+                break;
+             case 6:
+                modifyGate(company);
+                break;
+             case 7:
+                modifyTicketSeat(company);
+                break;
+             case 8:
+                calculateRevenue(company);
+                break;
+             case 9:
+                checkWindowSeat(company);
+                break;
+             case 10:
+                checkFlightFull(company);
+                break;
+             case 11:
+                upgradeTicket(company);
+                break;
+             case 12:
+                sortFlights(company);
+                break;
+             case 13:
+                filterFlights(company);
+                break;
+             case 14:
+                passengerCheckIn(company);
+                break;
+             case 15:
+                addBaggage(company);
+                break;
+             case 16:
+                displayCheckInDetails(company);
+                break;
+             case 17:
+                demoTemplates();
+                break;
+             case 18:
+                checkLoungeAccess(company);
+                break;
 
-				default:
-					mesajEroare("Optiune invalida!");
-			}
-		}
-		catch (const ExceptieZboruri& e) {
-			mesajEroare(e.what());
-		}
-	}
-	mesajInfo("La revedere! Sa aveti o zi buna!");
+             default:
+                errorMessage("Invalid option!");
+          }
+       }
+       catch (const FlightException& e) {
+          errorMessage(e.what());
+       }
+    }
+    infoMessage("Goodbye! Have a nice day!");
 
-	return 0;
+    return 0;
 }

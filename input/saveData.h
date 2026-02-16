@@ -1,53 +1,51 @@
 #pragma once
-#include "../headers/Zbor.h"
-#include "../headers/Pasager.h"
-#include "../headers/Bilet.h"
-#include "../headers/CompanieAeriana.h"
+#include "../headers/Flight.h"
+#include "../headers/Passenger.h"
+#include "../headers/Ticket.h"
+#include "../headers/Airline.h"
 #include <fstream>
 #include <iostream>
 #include <vector>
 
-void saveData(const CompanieAeriana& companie, const std::string& nameFile) {
-	std::ofstream fout(nameFile);
+void saveData(const Airline& company, const std::string& filename) {
+	std::ofstream fout(filename);
 
 	if (!fout.is_open()) {
-		std::cerr << "EROARE: NU s-a putut deschide fisierul '" << nameFile << "' pentru scriere!";
+		std::cerr << "ERROR: Could not open file '" << filename << "' for writing!";
 		return;
 	}
 
-	// acces prin friend
-	const std::vector<Zbor>& zboruri = companie.flotaZboruri;
+	const std::vector<Flight>& flights = company.flightFleet;
 
-	fout << zboruri.size() << "\n";
+	fout << flights.size() << "\n";
 
-	for (const auto& zbor : zboruri) {
-		// acces direct la membrii privati prin friend
-		fout << zbor.numarZbor << " "
-			 << zbor.destinatie << " "
-			 << zbor.poarta << " "
-			 << zbor.capacitateMaxima << "\n";
+	for (const auto& flight : flights) {
+		fout << flight.getFlightNumber() << " "
+			<< flight.getDestination() << " "
+			<< flight.getGate() << " "
+			<< flight.getMaxCapacity() << "\n";
 
-		const std::vector<Pasager>& pasageri = zbor.getPasageri();
+		const std::vector<Passenger>& passengers = flight.getPassengers();
 
-		fout << pasageri.size() << "\n";
+		fout << passengers.size() << "\n";
 
-		for (const auto& pasager : pasageri) {
-			fout << pasager.nume << "\n";
-			fout << pasager.email << "\n";
+		for (const auto& passenger : passengers) {
+			fout << passenger.getName() << "\n";
+			fout << passenger.getEmail() << "\n";
 
-			const Bilet* bilet = pasager.bilet;
-			if (bilet != nullptr) {
-				fout    << bilet->loc << " "
-						<< bilet->getTipClasa() << " "
-						<< bilet->pretBaza << " "
-						<< bilet->discountProcent << "\n";
+			const Ticket* ticket = passenger.getTicket();
+			if (ticket != nullptr) {
+				fout << ticket->getSeat() << " "
+					  << ticket->getClassType() << " "
+					  << ticket->getBasePrice() << " "
+					  << ticket->getDiscountPercentage() << "\n";
 			} else {
-				fout << "EROARE";
+				fout << "ERROR";
 			}
 		}
 	}
 
 	fout.close();
-	mesajSucces("Datele au fost salvate in fisierul '" + nameFile + "'");
-	mesajInfo("S-au salvat " + std::to_string(zboruri.size()) + " zboruri.");
+	successMessage("Data has been saved to file '" + filename + "'");
+	infoMessage("Saved " + std::to_string(flights.size()) + " flights.");
 }
